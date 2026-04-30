@@ -1,0 +1,73 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Container } from "./Container";
+import { LanguageToggle } from "./LanguageToggle";
+import { AnimatedContactLink } from "./navigation/AnimatedContactLink";
+import { ScrambleText } from "./ScrambleText";
+import { ui } from "../data/site";
+import type { Locale } from "../types";
+
+type HeaderProps = {
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+};
+
+const navItems = [
+  { to: "/", label: "HOME" },
+  { to: "/projects", label: "PROJECTS" },
+  { to: "/about", label: "ABOUT" },
+  { to: "/contact", label: "CONTACT" },
+];
+
+export function Header({ locale, setLocale }: HeaderProps) {
+  const [open, setOpen] = useState(false);
+
+  const nav = (
+    <>
+      {navItems.map((item) =>
+        item.to === "/contact" ? (
+          <AnimatedContactLink key={item.to} className="nav-link text-sm text-slate-300 transition hover:text-white" onNavigate={() => setOpen(false)}>
+            {item.label}
+          </AnimatedContactLink>
+        ) : (
+          <Link key={item.to} to={item.to} className="nav-link text-sm text-slate-300 transition hover:text-white" onClick={() => setOpen(false)}>
+            <ScrambleText text={item.label} />
+            <span aria-hidden="true" className="nav-link-arrow">↗</span>
+          </Link>
+        ),
+      )}
+    </>
+  );
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-50 bg-ink/24 backdrop-blur-md">
+      <Container className="flex h-16 items-center justify-between gap-4">
+        <Link to="/" className="group flex items-center gap-3 font-display text-sm font-bold uppercase tracking-[0.22em] text-white">
+          <span className="h-2.5 w-2.5 rounded-full bg-cyan shadow-[0_0_24px_rgba(61,215,255,0.8)] transition group-hover:bg-cyan/70" />
+          <ScrambleText text={ui.logo} />
+        </Link>
+        <nav className="hidden items-center gap-7 font-mono uppercase tracking-[0.12em] lg:flex">{nav}</nav>
+        <div className="hidden items-center gap-3 sm:flex">
+          <LanguageToggle locale={locale} setLocale={setLocale} />
+        </div>
+        <button
+          type="button"
+          className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-white sm:hidden"
+          onClick={() => setOpen((value) => !value)}
+          aria-expanded={open}
+        >
+          {open ? ui.close[locale] : ui.menu[locale]}
+        </button>
+      </Container>
+      {open && (
+        <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} className="bg-ink/96 px-5 py-5 sm:hidden">
+          <nav className="grid gap-4">{nav}</nav>
+          <div className="mt-5">
+            <LanguageToggle locale={locale} setLocale={setLocale} />
+          </div>
+        </motion.div>
+      )}
+    </header>
+  );
+}

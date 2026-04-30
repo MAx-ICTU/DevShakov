@@ -1,0 +1,8 @@
+<svg width="720" height="900" viewBox="0 0 720 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="900" fill="#0D1118"/>
+  <circle cx="360" cy="300" r="128" fill="#1B2635"/>
+  <path d="M132 780C154 621 244 514 360 514C476 514 566 621 588 780H132Z" fill="#162030"/>
+  <path d="M92 92H628V808H92V92Z" stroke="white" stroke-opacity="0.12" stroke-width="2"/>
+  <path d="M122 122H598V778H122V122Z" stroke="#3DD7FF" stroke-opacity="0.22" stroke-width="2"/>
+  <text x="360" y="842" text-anchor="middle" fill="#B7C4D8" font-family="Arial, sans-serif" font-size="26">Replace with real photo</text>
+</svg>

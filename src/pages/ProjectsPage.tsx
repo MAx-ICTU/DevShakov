@@ -1,0 +1,24 @@
+import { PageTransition } from "../components/animations/PageTransition";
+import { SplitTextReveal } from "../components/animations/SplitTextReveal";
+import { Projects } from "../sections/Projects";
+import type { Locale } from "../types";
+
+type ProjectsPageProps = {
+  locale: Locale;
+};
+
+export function ProjectsPage({ locale }: ProjectsPageProps) {
+  return (
+    <PageTransition className="relative z-10 min-h-screen pt-24">
+      <section className="px-5 py-16 sm:px-8 lg:px-14">
+        <p className="mb-5 font-mono text-xs font-bold uppercase tracking-[0.28em] text-cyan">[ works ]</p>
+        <SplitTextReveal
+          as="h1"
+          text={locale === "ru" ? "Selected portfolio works" : "Selected portfolio works"}
+          className="max-w-5xl font-display text-[clamp(3rem,8vw,8rem)] font-semibold leading-[0.9] text-white text-glow"
+        />
+      </section>
+      <Projects locale={locale} />
+    </PageTransition>
+  );
+}

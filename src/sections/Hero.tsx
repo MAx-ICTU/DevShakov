@@ -1,0 +1,145 @@
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { AnimatedLink } from "../components/AnimatedLink";
+import { SplitTextReveal } from "../components/animations/SplitTextReveal";
+import { AnimatedContactLink } from "../components/navigation/AnimatedContactLink";
+import { ScrambleText } from "../components/ScrambleText";
+import { githubUrl } from "../data/site";
+import type { Locale } from "../types";
+
+type HeroProps = {
+  locale: Locale;
+};
+
+const heroTitle = {
+  ru: "Junior 1C Developer",
+  en: "Junior 1C Developer",
+};
+
+const heroLead = {
+  ru: "Начинающий 1C-разработчик, который умеет разбираться в бизнес-логике и делать понятные решения.",
+  en: "Junior 1C Developer focused on business logic and clear digital solutions.",
+};
+
+const heroSubtitle = {
+  ru: "Развиваюсь в 1C:Предприятие 8.3, собираю учебные проекты и готовлюсь к junior-позиции или стажировке к июню 2026 года.",
+  en: "I am growing into 1C:Enterprise 8.3, building portfolio projects and preparing for a junior role or internship by June 2026.",
+};
+
+const heroFocus = {
+  ru: "Фокус: учет, склад, заказы, SQL и понятная автоматизация для малого бизнеса.",
+  en: "Focus: accounting flows, stock, orders, SQL and understandable automation for small business.",
+};
+
+export function Hero({ locale }: HeroProps) {
+  const rootRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!root || reducedMotion) {
+      return undefined;
+    }
+
+    const context = gsap.context(() => {
+      const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+      timeline
+        .fromTo("[data-hero-media]", { opacity: 0, x: -42 }, { opacity: 1, x: 0, duration: 0.82 })
+        .fromTo("[data-hero-kicker]", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.42 }, "-=0.45")
+        .fromTo("[data-hero-copy]", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.58 }, "-=0.18")
+        .fromTo("[data-hero-link]", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.38, stagger: 0.07 }, "-=0.22");
+    }, root);
+
+    return () => context.revert();
+  }, []);
+
+  return (
+    <section ref={rootRef} id="top" className="relative min-h-screen overflow-hidden pt-16">
+      <div
+        className="absolute inset-0 bg-[radial-gradient(circle_at_62%_46%,rgba(255,255,255,0.018),transparent_24rem)]"
+        aria-hidden="true"
+      />
+      <div className="relative grid min-h-[calc(100vh-4rem)] lg:grid-cols-[39vw_1fr]">
+        <div
+          className="relative min-h-[54vh] overflow-hidden lg:min-h-[calc(100vh-4rem)]"
+          data-hero-media
+          data-transition-media
+          data-gsap-float="hero-media"
+        >
+          <div className="glitch-portrait absolute bottom-0 left-0 top-0 w-full max-w-[38rem] lg:left-[3vw] lg:top-[8vh] lg:h-[74vh] lg:w-[32vw]">
+            <img
+              src={`${import.meta.env.BASE_URL}profile.png`}
+              alt="Portfolio portrait"
+              className="h-full w-full object-cover object-[50%_25%] grayscale contrast-105 brightness-[0.82]"
+            />
+            <img
+              src={`${import.meta.env.BASE_URL}profile.png`}
+              alt=""
+              aria-hidden="true"
+              className="glitch-portrait-layer glitch-portrait-layer-cyan"
+            />
+            <img
+              src={`${import.meta.env.BASE_URL}profile.png`}
+              alt=""
+              aria-hidden="true"
+              className="glitch-portrait-layer glitch-portrait-layer-red"
+            />
+            <div className="absolute left-[8%] top-[46%] font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/64 mix-blend-difference sm:text-xs">
+              <ScrambleText text="MAXIM / 1C_DEVELOPER" trigger="mount" />
+            </div>
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-1/3 bg-gradient-to-r from-transparent via-[#050505]/35 to-[#050505]"
+              aria-hidden="true"
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/4 bg-gradient-to-t from-[#050505] to-transparent"
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+
+        <div className="relative flex items-center px-5 py-14 sm:px-8 lg:px-10 lg:py-0 xl:px-14">
+          <div className="w-full max-w-[38rem]" data-gsap-float="hero-copy">
+            <div
+              data-hero-kicker
+              data-transition-out
+              className="mb-8 flex items-center justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.22em] text-white/38"
+            >
+              <span>[ {locale === "ru" ? "портфолио обновляется" : "portfolio initializing"} ]</span>
+              <span>© 2026</span>
+            </div>
+            <h1
+              data-transition-out
+              className="max-w-[11ch] font-display text-[clamp(3.3rem,7.2vw,7.3rem)] font-semibold leading-[0.88] tracking-normal text-white text-glow"
+            >
+              <span className="mr-2 text-cyan">↳</span>
+              <SplitTextReveal text={heroTitle[locale]} delay={0.2} />
+            </h1>
+            <p data-hero-copy data-transition-out className="mt-7 max-w-xl text-lg font-semibold leading-7 text-white/88">
+              {heroLead[locale]}
+            </p>
+            <p data-hero-copy data-transition-out className="mt-4 max-w-xl text-base leading-7 text-white/66">
+              {heroSubtitle[locale]}
+            </p>
+            <p data-hero-copy data-transition-out className="mt-4 max-w-xl text-sm leading-6 text-white/58">
+              {heroFocus[locale]}
+            </p>
+            <div
+              data-transition-out
+              className="mt-7 grid w-fit gap-2 font-mono text-xs font-bold uppercase tracking-[0.14em] text-white"
+            >
+              <AnimatedContactLink className="terminal-link">CONTACT_INFORMATION</AnimatedContactLink>
+              <a data-hero-link href={githubUrl} target="_blank" rel="noreferrer" className="terminal-link">
+                <ScrambleText text="GITHUB" />
+              </a>
+              <AnimatedLink to="/projects" className="terminal-link" dataHeroLink>
+                {locale === "ru" ? "ПРОЕКТЫ" : "PROJECTS"}
+              </AnimatedLink>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
