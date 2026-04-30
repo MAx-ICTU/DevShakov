@@ -4,7 +4,6 @@ import { AnimatePresence } from "framer-motion";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Header } from "./components/Header";
-import { CursorAura } from "./components/CursorAura";
 import { LoadingScreen } from "./components/LoadingScreen";
 import { TransitionProvider } from "./components/transitions/TransitionProvider";
 import { AboutPage } from "./pages/AboutPage";
@@ -67,7 +66,6 @@ function PortfolioApp() {
         <Suspense fallback={<div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_36%,rgba(61,215,255,0.07),transparent_28rem),#050505]" aria-hidden="true" />}>
           <BackgroundScene />
         </Suspense>
-        <CursorAura />
         <Header locale={locale} setLocale={setLocale} />
         <main className="relative z-10 min-h-screen" data-depth-scene>
           <AnimatedRoutes locale={locale} />

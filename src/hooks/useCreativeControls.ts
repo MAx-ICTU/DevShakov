@@ -14,7 +14,7 @@ const defaults: CreativeControls = {
   noiseStrength: 0.025,
   distortionStrength: 0.12,
   transitionProgress: 0,
-  backgroundSpeed: 0.38,
+  backgroundSpeed: 0.58,
   cursorInfluence: 0.55,
 };
 

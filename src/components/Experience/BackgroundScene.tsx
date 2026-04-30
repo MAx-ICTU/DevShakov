@@ -97,7 +97,7 @@ function ParticleCloud({
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial color="#8fdfff" size={0.014} sizeAttenuation transparent opacity={0.28} depthWrite={false} />
+      <pointsMaterial color="#8fdfff" size={0.014} sizeAttenuation transparent opacity={0.26} depthWrite={false} />
     </points>
   );
 }
@@ -127,7 +127,7 @@ function SoftGeometry({
       <Float speed={1.1 * backgroundSpeed} rotationIntensity={0.18} floatIntensity={0.32}>
         <mesh ref={meshRef} position={[2.5, -0.2, -2.4]}>
           <icosahedronGeometry args={[1.15, 1]} />
-          <meshBasicMaterial color="#3dd7ff" transparent opacity={0.045} wireframe />
+          <meshBasicMaterial color="#3dd7ff" transparent opacity={0.026} wireframe />
         </mesh>
       </Float>
     </>
@@ -149,7 +149,7 @@ function PostProcessing({
 
   return (
     <EffectComposer multisampling={0} enableNormalPass={false}>
-      <Bloom intensity={isMobile ? bloomIntensity * 0.45 : bloomIntensity} luminanceThreshold={0.36} luminanceSmoothing={0.82} mipmapBlur />
+      <Bloom intensity={isMobile ? bloomIntensity * 0.35 : bloomIntensity * 0.72} luminanceThreshold={0.42} luminanceSmoothing={0.86} mipmapBlur />
       {!isMobile ? <Noise blendFunction={BlendFunction.SOFT_LIGHT} opacity={noiseStrength} /> : <></>}
       {!isMobile ? <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={new Vector2(0.00018, 0.00014)} /> : <></>}
       <Vignette eskil={false} offset={0.32} darkness={isMobile ? 0.58 : 0.72} />
