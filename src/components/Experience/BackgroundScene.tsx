@@ -125,7 +125,7 @@ function SoftGeometry({
   return (
     <>
       <Float speed={1.1 * backgroundSpeed} rotationIntensity={0.18} floatIntensity={0.32}>
-        <mesh ref={meshRef} position={[2.5, -0.2, -2.4]}>
+        <mesh ref={meshRef} position={[3.05, 0.72, -2.4]}>
           <icosahedronGeometry args={[1.15, 1]} />
           <meshBasicMaterial color="#3dd7ff" transparent opacity={0.026} wireframe />
         </mesh>
