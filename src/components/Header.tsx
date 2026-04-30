@@ -27,13 +27,24 @@ export function Header({ locale, setLocale }: HeaderProps) {
     <>
       {navItems.map((item) =>
         item.to === "/contact" ? (
-          <AnimatedContactLink key={item.to} className="nav-link text-sm text-slate-300 transition hover:text-white" onNavigate={() => setOpen(false)}>
-            {item.label}
+          <AnimatedContactLink
+            key={item.to}
+            className="nav-link text-sm text-slate-300 transition hover:text-white"
+            onNavigate={() => setOpen(false)}
+          >
+            <ScrambleText text={item.label} />
           </AnimatedContactLink>
         ) : (
-          <Link key={item.to} to={item.to} className="nav-link text-sm text-slate-300 transition hover:text-white" onClick={() => setOpen(false)}>
+          <Link
+            key={item.to}
+            to={item.to}
+            className="nav-link text-sm text-slate-300 transition hover:text-white"
+            onClick={() => setOpen(false)}
+          >
             <ScrambleText text={item.label} />
-            <span aria-hidden="true" className="nav-link-arrow">↗</span>
+            <span aria-hidden="true" className="nav-link-arrow">
+              ↗
+            </span>
           </Link>
         ),
       )}
@@ -43,8 +54,11 @@ export function Header({ locale, setLocale }: HeaderProps) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-ink/24 backdrop-blur-md">
       <Container className="flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="group flex items-center gap-3 font-display text-sm font-bold uppercase tracking-[0.22em] text-white">
-          <span className="h-2.5 w-2.5 rounded-full bg-cyan shadow-[0_0_24px_rgba(61,215,255,0.8)] transition group-hover:bg-cyan/70" />
+        <Link
+          to="/"
+          className="group flex items-center font-display text-sm font-bold uppercase tracking-[0.22em] text-white"
+          aria-label="Go to home page"
+        >
           <ScrambleText text={ui.logo} />
         </Link>
         <nav className="hidden items-center gap-7 font-mono uppercase tracking-[0.12em] lg:flex">{nav}</nav>

@@ -72,7 +72,7 @@ export function ScrambleText({ text, className = "", as: Tag = "span", trigger =
   }, [trigger, text]);
 
   return (
-    <Tag className={`scramble-text inline-block cursor-default select-none ${className}`} onPointerEnter={trigger === "hover" ? scramble : undefined} data-text={text}>
+    <Tag className={`scramble-text inline-block select-none ${className}`} onPointerEnter={trigger === "hover" ? scramble : undefined} data-text={text}>
       {display}
     </Tag>
   );
