@@ -54,6 +54,13 @@ textarea {
   -webkit-tap-highlight-color: transparent;
 }
 
+@media (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
 .text-balance {
   text-wrap: balance;
 }
