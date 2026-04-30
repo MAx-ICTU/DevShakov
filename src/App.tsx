@@ -1,6 +1,8 @@
 import { Suspense, lazy, useEffect } from "react";
+import { Leva } from "leva";
 import { AnimatePresence } from "framer-motion";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Header } from "./components/Header";
 import { CursorAura } from "./components/CursorAura";
 import { LoadingScreen } from "./components/LoadingScreen";
@@ -11,6 +13,7 @@ import { HomePage } from "./pages/HomePage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { useLocale } from "./hooks/useLocale";
 import { useGsapAmbientMotion } from "./hooks/useGsapAmbientMotion";
+import { useLenis } from "./hooks/useLenis";
 import { useScrollTriggerAnimations } from "./hooks/useScrollTriggerAnimations";
 
 const BackgroundScene = lazy(() =>
@@ -35,6 +38,7 @@ function AnimatedRoutes({ locale }: AnimatedRoutesProps) {
     }
 
     window.scrollTo({ top: 0, left: 0 });
+    window.setTimeout(() => ScrollTrigger.refresh(), 180);
   }, [location.pathname, location.hash]);
 
   return (
@@ -51,12 +55,14 @@ function AnimatedRoutes({ locale }: AnimatedRoutesProps) {
 
 function PortfolioApp() {
   const { locale, setLocale } = useLocale();
+  useLenis();
   useGsapAmbientMotion();
   useScrollTriggerAnimations();
 
   return (
     <div className="min-h-screen bg-ink text-white">
       <TransitionProvider>
+        <Leva hidden={!import.meta.env.DEV} collapsed />
         <LoadingScreen />
         <Suspense fallback={<div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_36%,rgba(61,215,255,0.07),transparent_28rem),#050505]" aria-hidden="true" />}>
           <BackgroundScene />

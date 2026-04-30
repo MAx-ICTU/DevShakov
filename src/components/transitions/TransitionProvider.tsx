@@ -38,6 +38,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
       const mediaTargets = gsap.utils.toArray<HTMLElement>("[data-transition-media]");
 
       setActive(true);
+      window.dispatchEvent(new CustomEvent("portfolio-transition-boost", { detail: 1 }));
 
       const timeline = gsap.timeline({
         defaults: { ease: "power3.inOut" },
@@ -45,6 +46,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
           navigate(targetRef.current);
           window.setTimeout(() => {
             setActive(false);
+            window.dispatchEvent(new CustomEvent("portfolio-transition-boost", { detail: 0 }));
             resetScene();
             lockedRef.current = false;
           }, 520);

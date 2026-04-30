@@ -48,6 +48,17 @@ export function useScrollTriggerAnimations() {
             },
           },
         );
+
+        gsap.to(card, {
+          yPercent: index % 2 === 0 ? -4 : -7,
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.7,
+          },
+        });
       });
     });
 

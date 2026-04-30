@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { ExternalLink, Mail, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PageTransition } from "../components/animations/PageTransition";
 import { SplitTextReveal } from "../components/animations/SplitTextReveal";
@@ -10,10 +11,10 @@ type ContactPageProps = {
 };
 
 const contactItems = [
-  { label: "EMAIL", value: contactLinks.email, href: `mailto:${contactLinks.email}` },
-  { label: "TELEGRAM", value: "Telegram", href: contactLinks.telegram },
-  { label: "GITHUB", value: "MAx-ICTU", href: contactLinks.github },
-  { label: "LINKEDIN", value: "Add LinkedIn profile", href: "https://www.linkedin.com/" },
+  { label: "EMAIL", value: contactLinks.email, href: `mailto:${contactLinks.email}`, icon: Mail },
+  { label: "TELEGRAM", value: "Telegram", href: contactLinks.telegram, icon: Send },
+  { label: "GITHUB", value: "MAx-ICTU", href: contactLinks.github, icon: ExternalLink },
+  { label: "LINKEDIN", value: "Add LinkedIn profile", href: "https://www.linkedin.com/", icon: ExternalLink },
 ];
 
 const easing = [0.22, 1, 0.36, 1] as const;
@@ -75,8 +76,9 @@ export function ContactPage({ locale }: ContactPageProps) {
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   transition={{ duration: 0.58, delay: 0.34 + index * 0.08, ease: easing }}
                 >
-                  <span className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-white/48">
-                    {item.label}
+                  <span className="inline-flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.22em] text-white/48">
+                    <item.icon size={15} strokeWidth={1.8} />
+                    <span>{item.label}</span>
                   </span>
                   <span className="min-w-0 break-words text-left text-sm font-semibold text-white transition group-hover:text-cyan sm:text-right">
                     {item.value}

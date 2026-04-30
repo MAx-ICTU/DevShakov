@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function useLenis() {
   useEffect(() => {
@@ -19,6 +20,11 @@ export function useLenis() {
       },
     });
 
+    lenis.on("scroll", ({ velocity }: { velocity: number }) => {
+      window.dispatchEvent(new CustomEvent("portfolio-scroll-velocity", { detail: velocity }));
+      ScrollTrigger.update();
+    });
+
     let frame = 0;
 
     const raf = (time: number) => {
@@ -30,6 +36,7 @@ export function useLenis() {
 
     return () => {
       window.cancelAnimationFrame(frame);
+      window.dispatchEvent(new CustomEvent("portfolio-scroll-velocity", { detail: 0 }));
       lenis.destroy();
     };
   }, []);
