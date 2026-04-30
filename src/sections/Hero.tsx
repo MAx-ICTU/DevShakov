@@ -11,11 +11,6 @@ type HeroProps = {
   locale: Locale;
 };
 
-const heroTitle = {
-  ru: "Junior 1C Developer",
-  en: "Junior 1C Developer",
-};
-
 const heroLead = {
   ru: "Начинающий 1C-разработчик, который умеет разбираться в бизнес-логике и делать понятные решения.",
   en: "Junior 1C Developer focused on business logic and clear digital solutions.",
@@ -60,14 +55,14 @@ export function Hero({ locale }: HeroProps) {
         className="absolute inset-0 bg-[radial-gradient(circle_at_62%_46%,rgba(255,255,255,0.018),transparent_24rem)]"
         aria-hidden="true"
       />
-      <div className="relative grid min-h-[calc(100vh-4rem)] lg:grid-cols-[39vw_1fr]">
+      <div className="relative grid min-h-[calc(100vh-4rem)] lg:grid-cols-[38vw_minmax(0,1fr)]">
         <div
           className="relative min-h-[54vh] overflow-hidden lg:min-h-[calc(100vh-4rem)]"
           data-hero-media
           data-transition-media
           data-gsap-float="hero-media"
         >
-          <div className="glitch-portrait absolute bottom-0 left-0 top-0 w-full max-w-[38rem] lg:left-[3vw] lg:top-[8vh] lg:h-[74vh] lg:w-[32vw]">
+          <div className="glitch-portrait absolute bottom-0 left-0 top-0 w-full max-w-[38rem] lg:left-[2vw] lg:top-[8vh] lg:h-[74vh] lg:w-[31vw]">
             <img
               src={`${import.meta.env.BASE_URL}profile.png`}
               alt="Portfolio portrait"
@@ -85,7 +80,7 @@ export function Hero({ locale }: HeroProps) {
               aria-hidden="true"
               className="glitch-portrait-layer glitch-portrait-layer-red"
             />
-            <div className="absolute left-[8%] top-[46%] font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/64 mix-blend-difference sm:text-xs">
+            <div className="absolute bottom-[9%] left-[8%] z-20 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/58 mix-blend-difference sm:text-xs">
               <ScrambleText text="MAXIM / 1C_DEVELOPER" trigger="mount" />
             </div>
             <div
@@ -99,43 +94,54 @@ export function Hero({ locale }: HeroProps) {
           </div>
         </div>
 
-        <div className="relative flex items-center px-5 py-14 sm:px-8 lg:px-10 lg:py-0 xl:px-14">
-          <div className="w-full max-w-[38rem]" data-gsap-float="hero-copy">
+        <div className="relative flex items-center px-5 py-14 sm:px-8 lg:px-8 lg:py-0 xl:px-12 2xl:px-16">
+          <div className="w-full max-w-[min(72rem,calc(100vw-42vw))]" data-gsap-float="hero-copy">
             <div
               data-hero-kicker
               data-transition-out
-              className="mb-8 flex items-center justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.22em] text-white/38"
+              className="mb-8 flex max-w-5xl items-center justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.22em] text-white/38"
             >
               <span>[ {locale === "ru" ? "портфолио обновляется" : "portfolio initializing"} ]</span>
               <span>© 2026</span>
             </div>
+
             <h1
               data-transition-out
-              className="max-w-[11ch] font-display text-[clamp(3.3rem,7.2vw,7.3rem)] font-semibold leading-[0.88] tracking-normal text-white text-glow"
+              className="max-w-[12.5ch] font-display text-[clamp(4rem,8.6vw,9.3rem)] font-semibold leading-[0.82] tracking-normal text-white text-glow"
             >
-              <span className="mr-2 text-cyan">↳</span>
-              <SplitTextReveal text={heroTitle[locale]} delay={0.2} />
+              <span className="mb-3 block font-mono text-[clamp(0.8rem,1.15vw,1rem)] font-bold leading-none tracking-[0.32em] text-cyan/85">
+                01 /
+              </span>
+              <span className="block">
+                <SplitTextReveal text="Junior" delay={0.2} />
+              </span>
+              <span className="block whitespace-nowrap">
+                <SplitTextReveal text="1C Developer" delay={0.27} />
+              </span>
             </h1>
-            <p data-hero-copy data-transition-out className="mt-7 max-w-xl text-lg font-semibold leading-7 text-white/88">
-              {heroLead[locale]}
-            </p>
-            <p data-hero-copy data-transition-out className="mt-4 max-w-xl text-base leading-7 text-white/66">
-              {heroSubtitle[locale]}
-            </p>
-            <p data-hero-copy data-transition-out className="mt-4 max-w-xl text-sm leading-6 text-white/58">
-              {heroFocus[locale]}
-            </p>
-            <div
-              data-transition-out
-              className="mt-7 grid w-fit gap-2 font-mono text-xs font-bold uppercase tracking-[0.14em] text-white"
-            >
-              <AnimatedContactLink className="terminal-link">CONTACT_INFORMATION</AnimatedContactLink>
-              <a data-hero-link href={githubUrl} target="_blank" rel="noreferrer" className="terminal-link">
-                <ScrambleText text="GITHUB" />
-              </a>
-              <AnimatedLink to="/projects" className="terminal-link" dataHeroLink>
-                {locale === "ru" ? "ПРОЕКТЫ" : "PROJECTS"}
-              </AnimatedLink>
+
+            <div className="max-w-3xl">
+              <p data-hero-copy data-transition-out className="mt-8 max-w-2xl text-lg font-semibold leading-7 text-white/88">
+                {heroLead[locale]}
+              </p>
+              <p data-hero-copy data-transition-out className="mt-4 max-w-2xl text-base leading-7 text-white/66">
+                {heroSubtitle[locale]}
+              </p>
+              <p data-hero-copy data-transition-out className="mt-4 max-w-2xl text-sm leading-6 text-white/58">
+                {heroFocus[locale]}
+              </p>
+              <div
+                data-transition-out
+                className="mt-7 grid w-fit gap-2 font-mono text-xs font-bold uppercase tracking-[0.14em] text-white"
+              >
+                <AnimatedContactLink className="terminal-link">CONTACT_INFORMATION</AnimatedContactLink>
+                <a data-hero-link href={githubUrl} target="_blank" rel="noreferrer" className="terminal-link">
+                  <ScrambleText text="GITHUB" />
+                </a>
+                <AnimatedLink to="/projects" className="terminal-link" dataHeroLink>
+                  {locale === "ru" ? "ПРОЕКТЫ" : "PROJECTS"}
+                </AnimatedLink>
+              </div>
             </div>
           </div>
         </div>
