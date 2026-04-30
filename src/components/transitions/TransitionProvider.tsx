@@ -57,11 +57,11 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
         timeline.to(
           scene,
           {
-            opacity: 0.28,
-            scale: 1.085,
-            filter: "blur(12px)",
+            opacity: 0.42,
+            scale: 1.14,
+            filter: "blur(10px)",
             transformOrigin: "50% 42%",
-            duration: 0.82,
+            duration: 0.9,
           },
           0,
         );

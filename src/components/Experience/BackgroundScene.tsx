@@ -3,7 +3,7 @@ import { Float } from "@react-three/drei";
 import { Bloom, ChromaticAberration, EffectComposer, Noise, Vignette } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Vector2 } from "three";
+import { MathUtils, Vector2 } from "three";
 import type { Mesh, Points } from "three";
 import { useCreativeControls } from "../../hooks/useCreativeControls";
 
@@ -116,9 +116,17 @@ function SoftGeometry({
 
   useFrame(({ clock, pointer }, delta) => {
     if (meshRef.current) {
+      const boost = transitionBoost.current;
+      const targetX = MathUtils.lerp(3.05, 0.92, boost);
+      const targetY = MathUtils.lerp(0.72, 0.34, boost);
+      const targetZ = MathUtils.lerp(-2.4, -1.15, boost);
+
+      meshRef.current.position.x = MathUtils.lerp(meshRef.current.position.x, targetX, delta * 5.8);
+      meshRef.current.position.y = MathUtils.lerp(meshRef.current.position.y, targetY, delta * 5.8);
+      meshRef.current.position.z = MathUtils.lerp(meshRef.current.position.z, targetZ, delta * 5.8);
       meshRef.current.rotation.x = clock.elapsedTime * 0.035 * backgroundSpeed + pointer.y * 0.035 * cursorInfluence;
       meshRef.current.rotation.y = clock.elapsedTime * 0.028 * backgroundSpeed + pointer.x * 0.055 * cursorInfluence;
-      meshRef.current.scale.setScalar(1 + transitionBoost.current * 0.045 + distortionStrength * 0.018);
+      meshRef.current.scale.setScalar(1 + boost * 0.82 + distortionStrength * 0.018);
     }
   });
 
@@ -157,6 +165,21 @@ function PostProcessing({
   );
 }
 
+function CameraRig() {
+  const { camera } = useThree();
+  const { transitionBoost } = useMotionSignals();
+
+  useFrame((_, delta) => {
+    const boost = transitionBoost.current;
+    camera.position.z = MathUtils.lerp(camera.position.z, MathUtils.lerp(7, 4.55, boost), delta * 4.6);
+    camera.position.x = MathUtils.lerp(camera.position.x, MathUtils.lerp(0, 0.28, boost), delta * 4.6);
+    camera.position.y = MathUtils.lerp(camera.position.y, MathUtils.lerp(0, 0.1, boost), delta * 4.6);
+    camera.lookAt(0.35, 0.16, -1.8);
+  });
+
+  return null;
+}
+
 export function BackgroundScene() {
   const [webglSupported, setWebglSupported] = useState(false);
   const controls = useCreativeControls();
@@ -174,6 +197,7 @@ export function BackgroundScene() {
     <div className="pointer-events-none fixed inset-0 z-0 opacity-75" aria-hidden="true">
       <Canvas camera={{ position: [0, 0, 7], fov: 48 }} dpr={[1, 1.35]} gl={{ antialias: false, powerPreference: "high-performance" }}>
         <color attach="background" args={["#050505"]} />
+        <CameraRig />
         <ParticleCloud backgroundSpeed={controls.backgroundSpeed} cursorInfluence={controls.cursorInfluence} />
         <SoftGeometry backgroundSpeed={controls.backgroundSpeed} cursorInfluence={controls.cursorInfluence} distortionStrength={controls.distortionStrength + controls.transitionProgress * 0.18} />
         <PostProcessing bloomIntensity={controls.bloomIntensity + controls.transitionProgress * 0.1 + transitionBoost * 0.1} noiseStrength={controls.noiseStrength + transitionBoost * 0.01} />
