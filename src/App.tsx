@@ -63,7 +63,7 @@ function PortfolioApp() {
         </Suspense>
         <CursorAura />
         <Header locale={locale} setLocale={setLocale} />
-        <main className="relative z-10 min-h-screen">
+        <main className="relative z-10 min-h-screen" data-depth-scene>
           <AnimatedRoutes locale={locale} />
         </main>
         <footer className="relative z-10 py-8 text-center text-sm text-slate-500">

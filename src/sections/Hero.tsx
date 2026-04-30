@@ -55,14 +55,14 @@ export function Hero({ locale }: HeroProps) {
         className="absolute inset-0 bg-[radial-gradient(circle_at_62%_46%,rgba(255,255,255,0.018),transparent_24rem)]"
         aria-hidden="true"
       />
-      <div className="relative grid min-h-[calc(100vh-4rem)] lg:grid-cols-[38vw_minmax(0,1fr)]">
+      <div className="relative grid min-h-[calc(100vh-4rem)] grid-cols-1 lg:grid-cols-[42%_58%]">
         <div
           className="relative min-h-[54vh] overflow-hidden lg:min-h-[calc(100vh-4rem)]"
           data-hero-media
           data-transition-media
           data-gsap-float="hero-media"
         >
-          <div className="glitch-portrait absolute bottom-0 left-0 top-0 w-full max-w-[38rem] lg:left-[2vw] lg:top-[8vh] lg:h-[74vh] lg:w-[31vw]">
+          <div className="glitch-portrait absolute bottom-0 left-0 top-0 w-full max-w-[38rem] lg:left-[2vw] lg:top-[8vh] lg:h-[74vh] lg:w-[32vw]">
             <img
               src={`${import.meta.env.BASE_URL}profile.png`}
               alt="Portfolio portrait"
@@ -94,8 +94,8 @@ export function Hero({ locale }: HeroProps) {
           </div>
         </div>
 
-        <div className="relative flex items-center px-5 py-14 sm:px-8 lg:px-8 lg:py-0 xl:px-12 2xl:px-16">
-          <div className="w-full max-w-[min(72rem,calc(100vw-42vw))]" data-gsap-float="hero-copy">
+        <div className="relative flex items-center px-5 py-14 sm:px-8 lg:min-h-[calc(100vh-4rem)] lg:px-10 lg:py-0 xl:px-14">
+          <div className="w-full max-w-[64rem]" data-gsap-float="hero-copy">
             <div
               data-hero-kicker
               data-transition-out
@@ -107,7 +107,7 @@ export function Hero({ locale }: HeroProps) {
 
             <h1
               data-transition-out
-              className="max-w-[12.5ch] font-display text-[clamp(4rem,8.6vw,9.3rem)] font-semibold leading-[0.82] tracking-normal text-white text-glow"
+              className="max-w-[12.8ch] font-display text-[clamp(3.8rem,7.6vw,8.5rem)] font-semibold leading-[0.84] tracking-normal text-white text-glow"
             >
               <span className="mb-3 block font-mono text-[clamp(0.8rem,1.15vw,1rem)] font-bold leading-none tracking-[0.32em] text-cyan/85">
                 01 /

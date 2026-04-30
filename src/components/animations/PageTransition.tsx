@@ -16,10 +16,10 @@ export function PageTransition({ children, className = "" }: PageTransitionProps
     <>
       <motion.div
         className={className}
-        initial={{ opacity: 0, y: 28, clipPath: "inset(8% 0 0 0)" }}
-        animate={{ opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)" }}
-        exit={{ opacity: 0, y: -26, clipPath: "inset(0 0 8% 0)" }}
-        transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, y: 34, scale: 0.972, filter: "blur(14px)" }}
+        animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+        exit={{ opacity: 0, y: -18, scale: 1.025, filter: "blur(10px)" }}
+        transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}
       </motion.div>

@@ -1,12 +1,7 @@
-import { Suspense, createContext, lazy, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
-
-const DisintegrationTransition = lazy(() =>
-  import("./DisintegrationTransition").then((module) => ({
-    default: module.DisintegrationTransition,
-  })),
-);
+import { DepthTransitionOverlay } from "./DepthTransitionOverlay";
 
 type TransitionContextValue = {
   startContactTransition: (target?: string) => void;
@@ -17,78 +12,98 @@ const TransitionContext = createContext<TransitionContextValue | null>(null);
 export function TransitionProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
-  const [target, setTarget] = useState("/contact");
-  const imageUrl = `${import.meta.env.BASE_URL}profile.png`;
+  const targetRef = useRef("/contact");
+  const lockedRef = useRef(false);
 
-  const startContactTransition = useCallback((nextTarget = "/contact") => {
-    if (active) return;
+  const resetScene = useCallback(() => {
+    gsap.set("[data-depth-scene],[data-transition-out],[data-transition-media]", { clearProps: "all" });
+  }, []);
 
-    setTarget(nextTarget);
+  const startContactTransition = useCallback(
+    (nextTarget = "/contact") => {
+      if (lockedRef.current) return;
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) {
+      lockedRef.current = true;
+      targetRef.current = nextTarget;
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reducedMotion) {
+        navigate(nextTarget);
+        lockedRef.current = false;
+        return;
+      }
+
+      const scene = document.querySelector<HTMLElement>("[data-depth-scene]");
+      const copyTargets = gsap.utils.toArray<HTMLElement>("[data-transition-out]");
+      const mediaTargets = gsap.utils.toArray<HTMLElement>("[data-transition-media]");
+
       setActive(true);
-      return;
-    }
 
-    const copyTargets = gsap.utils.toArray<HTMLElement>("[data-transition-out]");
-    const mediaTargets = gsap.utils.toArray<HTMLElement>("[data-transition-media]");
-
-    if (!copyTargets.length && !mediaTargets.length) {
-      setActive(true);
-      return;
-    }
-
-    const timeline = gsap.timeline({
-      defaults: { ease: "power2.inOut" },
-      onComplete: () => setActive(true),
-    });
-
-    if (copyTargets.length) {
-      timeline.to(
-        copyTargets,
-        {
-          opacity: 0,
-          y: -34,
-          filter: "blur(7px)",
-          duration: 0.46,
-          stagger: 0.035,
+      const timeline = gsap.timeline({
+        defaults: { ease: "power3.inOut" },
+        onComplete: () => {
+          navigate(targetRef.current);
+          window.setTimeout(() => {
+            setActive(false);
+            resetScene();
+            lockedRef.current = false;
+          }, 520);
         },
-        0,
-      );
-    }
+      });
 
-    if (mediaTargets.length) {
-      timeline.to(
-        mediaTargets,
-        {
-          opacity: 0.18,
-          x: -34,
-          scale: 0.985,
-          filter: "blur(4px)",
-          duration: 0.58,
-        },
-        0.04,
-      );
-    }
-  }, [active]);
+      if (scene) {
+        timeline.to(
+          scene,
+          {
+            opacity: 0.28,
+            scale: 1.085,
+            filter: "blur(12px)",
+            transformOrigin: "50% 42%",
+            duration: 0.82,
+          },
+          0,
+        );
+      }
 
-  const handleComplete = useCallback(() => {
-    navigate(target);
-    window.setTimeout(() => {
-      setActive(false);
-      gsap.set("[data-transition-out],[data-transition-media]", { clearProps: "all" });
-    }, 420);
-  }, [navigate, target]);
+      if (copyTargets.length) {
+        timeline.to(
+          copyTargets,
+          {
+            opacity: 0,
+            y: -18,
+            scale: 0.985,
+            filter: "blur(8px)",
+            duration: 0.52,
+            stagger: 0.025,
+          },
+          0.04,
+        );
+      }
+
+      if (mediaTargets.length) {
+        timeline.to(
+          mediaTargets,
+          {
+            opacity: 0.2,
+            scale: 1.045,
+            filter: "blur(10px)",
+            duration: 0.72,
+          },
+          0.02,
+        );
+      }
+
+      timeline.to({}, { duration: 0.16 });
+    },
+    [navigate, resetScene],
+  );
 
   const value = useMemo(() => ({ startContactTransition }), [startContactTransition]);
 
   return (
     <TransitionContext.Provider value={value}>
       {children}
-      <Suspense fallback={active ? <div className="fixed inset-0 z-[95] bg-[#050505]" aria-hidden="true" /> : null}>
-        <DisintegrationTransition active={active} imageUrl={imageUrl} onComplete={handleComplete} />
-      </Suspense>
+      <DepthTransitionOverlay active={active} />
     </TransitionContext.Provider>
   );
 }
