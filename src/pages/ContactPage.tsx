@@ -3,6 +3,7 @@ import { ExternalLink, Mail, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PageTransition } from "../components/animations/PageTransition";
 import { SplitTextReveal } from "../components/animations/SplitTextReveal";
+import { TextParticleTrail } from "../components/particles/TextParticleTrail";
 import { contactLinks } from "../data/site";
 import type { Locale } from "../types";
 
@@ -30,12 +31,14 @@ export function ContactPage({ locale }: ContactPageProps) {
             <p className="mb-7 font-mono text-xs font-bold uppercase tracking-[0.28em] text-cyan">
               [ contact route ]
             </p>
-            <h1 className="max-w-[10ch] break-words font-display text-[clamp(3rem,10vw,6.6rem)] font-semibold leading-[0.88] text-white text-glow sm:max-w-none">
-              <SplitTextReveal text="CONTACT" />
-              <span className="block">
-                <SplitTextReveal text="INFORMATION" delay={0.08} />
-              </span>
-            </h1>
+            <TextParticleTrail as="div" intensity={1.1} className="block w-fit max-w-full">
+              <h1 className="max-w-[10ch] break-words font-display text-[clamp(3rem,10vw,6.6rem)] font-semibold leading-[0.88] text-white text-glow sm:max-w-none">
+                <SplitTextReveal text="CONTACT" />
+                <span className="block">
+                  <SplitTextReveal text="INFORMATION" delay={0.08} />
+                </span>
+              </h1>
+            </TextParticleTrail>
           </header>
 
           <div className="grid gap-10 lg:grid-cols-[minmax(0,0.78fr)_minmax(18rem,0.62fr)] lg:items-start">

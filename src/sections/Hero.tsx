@@ -1,11 +1,18 @@
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { AnimatedLink } from "../components/AnimatedLink";
 import { SplitTextReveal } from "../components/animations/SplitTextReveal";
 import { AnimatedContactLink } from "../components/navigation/AnimatedContactLink";
+import { TextParticleTrail } from "../components/particles/TextParticleTrail";
 import { ScrambleText } from "../components/ScrambleText";
 import { githubUrl } from "../data/site";
 import type { Locale } from "../types";
+
+const HeroImageScene = lazy(() =>
+  import("../components/webgl/HeroImageScene").then((module) => ({
+    default: module.HeroImageScene,
+  })),
+);
 
 type HeroProps = {
   locale: Locale;
@@ -28,6 +35,7 @@ const heroFocus = {
 
 export function Hero({ locale }: HeroProps) {
   const rootRef = useRef<HTMLElement | null>(null);
+  const imageUrl = `${import.meta.env.BASE_URL}profile.png`;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -63,23 +71,17 @@ export function Hero({ locale }: HeroProps) {
           data-gsap-float="hero-media"
         >
           <div className="glitch-portrait absolute bottom-0 left-0 top-0 w-full max-w-[38rem] lg:left-[2vw] lg:top-[8vh] lg:h-[74vh] lg:w-[32vw]">
-            <img
-              src={`${import.meta.env.BASE_URL}profile.png`}
-              alt="Portfolio portrait"
-              className="h-full w-full object-cover object-[50%_25%] grayscale contrast-105 brightness-[0.82]"
-            />
-            <img
-              src={`${import.meta.env.BASE_URL}profile.png`}
-              alt=""
-              aria-hidden="true"
-              className="glitch-portrait-layer glitch-portrait-layer-cyan"
-            />
-            <img
-              src={`${import.meta.env.BASE_URL}profile.png`}
-              alt=""
-              aria-hidden="true"
-              className="glitch-portrait-layer glitch-portrait-layer-red"
-            />
+            <Suspense
+              fallback={
+                <img
+                  src={imageUrl}
+                  alt="Portfolio portrait"
+                  className="h-full w-full object-cover object-[50%_25%] grayscale contrast-105 brightness-[0.82]"
+                />
+              }
+            >
+              <HeroImageScene imageUrl={imageUrl} alt="Portfolio portrait" />
+            </Suspense>
             <div className="absolute bottom-[9%] left-[8%] z-20 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/58 mix-blend-difference sm:text-xs">
               <ScrambleText text="MAXIM / 1C_DEVELOPER" trigger="mount" />
             </div>
@@ -105,20 +107,22 @@ export function Hero({ locale }: HeroProps) {
               <span>© 2026</span>
             </div>
 
-            <h1
-              data-transition-out
-              className="max-w-[12.8ch] font-display text-[clamp(3.8rem,7.6vw,8.5rem)] font-semibold leading-[0.84] tracking-normal text-white text-glow"
-            >
-              <span className="mb-3 block font-mono text-[clamp(0.8rem,1.15vw,1rem)] font-bold leading-none tracking-[0.32em] text-cyan/85">
-                01 /
-              </span>
-              <span className="block">
-                <SplitTextReveal text="Junior" delay={0.2} />
-              </span>
-              <span className="block whitespace-nowrap">
-                <SplitTextReveal text="1C Developer" delay={0.27} />
-              </span>
-            </h1>
+            <TextParticleTrail as="div" intensity={1.25} className="block w-fit max-w-full">
+              <h1
+                data-transition-out
+                className="max-w-[12.8ch] font-display text-[clamp(3.8rem,7.6vw,8.5rem)] font-semibold leading-[0.84] tracking-normal text-white text-glow"
+              >
+                <span className="mb-3 block font-mono text-[clamp(0.8rem,1.15vw,1rem)] font-bold leading-none tracking-[0.32em] text-cyan/85">
+                  01 /
+                </span>
+                <span className="block">
+                  <SplitTextReveal text="Junior" delay={0.2} />
+                </span>
+                <span className="block whitespace-nowrap">
+                  <SplitTextReveal text="1C Developer" delay={0.27} />
+                </span>
+              </h1>
+            </TextParticleTrail>
 
             <div className="max-w-3xl">
               <p data-hero-copy data-transition-out className="mt-8 max-w-2xl text-lg font-semibold leading-7 text-white/88">
@@ -134,12 +138,16 @@ export function Hero({ locale }: HeroProps) {
                 data-transition-out
                 className="mt-7 grid w-fit gap-2 font-mono text-xs font-bold uppercase tracking-[0.14em] text-white"
               >
-                <AnimatedContactLink className="terminal-link">CONTACT_INFORMATION</AnimatedContactLink>
+                <AnimatedContactLink className="terminal-link">
+                  <TextParticleTrail intensity={0.75}>CONTACT_INFORMATION</TextParticleTrail>
+                </AnimatedContactLink>
                 <a data-hero-link href={githubUrl} target="_blank" rel="noreferrer" className="terminal-link">
-                  <ScrambleText text="GITHUB" />
+                  <TextParticleTrail intensity={0.65}>
+                    <ScrambleText text="GITHUB" />
+                  </TextParticleTrail>
                 </a>
                 <AnimatedLink to="/projects" className="terminal-link" dataHeroLink>
-                  {locale === "ru" ? "ПРОЕКТЫ" : "PROJECTS"}
+                  <TextParticleTrail intensity={0.65}>{locale === "ru" ? "ПРОЕКТЫ" : "PROJECTS"}</TextParticleTrail>
                 </AnimatedLink>
               </div>
             </div>
