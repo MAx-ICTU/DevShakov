@@ -10,12 +10,12 @@ export type CreativeControls = {
 };
 
 const defaults: CreativeControls = {
-  bloomIntensity: 0.28,
-  noiseStrength: 0.055,
-  distortionStrength: 0.32,
+  bloomIntensity: 0.18,
+  noiseStrength: 0.025,
+  distortionStrength: 0.12,
   transitionProgress: 0,
-  backgroundSpeed: 1,
-  cursorInfluence: 1,
+  backgroundSpeed: 0.38,
+  cursorInfluence: 0.55,
 };
 
 export function useCreativeControls(): CreativeControls {
