@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { shouldUseHeavyEffectsNow } from "./useDevicePerformance";
 
 export function useLenis() {
   useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reducedMotion) {
+    if (!shouldUseHeavyEffectsNow()) {
       return undefined;
     }
 

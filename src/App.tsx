@@ -12,6 +12,7 @@ import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { useLocale } from "./hooks/useLocale";
+import { useShouldUseHeavyEffects } from "./hooks/useDevicePerformance";
 import { useGsapAmbientMotion } from "./hooks/useGsapAmbientMotion";
 import { useLenis } from "./hooks/useLenis";
 import { useScrollTriggerAnimations } from "./hooks/useScrollTriggerAnimations";
@@ -55,6 +56,7 @@ function AnimatedRoutes({ locale }: AnimatedRoutesProps) {
 
 function PortfolioApp() {
   const { locale, setLocale } = useLocale();
+  const shouldUseHeavyEffects = useShouldUseHeavyEffects();
   useLenis();
   useGsapAmbientMotion();
   useScrollTriggerAnimations();
@@ -64,9 +66,16 @@ function PortfolioApp() {
       <TransitionProvider>
         <Leva hidden={!import.meta.env.DEV} collapsed />
         <LoadingScreen />
-        <Suspense fallback={<div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_36%,rgba(61,215,255,0.07),transparent_28rem),#050505]" aria-hidden="true" />}>
-          <BackgroundScene />
-        </Suspense>
+        {shouldUseHeavyEffects ? (
+          <Suspense fallback={<div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_36%,rgba(61,215,255,0.07),transparent_28rem),#050505]" aria-hidden="true" />}>
+            <BackgroundScene />
+          </Suspense>
+        ) : (
+          <div
+            className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_34%,rgba(61,215,255,0.055),transparent_20rem),radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.018),transparent_14rem),#050505]"
+            aria-hidden="true"
+          />
+        )}
         <CursorAura />
         <Header locale={locale} setLocale={setLocale} />
         <main className="relative z-10 min-h-screen" data-depth-scene>

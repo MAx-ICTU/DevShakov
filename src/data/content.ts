@@ -5,12 +5,12 @@ export const content = {
       en: "Junior 1C developer portfolio",
     },
     title: {
-      ru: "Соединяю бизнес-логику, веб и автоматизацию в понятные рабочие решения.",
-      en: "Connecting business logic, web experience and automation into practical working solutions.",
+      ru: "Разбираюсь в задачах бизнеса и перевожу их в понятную автоматизацию на 1C.",
+      en: "Turning business tasks into clear 1C automation while growing into a junior developer role.",
     },
     subtitle: {
-      ru: "Я развиваюсь в 1С:Предприятие 8.3, собираю учебные проекты и готовлюсь к junior-позиции или стажировке к июню 2026 года.",
-      en: "I am growing into 1C:Enterprise 8.3, building hands-on portfolio projects and preparing for a junior role or internship by June 2026.",
+      ru: "Изучаю 1С:Предприятие 8.3 через практику: учет заказов, склад, справочники, документы, отчеты и простую бизнес-логику. К июню 2026 готовлю портфолио для junior-позиции или стажировки.",
+      en: "I study 1C:Enterprise 8.3 through practical work: orders, stock, catalogs, documents, reports and basic business logic. My goal is to be ready for a junior role or internship by June 2026.",
     },
     meta: {
       ru: "1C / SQL / Web / Digital background",
@@ -20,42 +20,42 @@ export const content = {
   about: {
     eyebrow: { ru: "Обо мне", en: "About" },
     title: {
-      ru: "Я начинающий разработчик, который смотрит на задачу шире синтаксиса.",
-      en: "I am a junior developer who looks beyond syntax.",
+      ru: "Я не претендую на senior-уровень. Моя сила сейчас — быстро разбираться, задавать правильные вопросы и доводить учебные задачи до результата.",
+      en: "I am not positioning myself as a senior. My current strength is learning fast, asking the right questions and turning training tasks into working results.",
     },
     body: {
-      ru: "Сейчас я системно изучаю 1С, учетную логику и автоматизацию малого бизнеса. Мой прошлый опыт в digital помогает понимать, что клиенту нужен не просто код, а результат: понятный процесс, меньше ручной работы и прозрачные данные. Поэтому в портфолио я делаю практические проекты: справочники, документы, склад, заказы, отчеты и сценарии, которые похожи на реальные задачи бизнеса.",
-      en: "I am currently studying 1C, accounting logic and small business automation in a structured way. My digital background helps me understand that a client does not need code for its own sake: they need a clear process, less manual work and reliable data. That is why my portfolio focuses on practical projects with catalogs, documents, stock, orders, reports and workflows close to real business tasks.",
+      ru: "Сейчас я системно изучаю 1С, учетную логику и автоматизацию малого бизнеса. В прошлом я работал с сайтами, дизайном и продвижением, поэтому привык смотреть на задачу со стороны пользователя и владельца бизнеса: где теряется время, какие данные нужны для решения, что должно быть удобно в ежедневной работе. В портфолио я собираю практические проекты со справочниками, документами, складом, заказами и отчетами, чтобы показать не только синтаксис, но и понимание процесса.",
+      en: "I am studying 1C, accounting logic and small business automation in a structured way. My background in websites, design and promotion taught me to look at a task from the user and business owner perspective: where time is lost, what data is needed, and what should be convenient in daily work. My portfolio focuses on practical projects with catalogs, documents, stock, orders and reports, so it shows more than syntax: it shows how I think through a process.",
     },
     facts: [
-      { label: { ru: "Цель", en: "Goal" }, value: { ru: "Junior 1C к июню 2026", en: "Junior 1C by June 2026" } },
-      { label: { ru: "Фокус", en: "Focus" }, value: { ru: "1С, учет, автоматизация", en: "1C, accounting, automation" } },
-      { label: { ru: "База", en: "Base" }, value: { ru: "Web, SQL, digital", en: "Web, SQL, digital" } },
+      { label: { ru: "Цель", en: "Goal" }, value: { ru: "Стажировка или junior 1C к июню 2026", en: "Internship or junior 1C role by June 2026" } },
+      { label: { ru: "Фокус", en: "Focus" }, value: { ru: "Учет, склад, заказы, отчеты", en: "Accounting, stock, orders, reports" } },
+      { label: { ru: "Опора", en: "Foundation" }, value: { ru: "Digital-опыт, SQL и веб-база", en: "Digital experience, SQL and web basics" } },
     ],
   },
   learning: {
     eyebrow: { ru: "Сейчас изучаю", en: "Currently learning" },
     title: {
-      ru: "Двигаюсь по понятной траектории, а не хаотично собираю технологии.",
-      en: "Following a clear path instead of collecting random technologies.",
+      ru: "Учу то, что напрямую помогает решать задачи учета и автоматизации.",
+      en: "Learning the things that directly support accounting and automation tasks.",
     },
   },
   roadmap: {
     eyebrow: { ru: "Путь к junior", en: "Roadmap" },
     title: {
-      ru: "План подготовки к первой позиции в 1C-разработке.",
-      en: "Preparation plan for the first 1C development role.",
+      ru: "План до июня 2026: от учебной конфигурации к первому рабочему опыту.",
+      en: "Roadmap to June 2026: from a learning configuration to first real work experience.",
     },
   },
   experience: {
     eyebrow: { ru: "Опыт", en: "Experience" },
     title: {
-      ru: "Digital-опыт как преимущество для 1C-разработки.",
-      en: "Digital background as an advantage for 1C development.",
+      ru: "Digital-опыт помогает мне быстрее понимать, зачем бизнесу нужна автоматизация.",
+      en: "My digital background helps me understand why a business needs automation.",
     },
     body: {
-      ru: "Раньше я работал с сайтами, дизайном, продвижением через Яндекс и Авито, а также задачами клиентов в маркетинговом агентстве. Этот опыт помогает видеть бизнес-контекст: где теряются заявки, почему неудобен учет, какие данные нужны владельцу и как сделать решение понятным для пользователя.",
-      en: "Previously I worked with websites, design, Yandex and Avito promotion, and client tasks in a marketing agency. This helps me see the business context: where leads are lost, why accounting is inconvenient, what data the owner needs and how to make the solution understandable for users.",
+      ru: "В маркетинговом агентстве и digital-задачах я видел, как малый бизнес работает с заявками, объявлениями, сайтами и клиентскими процессами. Это не заменяет коммерческий опыт 1C-разработки, но дает полезный контекст: я понимаю, почему владельцу важны прозрачные данные, меньше ручного труда и простая логика для сотрудников.",
+      en: "Through agency and digital work, I saw how small businesses handle leads, listings, websites and client-facing processes. It does not replace commercial 1C development experience, but it gives useful context: I understand why owners need transparent data, less manual work and simple workflows for their team.",
     },
   },
   resume: {
@@ -72,12 +72,12 @@ export const content = {
   contact: {
     eyebrow: { ru: "Контакты", en: "Contact" },
     title: {
-      ru: "Готов обсудить стажировку, junior-вакансию или практическую задачу.",
-      en: "Open to discussing an internship, junior role or practical automation task.",
+      ru: "Открыт к стажировке, junior-вакансии и задачам, где можно расти через практику.",
+      en: "Open to internships, junior roles and practical tasks where I can grow through real work.",
     },
     body: {
-      ru: "Форма работает без backend: она откроет почтовый клиент с готовой темой и текстом письма.",
-      en: "The form works without a backend: it opens your email client with a prepared subject and message.",
+      ru: "Лучше всего подойдут задачи рядом с 1C, учетом, складом, отчетами, SQL или автоматизацией малого бизнеса. Можно написать напрямую в Telegram, на email или через форму.",
+      en: "The best fit would be tasks around 1C, accounting flows, stock, reports, SQL or small business automation. You can reach me on Telegram, by email or through the form.",
     },
   },
 };

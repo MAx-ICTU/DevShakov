@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { shouldUseHeavyEffectsNow } from "./useDevicePerformance";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function useScrollTriggerAnimations() {
   useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reducedMotion) {
+    if (!shouldUseHeavyEffectsNow()) {
       return undefined;
     }
 

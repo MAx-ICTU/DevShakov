@@ -4,40 +4,40 @@ export const skillGroups: SkillGroup[] = [
   {
     title: { ru: "1C & Business Logic", en: "1C & Business Logic" },
     description: {
-      ru: "Учетная логика, объекты конфигурации и простые бизнес-процессы.",
-      en: "Accounting logic, configuration objects and basic business workflows.",
+      ru: "База, на которой я собираю учебные сценарии учета, заказов и склада.",
+      en: "The foundation I use to build learning scenarios for accounting, orders and stock.",
     },
     skills: ["1С:Предприятие 8.3", "Справочники", "Документы", "Отчеты", "Бизнес-процессы", "Учетная логика"],
   },
   {
     title: { ru: "Web", en: "Web" },
     description: {
-      ru: "База для аккуратных интерфейсов, лендингов и портфолио.",
-      en: "Foundation for clean interfaces, landing pages and portfolio work.",
+      ru: "Опыт в интерфейсах и верстке помогает мне лучше понимать удобство пользователя.",
+      en: "Interface and layout experience helps me think about usability from the user's side.",
     },
     skills: ["HTML", "CSS", "JavaScript", "React basics", "Адаптивная верстка"],
   },
   {
     title: { ru: "Data", en: "Data" },
     description: {
-      ru: "Понимание структуры данных и базовых запросов.",
-      en: "Understanding data structure and basic querying.",
+      ru: "Базовые запросы и понимание структуры данных для отчетов и проверки логики.",
+      en: "Basic querying and data-structure understanding for reports and logic checks.",
     },
     skills: ["SQL", "SELECT", "JOIN", "GROUP BY", "WHERE", "Структура данных"],
   },
   {
     title: { ru: "Tools", en: "Tools" },
     description: {
-      ru: "Инструменты разработки, публикации и автоматизации.",
-      en: "Tools for development, publishing and automation.",
+      ru: "Инструменты, которые помогают вести проект аккуратно и показывать прогресс.",
+      en: "Tools that help keep projects organized and make progress visible.",
     },
     skills: ["Git", "GitHub", "VS Code", "Linux basics", "Telegram Bot API"],
   },
   {
     title: { ru: "Digital background", en: "Digital background" },
     description: {
-      ru: "Опыт, который помогает лучше понимать задачи малого бизнеса.",
-      en: "Experience that helps understand small business needs.",
+      ru: "Практический контекст: заявки, сайты, объявления и реальные задачи малого бизнеса.",
+      en: "Practical context: leads, websites, listings and real small-business tasks.",
     },
     skills: ["Сайты", "Дизайн", "Яндекс", "Авито", "Продвижение", "Задачи малого бизнеса"],
   },

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { PropsWithChildren, PointerEvent } from "react";
 
 type TextParticleTrailProps = PropsWithChildren<{
@@ -43,6 +43,7 @@ export function TextParticleTrail({ children, enabled = true, className = "", in
   const frameRef = useRef<number | null>(null);
   const lastEmitAt = useRef(0);
   const activeRef = useRef(false);
+  const [effectEnabled, setEffectEnabled] = useState(false);
 
   const resizeCanvas = () => {
     const root = rootRef.current;
@@ -112,11 +113,7 @@ export function TextParticleTrail({ children, enabled = true, className = "", in
   };
 
   const emit = (event: PointerEvent<HTMLElement>) => {
-    if (!enabled) return;
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
-    if (reducedMotion || !finePointer) return;
+    if (!enabled || !effectEnabled) return;
 
     const now = performance.now();
     if (now - lastEmitAt.current < 18) return;
@@ -136,6 +133,30 @@ export function TextParticleTrail({ children, enabled = true, className = "", in
   };
 
   useEffect(() => {
+    const update = () => {
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+      const wideEnough = window.matchMedia("(min-width: 768px)").matches;
+      setEffectEnabled(enabled && finePointer && wideEnough && !reducedMotion);
+    };
+
+    update();
+    window.addEventListener("resize", update);
+
+    return () => window.removeEventListener("resize", update);
+  }, [enabled]);
+
+  useEffect(() => {
+    if (!effectEnabled) {
+      particlesRef.current = [];
+      if (frameRef.current) {
+        window.cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+
+      return undefined;
+    }
+
     resizeCanvas();
 
     const observer = new ResizeObserver(resizeCanvas);
@@ -149,7 +170,15 @@ export function TextParticleTrail({ children, enabled = true, className = "", in
         window.cancelAnimationFrame(frameRef.current);
       }
     };
-  }, []);
+  }, [effectEnabled]);
+
+  if (!effectEnabled) {
+    return (
+      <Tag ref={rootRef as never} className={`relative inline-block ${className}`}>
+        {children}
+      </Tag>
+    );
+  }
 
   return (
     <Tag

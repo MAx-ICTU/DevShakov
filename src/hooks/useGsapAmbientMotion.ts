@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import gsap from "gsap";
+import { shouldUseHeavyEffectsNow } from "./useDevicePerformance";
 
 export function useGsapAmbientMotion() {
   useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reducedMotion) {
+    if (!shouldUseHeavyEffectsNow()) {
       return undefined;
     }
 

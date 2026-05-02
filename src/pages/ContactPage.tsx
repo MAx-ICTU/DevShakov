@@ -53,8 +53,8 @@ export function ContactPage({ locale }: ContactPageProps) {
               </p>
               <p className="mt-5 max-w-xl text-base font-semibold leading-7 text-white/72 sm:text-lg">
                 {locale === "ru"
-                  ? "Открыт к стажировке, junior-позиции, практической задаче или разговору о 1C, автоматизации и digital-проектах."
-                  : "Open to internships, junior roles, practical tasks or a conversation about 1C, automation and digital projects."}
+                  ? "Открыт к стажировке, junior-позиции и практическим задачам рядом с 1C, учетом, SQL и автоматизацией малого бизнеса."
+                  : "Open to internships, junior roles and practical tasks around 1C, accounting flows, SQL and small business automation."}
               </p>
               <motion.button
                 type="button"

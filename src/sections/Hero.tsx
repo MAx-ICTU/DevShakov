@@ -6,6 +6,7 @@ import { AnimatedContactLink } from "../components/navigation/AnimatedContactLin
 import { TextParticleTrail } from "../components/particles/TextParticleTrail";
 import { ScrambleText } from "../components/ScrambleText";
 import { githubUrl } from "../data/site";
+import { useShouldUseHeavyEffects } from "../hooks/useDevicePerformance";
 import type { Locale } from "../types";
 
 const HeroImageScene = lazy(() =>
@@ -19,23 +20,25 @@ type HeroProps = {
 };
 
 const heroLead = {
-  ru: "Начинающий 1C-разработчик, который умеет разбираться в бизнес-логике и делать понятные решения.",
-  en: "Junior 1C Developer focused on business logic and clear digital solutions.",
+  ru: "Начинающий 1C-разработчик с digital-бэкграундом: разбираюсь в логике бизнеса и учусь превращать ее в понятные рабочие решения.",
+  en: "Junior 1C developer in progress with a digital background: I learn business logic and turn it into clear working solutions.",
 };
 
 const heroSubtitle = {
-  ru: "Развиваюсь в 1C:Предприятие 8.3, собираю учебные проекты и готовлюсь к junior-позиции или стажировке к июню 2026 года.",
-  en: "I am growing into 1C:Enterprise 8.3, building portfolio projects and preparing for a junior role or internship by June 2026.",
+  ru: "Изучаю 1C:Предприятие 8.3 на практических кейсах: заказы, склад, справочники, документы, отчеты и базовая SQL-логика. Цель — выйти на стажировку или junior-позицию к июню 2026 года.",
+  en: "I study 1C:Enterprise 8.3 through practical cases: orders, stock, catalogs, documents, reports and basic SQL logic. The goal is an internship or junior role by June 2026.",
 };
 
 const heroFocus = {
-  ru: "Фокус: учет, склад, заказы, SQL и понятная автоматизация для малого бизнеса.",
-  en: "Focus: accounting flows, stock, orders, SQL and understandable automation for small business.",
+  ru: "Фокус: учет, склад, заказы, отчеты и автоматизация, которую понимают не только разработчики.",
+  en: "Focus: accounting flows, stock, orders, reports and automation that non-developers can understand.",
 };
 
 export function Hero({ locale }: HeroProps) {
   const rootRef = useRef<HTMLElement | null>(null);
-  const imageUrl = `${import.meta.env.BASE_URL}profile.png`;
+  const shouldUseHeavyEffects = useShouldUseHeavyEffects();
+  const imageUrl = `${import.meta.env.BASE_URL}profile-desktop.jpg`;
+  const mobileImageUrl = `${import.meta.env.BASE_URL}profile-mobile.jpg`;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -73,14 +76,30 @@ export function Hero({ locale }: HeroProps) {
           <div className="glitch-portrait absolute bottom-0 left-0 top-0 w-full max-w-[38rem] lg:left-[2vw] lg:top-[8vh] lg:h-[74vh] lg:w-[32vw]">
             <Suspense
               fallback={
-                <img
-                  src={imageUrl}
-                  alt="Portfolio portrait"
-                  className="h-full w-full object-cover object-[50%_25%] grayscale contrast-105 brightness-[0.82]"
-                />
+                <picture>
+                  <source media="(max-width: 767px)" srcSet={mobileImageUrl} />
+                  <img
+                    src={imageUrl}
+                    alt="Portfolio portrait"
+                    className="h-full w-full object-cover object-[50%_25%] grayscale contrast-105 brightness-[0.82]"
+                    fetchPriority="high"
+                  />
+                </picture>
               }
             >
-              <HeroImageScene imageUrl={imageUrl} alt="Portfolio portrait" />
+              {shouldUseHeavyEffects ? (
+                <HeroImageScene imageUrl={imageUrl} alt="Portfolio portrait" />
+              ) : (
+                <picture>
+                  <source media="(max-width: 767px)" srcSet={mobileImageUrl} />
+                  <img
+                    src={imageUrl}
+                    alt="Portfolio portrait"
+                    className="h-full w-full object-cover object-[50%_25%] grayscale contrast-105 brightness-[0.82]"
+                    fetchPriority="high"
+                  />
+                </picture>
+              )}
             </Suspense>
             <div className="absolute bottom-[9%] left-[8%] z-20 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/58 mix-blend-difference sm:text-xs">
               <ScrambleText text="MAXIM / 1C_DEVELOPER" trigger="mount" />
