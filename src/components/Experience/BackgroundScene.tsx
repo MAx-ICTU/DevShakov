@@ -1,10 +1,10 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
+import { Float, Line as DreiLine } from "@react-three/drei";
 import { Bloom, ChromaticAberration, EffectComposer, Noise, Vignette } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MathUtils, Vector2 } from "three";
-import type { Mesh, Points } from "three";
+import type { Group, Mesh, Points } from "three";
 import { useCreativeControls } from "../../hooks/useCreativeControls";
 
 function canUseWebGL() {
@@ -142,6 +142,102 @@ function SoftGeometry({
   );
 }
 
+function OrbitSystem({
+  backgroundSpeed,
+  cursorInfluence,
+}: {
+  backgroundSpeed: number;
+  cursorInfluence: number;
+}) {
+  const groupRef = useRef<Group>(null);
+  const innerRef = useRef<Mesh>(null);
+  const outerRef = useRef<Mesh>(null);
+  const nodeRefs = useRef<Array<Mesh | null>>([]);
+  const { transitionBoost } = useMotionSignals();
+
+  useFrame(({ clock, pointer }, delta) => {
+    const group = groupRef.current;
+    if (!group) return;
+
+    const boost = transitionBoost.current;
+    group.rotation.y += delta * 0.075 * backgroundSpeed;
+    group.rotation.x = MathUtils.lerp(group.rotation.x, -0.35 + pointer.y * 0.08 * cursorInfluence, delta * 2.2);
+    group.rotation.z = MathUtils.lerp(group.rotation.z, pointer.x * 0.05 * cursorInfluence, delta * 2.2);
+    group.position.x = MathUtils.lerp(group.position.x, MathUtils.lerp(-2.85, -0.35, boost), delta * 3.8);
+    group.position.y = MathUtils.lerp(group.position.y, MathUtils.lerp(-1.15, -0.2, boost), delta * 3.8);
+    group.position.z = MathUtils.lerp(group.position.z, MathUtils.lerp(-2.7, -1.25, boost), delta * 3.8);
+    group.scale.setScalar(MathUtils.lerp(1, 1.35, boost));
+
+    if (innerRef.current) innerRef.current.rotation.z = clock.elapsedTime * 0.1 * backgroundSpeed;
+    if (outerRef.current) outerRef.current.rotation.x = Math.PI / 2 + clock.elapsedTime * 0.06 * backgroundSpeed;
+
+    nodeRefs.current.forEach((node, index) => {
+      if (!node) return;
+      const angle = clock.elapsedTime * (0.16 + index * 0.018) * backgroundSpeed + index * 1.047;
+      const radius = index % 2 === 0 ? 1.15 : 1.72;
+      node.position.set(Math.cos(angle) * radius, Math.sin(angle * 0.7) * 0.24, Math.sin(angle) * radius * 0.38);
+      node.scale.setScalar(0.72 + Math.sin(clock.elapsedTime * 1.4 + index) * 0.18);
+    });
+  });
+
+  return (
+    <group ref={groupRef} position={[-2.85, -1.15, -2.7]} rotation={[-0.35, 0.2, -0.08]}>
+      <mesh ref={innerRef} rotation={[Math.PI / 2.25, 0, 0]}>
+        <torusGeometry args={[1.2, 0.006, 8, 96]} />
+        <meshBasicMaterial color="#3dd7ff" transparent opacity={0.18} />
+      </mesh>
+      <mesh ref={outerRef} rotation={[Math.PI / 1.95, 0.35, 0.1]}>
+        <torusGeometry args={[1.78, 0.004, 8, 128]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.055} />
+      </mesh>
+      {Array.from({ length: 6 }).map((_, index) => (
+        <mesh
+          key={index}
+          ref={(node) => {
+            nodeRefs.current[index] = node;
+          }}
+        >
+          <sphereGeometry args={[index % 2 === 0 ? 0.035 : 0.024, 10, 10]} />
+          <meshBasicMaterial color={index % 2 === 0 ? "#7ee9ff" : "#ffffff"} transparent opacity={index % 2 === 0 ? 0.62 : 0.35} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+function DataRibbon({ backgroundSpeed }: { backgroundSpeed: number }) {
+  const groupRef = useRef<Group>(null);
+  const points = useMemo(() => {
+    const count = 82;
+    const data: Array<[number, number, number]> = [];
+
+    for (let index = 0; index < count; index += 1) {
+      const progress = index / (count - 1);
+      data.push([
+        MathUtils.lerp(-3.8, 3.8, progress),
+        Math.sin(progress * Math.PI * 3.2) * 0.18,
+        -2.2 + Math.cos(progress * Math.PI * 2.4) * 0.34,
+      ]);
+    }
+
+    return data;
+  }, []);
+
+  useFrame(({ clock, pointer }, delta) => {
+    if (!groupRef.current) return;
+
+    groupRef.current.rotation.y += delta * 0.028 * backgroundSpeed;
+    groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, pointer.y * 0.026, delta * 1.8);
+    groupRef.current.position.y = -1.55 + Math.sin(clock.elapsedTime * 0.22 * backgroundSpeed) * 0.08;
+  });
+
+  return (
+    <group ref={groupRef} position={[0.2, -1.55, -1.7]} rotation={[0.08, -0.18, -0.02]}>
+      <DreiLine points={points} color="#3dd7ff" transparent opacity={0.11} lineWidth={1} />
+    </group>
+  );
+}
+
 function PostProcessing({
   bloomIntensity,
   noiseStrength,
@@ -199,6 +295,8 @@ export function BackgroundScene() {
         <color attach="background" args={["#050505"]} />
         <CameraRig />
         <ParticleCloud backgroundSpeed={controls.backgroundSpeed} cursorInfluence={controls.cursorInfluence} />
+        <OrbitSystem backgroundSpeed={controls.backgroundSpeed} cursorInfluence={controls.cursorInfluence} />
+        <DataRibbon backgroundSpeed={controls.backgroundSpeed} />
         <SoftGeometry backgroundSpeed={controls.backgroundSpeed} cursorInfluence={controls.cursorInfluence} distortionStrength={controls.distortionStrength + controls.transitionProgress * 0.18} />
         <PostProcessing bloomIntensity={controls.bloomIntensity + controls.transitionProgress * 0.1 + transitionBoost * 0.1} noiseStrength={controls.noiseStrength + transitionBoost * 0.01} />
       </Canvas>
