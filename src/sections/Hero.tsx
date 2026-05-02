@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { AnimatedLink } from "../components/AnimatedLink";
 import { SplitTextReveal } from "../components/animations/SplitTextReveal";
@@ -6,14 +6,7 @@ import { AnimatedContactLink } from "../components/navigation/AnimatedContactLin
 import { TextParticleTrail } from "../components/particles/TextParticleTrail";
 import { ScrambleText } from "../components/ScrambleText";
 import { githubUrl } from "../data/site";
-import { useShouldUseHeavyEffects } from "../hooks/useDevicePerformance";
 import type { Locale } from "../types";
-
-const HeroImageScene = lazy(() =>
-  import("../components/webgl/HeroImageScene").then((module) => ({
-    default: module.HeroImageScene,
-  })),
-);
 
 type HeroProps = {
   locale: Locale;
@@ -36,9 +29,7 @@ const heroFocus = {
 
 export function Hero({ locale }: HeroProps) {
   const rootRef = useRef<HTMLElement | null>(null);
-  const shouldUseHeavyEffects = useShouldUseHeavyEffects();
   const imageUrl = `${import.meta.env.BASE_URL}profile-cutout.png`;
-  const mobileImageUrl = imageUrl;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -74,50 +65,17 @@ export function Hero({ locale }: HeroProps) {
           data-gsap-float="hero-media"
         >
           <div className="glitch-portrait absolute bottom-0 left-0 top-0 w-full max-w-[38rem] lg:left-[2vw] lg:top-[8vh] lg:h-[74vh] lg:w-[32vw]">
-            <Suspense
-              fallback={
-                <picture>
-                  <source media="(max-width: 767px)" srcSet={mobileImageUrl} />
-                  <img
-                    src={imageUrl}
-                    alt="Portfolio portrait"
-                    className="h-full w-full object-cover object-[50%_25%] grayscale contrast-105 brightness-[0.82]"
-                    fetchPriority="high"
-                  />
-                </picture>
-              }
-            >
-              {shouldUseHeavyEffects ? (
-                <HeroImageScene imageUrl={imageUrl} alt="Portfolio portrait" />
-              ) : (
-                <picture>
-                  <source media="(max-width: 767px)" srcSet={mobileImageUrl} />
-                  <img
-                    src={imageUrl}
-                    alt="Portfolio portrait"
-                    className="h-full w-full object-cover object-[50%_25%] grayscale contrast-105 brightness-[0.82]"
-                    fetchPriority="high"
-                  />
-                </picture>
-              )}
-            </Suspense>
+            <img
+              src={imageUrl}
+              alt="Portfolio portrait"
+              className="h-full w-full object-contain object-bottom contrast-105 saturate-[0.92] brightness-[0.96] drop-shadow-[0_26px_54px_rgba(0,0,0,0.62)]"
+              fetchPriority="high"
+            />
             <div className="absolute bottom-[9%] left-[8%] z-20 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/58 mix-blend-difference sm:text-xs">
               <ScrambleText text="MAXIM / 1C_DEVELOPER" trigger="mount" />
             </div>
             <div
-              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-1/3 bg-gradient-to-r from-transparent via-[#050505]/35 to-[#050505]"
-              aria-hidden="true"
-            />
-            <div
-              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-1/5 bg-gradient-to-r from-[#050505] via-[#050505]/22 to-transparent"
-              aria-hidden="true"
-            />
-            <div
-              className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1/5 bg-gradient-to-b from-[#050505] via-[#050505]/20 to-transparent"
-              aria-hidden="true"
-            />
-            <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/4 bg-gradient-to-t from-[#050505] to-transparent"
+              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/5 bg-gradient-to-t from-[#050505] to-transparent"
               aria-hidden="true"
             />
           </div>
