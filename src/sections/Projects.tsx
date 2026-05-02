@@ -70,7 +70,7 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
           </motion.span>
         </div>
 
-        <h3 className="font-display text-3xl font-semibold leading-tight text-white">{project.title[locale]}</h3>
+        <h3 className="safe-heading font-display text-3xl font-semibold leading-tight text-white">{project.title[locale]}</h3>
         <p className="mt-5 text-sm leading-6 text-slate-300">{project.description[locale]}</p>
 
         <div className="mt-7 flex flex-wrap gap-2">
@@ -111,7 +111,7 @@ export function Projects({ locale }: ProjectsProps) {
             <SplitTextReveal
               as="h2"
               text={locale === "ru" ? "Практические проекты для портфолио и первых собеседований" : "Practical works for portfolio and first interviews"}
-              className="font-display text-4xl font-semibold leading-none text-white sm:text-6xl lg:text-7xl"
+              className="safe-heading font-display text-[clamp(2.4rem,11vw,4rem)] font-semibold leading-none text-white sm:text-6xl lg:text-7xl"
             />
           </div>
           <p className="max-w-sm text-sm leading-6 text-slate-400">

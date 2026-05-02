@@ -95,7 +95,7 @@ export function Hero({ locale }: HeroProps) {
             <TextParticleTrail as="div" intensity={1.25} className="block w-fit max-w-full">
               <h1
                 data-transition-out
-                className="max-w-[12.8ch] font-display text-[clamp(3.8rem,7.6vw,8.5rem)] font-semibold leading-[0.84] tracking-normal text-white text-glow"
+                className="safe-heading max-w-full font-display text-[clamp(3rem,16vw,5.8rem)] font-semibold leading-[0.86] tracking-normal text-white text-glow sm:max-w-[12.8ch] sm:text-[clamp(4rem,7.6vw,8.5rem)]"
               >
                 <span className="mb-3 block font-mono text-[clamp(0.8rem,1.15vw,1rem)] font-bold leading-none tracking-[0.32em] text-cyan/85">
                   01 /
@@ -103,7 +103,7 @@ export function Hero({ locale }: HeroProps) {
                 <span className="block">
                   <SplitTextReveal text="Junior" delay={0.2} />
                 </span>
-                <span className="block whitespace-nowrap">
+                <span className="block sm:whitespace-nowrap">
                   <SplitTextReveal text="1C Developer" delay={0.27} />
                 </span>
               </h1>

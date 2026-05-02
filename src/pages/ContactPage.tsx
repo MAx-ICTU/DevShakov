@@ -32,7 +32,7 @@ export function ContactPage({ locale }: ContactPageProps) {
               [ contact route ]
             </p>
             <TextParticleTrail as="div" intensity={1.1} className="block w-fit max-w-full">
-              <h1 className="max-w-[10ch] break-words font-display text-[clamp(3rem,10vw,6.6rem)] font-semibold leading-[0.88] text-white text-glow sm:max-w-none">
+              <h1 className="safe-heading max-w-full font-display text-[clamp(2.45rem,12.4vw,4.8rem)] font-semibold leading-[0.92] text-white text-glow sm:text-[clamp(3.4rem,10vw,6.6rem)]">
                 <SplitTextReveal text="CONTACT" />
                 <span className="block">
                   <SplitTextReveal text="INFORMATION" delay={0.08} />
@@ -48,7 +48,7 @@ export function ContactPage({ locale }: ContactPageProps) {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.72, delay: 0.22, ease: easing }}
             >
-              <p className="font-display text-[clamp(2.2rem,5vw,4.7rem)] font-semibold leading-none text-white">
+              <p className="safe-heading font-display text-[clamp(2rem,9vw,3.2rem)] font-semibold leading-none text-white sm:text-[clamp(2.2rem,5vw,4.7rem)]">
                 Get in contact
               </p>
               <p className="mt-5 max-w-xl text-base font-semibold leading-7 text-white/72 sm:text-lg">

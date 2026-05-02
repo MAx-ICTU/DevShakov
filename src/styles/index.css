@@ -91,6 +91,13 @@ textarea {
     0 0 28px rgba(61, 215, 255, 0.14);
 }
 
+.safe-heading {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+}
+
 .terminal-link {
   width: fit-content;
   color: rgba(255, 255, 255, 0.82);

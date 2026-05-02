@@ -15,7 +15,7 @@ export function ProjectsPage({ locale }: ProjectsPageProps) {
         <SplitTextReveal
           as="h1"
           text={locale === "ru" ? "Практические портфолио-кейсы" : "Practical portfolio cases"}
-          className="max-w-5xl font-display text-[clamp(3rem,8vw,8rem)] font-semibold leading-[0.9] text-white text-glow"
+          className="safe-heading max-w-5xl font-display text-[clamp(2.6rem,13vw,5.2rem)] font-semibold leading-[0.92] text-white text-glow sm:text-[clamp(3.5rem,8vw,8rem)]"
         />
       </section>
       <Projects locale={locale} />

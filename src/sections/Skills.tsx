@@ -15,7 +15,7 @@ export function Skills({ locale }: SkillsProps) {
           <div className="mb-14 grid gap-6 lg:grid-cols-[1fr_0.45fr] lg:items-end">
             <div className="max-w-4xl">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-cyan">Skills</p>
-            <h2 className="font-display text-4xl font-semibold leading-none text-white sm:text-6xl">
+            <h2 className="safe-heading font-display text-4xl font-semibold leading-none text-white sm:text-6xl">
               {locale === "ru" ? "Навыки, которые складываются в практическую разработку." : "Skills that form practical development capability."}
             </h2>
             </div>
