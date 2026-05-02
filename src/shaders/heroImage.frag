@@ -60,10 +60,15 @@ void main() {
   color.rgb = (color.rgb - 0.5) * 1.08 + 0.5;
   color.rgb *= 0.82;
 
-  float edgeFade = smoothstep(0.0, 0.08, vUv.x) * smoothstep(1.0, 0.9, vUv.x);
-  float verticalFade = smoothstep(0.0, 0.1, vUv.y) * smoothstep(1.0, 0.84, vUv.y);
+  float edgeFade = smoothstep(0.0, 0.16, vUv.x) * smoothstep(1.0, 0.78, vUv.x);
+  float verticalFade = smoothstep(0.0, 0.14, vUv.y) * smoothstep(1.0, 0.76, vUv.y);
+  float softCorner = smoothstep(
+    0.0,
+    0.18,
+    min(min(vUv.x, 1.0 - vUv.x), min(vUv.y, 1.0 - vUv.y))
+  );
   float dissolve = 1.0 - smoothstep(0.5, 1.0, uProgress + dissolveNoise * 0.2);
-  float alpha = color.a * edgeFade * verticalFade * dissolve * uOpacity;
+  float alpha = color.a * edgeFade * verticalFade * softCorner * dissolve * uOpacity;
 
   if (alpha < 0.01) discard;
   gl_FragColor = vec4(color.rgb, alpha);

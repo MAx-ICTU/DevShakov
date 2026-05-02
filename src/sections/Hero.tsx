@@ -90,6 +90,14 @@ export function Hero({ locale }: HeroProps) {
               aria-hidden="true"
             />
             <div
+              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-1/5 bg-gradient-to-r from-[#050505] via-[#050505]/22 to-transparent"
+              aria-hidden="true"
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1/5 bg-gradient-to-b from-[#050505] via-[#050505]/20 to-transparent"
+              aria-hidden="true"
+            />
+            <div
               className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/4 bg-gradient-to-t from-[#050505] to-transparent"
               aria-hidden="true"
             />
