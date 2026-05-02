@@ -37,8 +37,8 @@ const heroFocus = {
 export function Hero({ locale }: HeroProps) {
   const rootRef = useRef<HTMLElement | null>(null);
   const shouldUseHeavyEffects = useShouldUseHeavyEffects();
-  const imageUrl = `${import.meta.env.BASE_URL}profile-desktop.jpg`;
-  const mobileImageUrl = `${import.meta.env.BASE_URL}profile-mobile.jpg`;
+  const imageUrl = `${import.meta.env.BASE_URL}profile-cutout.png`;
+  const mobileImageUrl = imageUrl;
 
   useEffect(() => {
     const root = rootRef.current;
