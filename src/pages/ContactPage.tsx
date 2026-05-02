@@ -13,9 +13,8 @@ type ContactPageProps = {
 
 const contactItems = [
   { label: "EMAIL", value: contactLinks.email, href: `mailto:${contactLinks.email}`, icon: Mail },
-  { label: "TELEGRAM", value: "Telegram", href: contactLinks.telegram, icon: Send },
+  { label: "TELEGRAM", value: contactLinks.telegramLabel, href: contactLinks.telegram, icon: Send },
   { label: "GITHUB", value: "MAx-ICTU", href: contactLinks.github, icon: ExternalLink },
-  { label: "LINKEDIN", value: "Add LinkedIn profile", href: "https://www.linkedin.com/", icon: ExternalLink },
 ];
 
 const easing = [0.22, 1, 0.36, 1] as const;

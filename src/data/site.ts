@@ -5,8 +5,9 @@ export const locales: Locale[] = ["ru", "en"];
 export const githubUrl = "https://github.com/MAx-ICTU";
 
 export const contactLinks = {
-  telegram: "https://t.me/your_telegram",
-  email: "your.email@example.com",
+  telegram: "https://t.me/Maksim_Shakov",
+  telegramLabel: "@Maksim_Shakov",
+  email: "maksim.ushakov02@mail.ru",
   github: githubUrl,
 };
 
