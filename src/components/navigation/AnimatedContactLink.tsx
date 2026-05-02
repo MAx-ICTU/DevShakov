@@ -8,13 +8,13 @@ type AnimatedContactLinkProps = PropsWithChildren<{
 }>;
 
 export function AnimatedContactLink({ children, className = "", onNavigate }: AnimatedContactLinkProps) {
-  const { startContactTransition } = useTransitionController();
+  const { startRouteTransition } = useTransitionController();
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     onNavigate?.();
-    startContactTransition("/contact");
+    startRouteTransition("/contact");
   };
 
   return (

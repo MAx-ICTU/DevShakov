@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import type { MouseEvent, PropsWithChildren } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useTransitionController } from "./transitions/TransitionProvider";
 
 type AnimatedLinkProps = PropsWithChildren<
   {
@@ -12,7 +12,7 @@ type AnimatedLinkProps = PropsWithChildren<
 >;
 
 export function AnimatedLink({ to, children, className = "", onNavigate, dataHeroLink }: AnimatedLinkProps) {
-  const navigate = useNavigate();
+  const { startRouteTransition } = useTransitionController();
   const isExternal = /^https?:\/\//.test(to);
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -22,7 +22,7 @@ export function AnimatedLink({ to, children, className = "", onNavigate, dataHer
 
     event.preventDefault();
     onNavigate?.();
-    window.setTimeout(() => navigate(to), 180);
+    startRouteTransition(to);
   };
 
   if (isExternal) {
@@ -62,9 +62,18 @@ export function AnimatedLink({ to, children, className = "", onNavigate, dataHer
 }
 
 export function PlainRouteLink({ to, children, className = "", onNavigate }: AnimatedLinkProps) {
+  const { startRouteTransition } = useTransitionController();
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    onNavigate?.();
+    startRouteTransition(to);
+  };
+
   return (
-    <Link to={to} onClick={onNavigate} className={className}>
+    <a href={to} onClick={handleClick} className={className}>
       {children}
-    </Link>
+    </a>
   );
 }

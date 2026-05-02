@@ -1,9 +1,10 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DepthTransitionOverlay } from "./DepthTransitionOverlay";
 
 type TransitionContextValue = {
+  startRouteTransition: (target: string) => void;
   startContactTransition: (target?: string) => void;
 };
 
@@ -11,6 +12,7 @@ const TransitionContext = createContext<TransitionContextValue | null>(null);
 
 export function TransitionProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [active, setActive] = useState(false);
   const targetRef = useRef("/contact");
   const lockedRef = useRef(false);
@@ -19,9 +21,13 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
     gsap.set("[data-depth-scene],[data-transition-out],[data-transition-media]", { clearProps: "all" });
   }, []);
 
-  const startContactTransition = useCallback(
-    (nextTarget = "/contact") => {
+  const startRouteTransition = useCallback(
+    (nextTarget: string) => {
       if (lockedRef.current) return;
+
+      if (nextTarget === location.pathname) {
+        return;
+      }
 
       lockedRef.current = true;
       targetRef.current = nextTarget;
@@ -97,10 +103,17 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
 
       timeline.to({}, { duration: 0.16 });
     },
-    [navigate, resetScene],
+    [location.pathname, navigate, resetScene],
   );
 
-  const value = useMemo(() => ({ startContactTransition }), [startContactTransition]);
+  const startContactTransition = useCallback(
+    (nextTarget = "/contact") => {
+      startRouteTransition(nextTarget);
+    },
+    [startRouteTransition],
+  );
+
+  const value = useMemo(() => ({ startRouteTransition, startContactTransition }), [startContactTransition, startRouteTransition]);
 
   return (
     <TransitionContext.Provider value={value}>

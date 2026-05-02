@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { AnimatedLink, PlainRouteLink } from "./AnimatedLink";
 import { Container } from "./Container";
 import { LanguageToggle } from "./LanguageToggle";
-import { AnimatedContactLink } from "./navigation/AnimatedContactLink";
 import { ScrambleText } from "./ScrambleText";
 import { ui } from "../data/site";
 import type { Locale } from "../types";
@@ -25,42 +24,29 @@ export function Header({ locale, setLocale }: HeaderProps) {
 
   const nav = (
     <>
-      {navItems.map((item) =>
-        item.to === "/contact" ? (
-          <AnimatedContactLink
-            key={item.to}
-            className="nav-link text-sm text-slate-300 transition hover:text-white"
-            onNavigate={() => setOpen(false)}
-          >
-            <ScrambleText text={item.label} />
-          </AnimatedContactLink>
-        ) : (
-          <Link
-            key={item.to}
-            to={item.to}
-            className="nav-link text-sm text-slate-300 transition hover:text-white"
-            onClick={() => setOpen(false)}
-          >
-            <ScrambleText text={item.label} />
-            <span aria-hidden="true" className="nav-link-arrow">
-              ↗
-            </span>
-          </Link>
-        ),
-      )}
+      {navItems.map((item) => (
+        <AnimatedLink
+          key={item.to}
+          to={item.to}
+          className="nav-link text-sm text-slate-300 transition hover:text-white"
+          onNavigate={() => setOpen(false)}
+        >
+          <ScrambleText text={item.label} />
+        </AnimatedLink>
+      ))}
     </>
   );
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-ink/24 backdrop-blur-md">
       <Container className="flex h-16 items-center justify-between gap-4">
-        <Link
+        <PlainRouteLink
           to="/"
           className="group flex items-center font-display text-sm font-bold uppercase tracking-[0.22em] text-white"
           aria-label="Go to home page"
         >
           <ScrambleText text={ui.logo} />
-        </Link>
+        </PlainRouteLink>
         <nav className="hidden items-center gap-7 font-mono uppercase tracking-[0.12em] lg:flex">{nav}</nav>
         <div className="hidden items-center gap-3 sm:flex">
           <LanguageToggle locale={locale} setLocale={setLocale} />
