@@ -68,7 +68,7 @@ export function Hero({ locale }: HeroProps) {
             <img
               src={imageUrl}
               alt="Portfolio portrait"
-              className="h-full w-full object-contain object-bottom contrast-105 saturate-[0.92] brightness-[0.96] drop-shadow-[0_26px_54px_rgba(0,0,0,0.62)]"
+              className="hero-cutout-image h-full w-full object-contain object-bottom contrast-105 saturate-[0.92] brightness-[0.96] drop-shadow-[0_26px_54px_rgba(0,0,0,0.62)]"
               fetchPriority="high"
             />
             <div className="absolute bottom-[9%] left-[8%] z-20 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/58 mix-blend-difference sm:text-xs">

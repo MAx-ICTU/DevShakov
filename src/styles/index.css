@@ -182,6 +182,17 @@ textarea {
   display: none;
 }
 
+.hero-cutout-image {
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 12%, #000 84%, transparent 100%),
+    linear-gradient(180deg, #000 0%, #000 76%, transparent 98%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 12%, #000 84%, transparent 100%),
+    linear-gradient(180deg, #000 0%, #000 76%, transparent 98%);
+  mask-composite: intersect;
+}
+
 .glitch-portrait-layer {
   position: absolute;
   inset: 0;
