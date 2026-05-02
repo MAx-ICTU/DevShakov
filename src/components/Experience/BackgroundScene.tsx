@@ -117,9 +117,9 @@ function SoftGeometry({
   useFrame(({ clock, pointer }, delta) => {
     if (meshRef.current) {
       const boost = transitionBoost.current;
-      const targetX = MathUtils.lerp(3.95, 1.35, boost);
-      const targetY = MathUtils.lerp(1.18, 0.72, boost);
-      const targetZ = MathUtils.lerp(-2.55, -1.28, boost);
+      const targetX = MathUtils.lerp(4.85, 1.85, boost);
+      const targetY = MathUtils.lerp(1.62, 1.02, boost);
+      const targetZ = MathUtils.lerp(-2.72, -1.4, boost);
 
       meshRef.current.position.x = MathUtils.lerp(meshRef.current.position.x, targetX, delta * 5.8);
       meshRef.current.position.y = MathUtils.lerp(meshRef.current.position.y, targetY, delta * 5.8);
@@ -133,7 +133,7 @@ function SoftGeometry({
   return (
     <>
       <Float speed={1.1 * backgroundSpeed} rotationIntensity={0.18} floatIntensity={0.32}>
-        <mesh ref={meshRef} position={[3.95, 1.18, -2.55]}>
+        <mesh ref={meshRef} position={[4.85, 1.62, -2.72]}>
           <icosahedronGeometry args={[1.15, 1]} />
           <meshBasicMaterial color="#3dd7ff" transparent opacity={0.026} wireframe />
         </mesh>
