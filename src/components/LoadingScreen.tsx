@@ -3,7 +3,7 @@ import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { playInterfaceBurst } from "../utils/mojsEffects";
 
-type Stage = "idle" | "loading" | "cinematic" | "launching";
+type Stage = "idle" | "loading" | "launching";
 
 const particles = Array.from({ length: 34 }, (_, index) => index);
 const tunnelParticles = Array.from({ length: 54 }, (_, index) => index);
@@ -17,7 +17,6 @@ const scanLines = [
 ];
 const glyphs = ["1C", "SQL", "WEB", "API", "BOT", "DATA"];
 const bars = Array.from({ length: 16 }, (_, index) => index);
-const introVideoSrc = `${import.meta.env.BASE_URL}video/intro.mp4`;
 
 export function LoadingScreen() {
   const [visible, setVisible] = useState(true);
@@ -55,26 +54,12 @@ export function LoadingScreen() {
         frame = window.requestAnimationFrame(tick);
       } else {
         setProgress(100);
-        setStage("cinematic");
+        setStage("launching");
       }
     };
 
     frame = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(frame);
-  }, [stage]);
-
-  useEffect(() => {
-    if (stage !== "cinematic") return undefined;
-
-    window.dispatchEvent(new CustomEvent("portfolio-transition-boost", { detail: 0.45 }));
-
-    const launchTimer = window.setTimeout(() => {
-      setStage("launching");
-    }, 3600);
-
-    return () => {
-      window.clearTimeout(launchTimer);
-    };
   }, [stage]);
 
   useEffect(() => {
@@ -124,53 +109,6 @@ export function LoadingScreen() {
           }}
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_42%,rgba(61,215,255,0.06),transparent_22rem),radial-gradient(circle_at_18%_70%,rgba(255,255,255,0.03),transparent_18rem)]" />
-
-          <AnimatePresence>
-            {stage === "cinematic" && (
-              <motion.div
-                className="pointer-events-none absolute inset-0 z-10 overflow-hidden bg-black"
-                initial={{ opacity: 0, scale: 1.08, filter: "blur(16px)" }}
-                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                exit={{ opacity: 0, scale: 1.18, filter: "blur(24px)" }}
-                transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <video
-                  className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-2xl saturate-75"
-                  src={introVideoSrc}
-                  autoPlay
-                  muted
-                  playsInline
-                  preload="auto"
-                />
-                <motion.video
-                  className="absolute inset-0 h-full w-full scale-110 object-cover object-[78%_68%] opacity-70 brightness-[0.62] contrast-125 saturate-[0.82] [mask-image:radial-gradient(ellipse_at_76%_68%,black_0%,black_34%,rgba(0,0,0,0.56)_56%,transparent_82%)]"
-                  src={introVideoSrc}
-                  autoPlay
-                  muted
-                  playsInline
-                  preload="auto"
-                  initial={{ opacity: 0, scale: 1.06, y: 22 }}
-                  animate={{ opacity: 0.92, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 1.12, y: -24 }}
-                  transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1] }}
-                />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_18%,rgba(0,0,0,0.28)_50%,rgba(0,0,0,0.92)_88%),linear-gradient(90deg,rgba(0,0,0,0.88),transparent_28%,transparent_72%,rgba(0,0,0,0.88))]" />
-                <motion.div
-                  className="absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,rgba(61,215,255,0.12),transparent_18rem)] mix-blend-screen"
-                  animate={{ opacity: [0.14, 0.34, 0.14], scale: [0.96, 1.04, 0.96] }}
-                  transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.p
-                  className="absolute bottom-[12%] left-1/2 -translate-x-1/2 font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-white/52"
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                >
-                  cinematic interface loaded
-                </motion.p>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
           <motion.div
             className="absolute left-1/2 top-1/2 h-[92vmin] w-[92vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan/[0.03]"
@@ -296,12 +234,8 @@ export function LoadingScreen() {
           <div className="absolute left-1/2 top-1/2 w-[min(46rem,86vw)] -translate-x-1/2 -translate-y-1/2">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
-              animate={{
-                opacity: stage === "cinematic" || stage === "launching" ? 0 : 1,
-                y: stage === "launching" ? -34 : stage === "cinematic" ? -18 : 0,
-                scale: stage === "cinematic" || stage === "launching" ? 0.92 : 1,
-              }}
-              transition={{ duration: stage === "cinematic" || stage === "launching" ? 0.75 : 0.65, ease: [0.22, 1, 0.36, 1] }}
+              animate={{ opacity: stage === "launching" ? 0 : 1, y: stage === "launching" ? -34 : 0, scale: stage === "launching" ? 0.92 : 1 }}
+              transition={{ duration: stage === "launching" ? 0.75 : 0.65, ease: [0.22, 1, 0.36, 1] }}
               className="text-center"
             >
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-cyan/72">
