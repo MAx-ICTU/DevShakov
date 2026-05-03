@@ -248,15 +248,30 @@ export function LoadingScreen() {
                     key="start"
                     type="button"
                     onClick={startLoading}
-                    className="group mt-8 inline-flex items-center gap-4 font-display text-[clamp(3.4rem,13vw,8rem)] font-semibold leading-none text-white text-glow transition hover:text-cyan"
+                    aria-label="Launch portfolio"
+                    className="group mt-9 inline-flex flex-col items-center gap-6 text-white transition hover:text-cyan focus:outline-none"
                     initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     exit={{ opacity: 0, y: -18, filter: "blur(10px)" }}
-                    whileHover={{ scale: 1.015 }}
-                    whileTap={{ scale: 0.985 }}
+                    whileHover={{ scale: 1.025 }}
+                    whileTap={{ scale: 0.96 }}
                   >
-                    Запускаем?
-                    <span className="font-mono text-[0.2em] tracking-[0.2em] transition group-hover:translate-x-2">↗</span>
+                    <span className="relative grid h-[clamp(8rem,24vw,14rem)] w-[clamp(8rem,24vw,14rem)] place-items-center rounded-full">
+                      <span className="absolute inset-0 rounded-full border border-cyan/30 bg-cyan/[0.035] shadow-[0_0_70px_rgba(61,215,255,0.16)] transition duration-500 group-hover:scale-110 group-hover:border-cyan/65 group-hover:shadow-[0_0_110px_rgba(61,215,255,0.28)]" />
+                      <span className="absolute inset-[14%] rounded-full border border-white/10 transition duration-500 group-hover:scale-90 group-hover:border-white/24" />
+                      <motion.span
+                        className="absolute inset-[24%] rounded-full border border-cyan/20"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                      />
+                      <span className="relative h-[38%] w-[38%]">
+                        <span className="absolute left-1/2 top-0 h-[46%] w-[12%] -translate-x-1/2 rounded-full bg-white shadow-[0_0_24px_rgba(255,255,255,0.72)] transition group-hover:bg-cyan group-hover:shadow-[0_0_30px_rgba(61,215,255,0.85)]" />
+                        <span className="absolute inset-x-[12%] bottom-0 top-[22%] rounded-full border-[clamp(0.42rem,1vw,0.7rem)] border-white border-t-transparent transition group-hover:border-cyan group-hover:border-t-transparent" />
+                      </span>
+                    </span>
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-white/58 transition group-hover:tracking-[0.4em] group-hover:text-cyan">
+                      Нажмите, чтобы запустить
+                    </span>
                   </motion.button>
                 )}
 
