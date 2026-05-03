@@ -143,7 +143,7 @@ export function LoadingScreen() {
                   preload="auto"
                 />
                 <motion.video
-                  className="absolute left-1/2 top-1/2 h-[92vh] w-[92vw] max-w-[62rem] -translate-x-1/2 -translate-y-1/2 object-contain object-center opacity-90 brightness-[0.72] contrast-125 saturate-[0.78] [mask-image:radial-gradient(ellipse_at_center,black_26%,black_48%,rgba(0,0,0,0.42)_66%,transparent_82%)]"
+                  className="absolute inset-0 h-full w-full scale-110 object-cover object-[78%_68%] opacity-70 brightness-[0.62] contrast-125 saturate-[0.82] [mask-image:radial-gradient(ellipse_at_76%_68%,black_0%,black_34%,rgba(0,0,0,0.56)_56%,transparent_82%)]"
                   src={introVideoSrc}
                   autoPlay
                   muted
