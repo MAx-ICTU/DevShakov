@@ -11,6 +11,13 @@ export const contactLinks = {
   github: githubUrl,
 };
 
+export const audioTrack = {
+  src: "audio/portfolio-track.mp3",
+  playLabel: { ru: "Включить музыку", en: "Play music" },
+  pauseLabel: { ru: "Выключить музыку", en: "Pause music" },
+  missingLabel: { ru: "Добавьте файл public/audio/portfolio-track.mp3", en: "Add public/audio/portfolio-track.mp3" },
+};
+
 export const navItems: NavItem[] = [
   { id: "about", label: { ru: "Обо мне", en: "About" } },
   { id: "skills", label: { ru: "Навыки", en: "Skills" } },

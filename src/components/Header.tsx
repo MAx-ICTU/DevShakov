@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { AnimatedLink, PlainRouteLink } from "./AnimatedLink";
+import { AudioToggle } from "./AudioToggle";
 import { Container } from "./Container";
 import { LanguageToggle } from "./LanguageToggle";
 import { ScrambleText } from "./ScrambleText";
@@ -49,6 +50,7 @@ export function Header({ locale, setLocale }: HeaderProps) {
         </PlainRouteLink>
         <nav className="hidden items-center gap-7 font-mono uppercase tracking-[0.12em] lg:flex">{nav}</nav>
         <div className="hidden items-center gap-3 sm:flex">
+          <AudioToggle locale={locale} />
           <LanguageToggle locale={locale} setLocale={setLocale} />
         </div>
         <button
@@ -64,6 +66,9 @@ export function Header({ locale, setLocale }: HeaderProps) {
         <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} className="bg-ink/96 px-5 py-5 sm:hidden">
           <nav className="grid gap-4">{nav}</nav>
           <div className="mt-5">
+            <AudioToggle locale={locale} />
+          </div>
+          <div className="mt-4">
             <LanguageToggle locale={locale} setLocale={setLocale} />
           </div>
         </motion.div>
