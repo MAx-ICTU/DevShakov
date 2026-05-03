@@ -1,32 +1,18 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
+type Stage = "idle" | "loading" | "ready";
+
+const particles = Array.from({ length: 30 }, (_, index) => index);
+const scanLines = ["booting interface", "warming webgl scene", "syncing routes", "loading audio", "ready for launch"];
+const glyphs = ["1C", "SQL", "WEB", "API", "BOT", "DATA"];
+const bars = Array.from({ length: 16 }, (_, index) => index);
+
 export function LoadingScreen() {
   const [visible, setVisible] = useState(true);
+  const [stage, setStage] = useState<Stage>("idle");
   const [progress, setProgress] = useState(0);
-  const ready = progress >= 100;
-
-  useEffect(() => {
-    if (!visible) return undefined;
-
-    const startedAt = performance.now();
-    const duration = 3800;
-    let frame = 0;
-
-    const tick = (time: number) => {
-      const elapsed = time - startedAt;
-      const raw = Math.min(1, elapsed / duration);
-      const eased = 1 - (1 - raw) ** 3;
-      setProgress(Math.min(100, Math.round(eased * 100)));
-
-      if (raw < 1) {
-        frame = window.requestAnimationFrame(tick);
-      }
-    };
-
-    frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
-  }, [visible]);
+  const percent = progress.toString().padStart(3, "0");
 
   useEffect(() => {
     if (!visible) return undefined;
@@ -39,24 +25,42 @@ export function LoadingScreen() {
     };
   }, [visible]);
 
-  const openSite = () => {
-    if (!ready) return;
+  useEffect(() => {
+    if (stage !== "loading") return undefined;
+
+    const startedAt = performance.now();
+    const duration = 4400;
+    let frame = 0;
+
+    const tick = (time: number) => {
+      const elapsed = time - startedAt;
+      const raw = Math.min(1, elapsed / duration);
+      const eased = 1 - (1 - raw) ** 3;
+      const nextProgress = Math.min(100, Math.round(eased * 100));
+
+      setProgress(nextProgress);
+
+      if (raw < 1) {
+        frame = window.requestAnimationFrame(tick);
+      } else {
+        setStage("ready");
+      }
+    };
+
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [stage]);
+
+  const startLoading = () => {
     window.dispatchEvent(new CustomEvent("portfolio-audio-play"));
-    setVisible(false);
+    setProgress(0);
+    setStage("loading");
   };
 
-  const particles = Array.from({ length: 18 }, (_, index) => index);
-
-  const keyNodes = [
-    { label: "1C", className: "left-[10%] top-[28%]" },
-    { label: "SQL", className: "right-[14%] top-[34%]" },
-    { label: "WEB", className: "right-[18%] bottom-[30%]" },
-    { label: "AUTO", className: "left-[16%] bottom-[24%]" },
-  ];
-
-  const scanLines = Array.from({ length: 5 }, (_, index) => index);
-
-  const percent = progress.toString().padStart(3, "0");
+  const openSite = () => {
+    if (stage !== "ready") return;
+    setVisible(false);
+  };
 
   return (
     <AnimatePresence>
@@ -64,91 +68,143 @@ export function LoadingScreen() {
         <motion.div
           className="fixed inset-0 z-[120] overflow-hidden bg-[#050505]"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.02, filter: "blur(10px)", transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] } }}
+          exit={{
+            opacity: 0,
+            scale: 1.08,
+            filter: "blur(18px)",
+            transition: { duration: 1.05, ease: [0.22, 1, 0.36, 1] },
+          }}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(61,215,255,0.12),transparent_18rem),radial-gradient(circle_at_18%_70%,rgba(255,255,255,0.045),transparent_16rem)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_42%,rgba(61,215,255,0.075),transparent_22rem),radial-gradient(circle_at_18%_70%,rgba(255,255,255,0.035),transparent_18rem)]" />
+
           <motion.div
-            className="absolute left-1/2 top-1/2 h-[72vmin] w-[72vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan/10"
-            animate={{ scale: [0.82, 1.08, 0.82], rotate: 360 }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="absolute left-1/2 top-1/2 h-[92vmin] w-[92vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan/[0.035]"
+            animate={{ scale: [0.88, 1.04, 0.88], rotate: 360 }}
+            transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
-            className="absolute left-1/2 top-1/2 h-[44vmin] w-[44vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/8"
-            animate={{ scale: [1.18, 0.76, 1.18], rotate: -360 }}
-            transition={{ duration: 6.8, repeat: Infinity, ease: "linear" }}
+            className="absolute left-1/2 top-1/2 h-[58vmin] w-[58vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.035]"
+            animate={{ scale: [1.12, 0.92, 1.12], rotate: -360 }}
+            transition={{ duration: 13, repeat: Infinity, ease: "linear" }}
           />
 
           {particles.map((item) => (
             <motion.span
               key={item}
-              className="absolute h-1 w-1 rounded-full bg-cyan/70 shadow-[0_0_16px_rgba(61,215,255,0.7)]"
+              className="absolute h-1 w-1 bg-cyan/55 shadow-[0_0_14px_rgba(61,215,255,0.58)]"
               style={{
-                left: `${8 + ((item * 37) % 84)}%`,
-                top: `${10 + ((item * 53) % 78)}%`,
+                left: `${5 + ((item * 29) % 90)}%`,
+                top: `${7 + ((item * 47) % 84)}%`,
+                borderRadius: item % 3 === 0 ? "0" : "9999px",
               }}
-              animate={{ opacity: [0.12, 0.8, 0.12], y: [0, -18, 0], scale: [0.6, 1.15, 0.6] }}
-              transition={{ duration: 2.4 + (item % 5) * 0.35, repeat: Infinity, delay: item * 0.08, ease: "easeInOut" }}
+              animate={{
+                opacity: stage === "idle" ? [0.08, 0.34, 0.08] : [0.12, 0.88, 0.12],
+                y: [0, -24 - (item % 7) * 3, 0],
+                x: [0, (item % 2 === 0 ? 1 : -1) * (8 + (item % 5) * 3), 0],
+                scale: [0.6, 1.18, 0.6],
+              }}
+              transition={{ duration: 2.1 + (item % 6) * 0.28, repeat: Infinity, delay: item * 0.045, ease: "easeInOut" }}
             />
           ))}
 
-          {keyNodes.map((node) => (
+          {glyphs.map((glyph, index) => (
             <motion.div
-              key={node.label}
-              className={`absolute hidden font-mono text-xs font-bold uppercase tracking-[0.28em] text-cyan/36 sm:block ${node.className}`}
-              animate={{ opacity: [0.18, 0.48, 0.18], x: [0, 10, 0] }}
-              transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+              key={glyph}
+              className="absolute hidden font-mono text-xs font-bold uppercase tracking-[0.3em] text-cyan/24 sm:block"
+              style={{
+                left: `${12 + ((index * 17) % 72)}%`,
+                top: `${18 + ((index * 23) % 58)}%`,
+              }}
+              animate={{ opacity: [0.08, 0.38, 0.08], filter: ["blur(0px)", "blur(1px)", "blur(0px)"] }}
+              transition={{ duration: 2.8 + index * 0.22, repeat: Infinity, ease: "easeInOut" }}
             >
-              {node.label}
+              {glyph}
             </motion.div>
           ))}
 
-          <div className="absolute left-1/2 top-1/2 w-[min(42rem,84vw)] -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute bottom-[10%] left-1/2 hidden w-[min(52rem,80vw)] -translate-x-1/2 items-end justify-between gap-2 opacity-40 sm:flex">
+            {bars.map((bar) => (
+              <motion.span
+                key={bar}
+                className="block w-px bg-cyan/30"
+                animate={{ height: [10, 38 + (bar % 5) * 10, 10], opacity: [0.18, 0.62, 0.18] }}
+                transition={{ duration: 1.1 + (bar % 4) * 0.18, repeat: Infinity, delay: bar * 0.05, ease: "easeInOut" }}
+              />
+            ))}
+          </div>
+
+          <div className="absolute left-1/2 top-1/2 w-[min(46rem,86vw)] -translate-x-1/2 -translate-y-1/2">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55 }}
+              transition={{ duration: 0.65 }}
               className="text-center"
             >
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-cyan/80">
-                [ initializing portfolio ]
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-cyan/72">
+                [ portfolio entry ]
               </p>
-              <p className="mt-6 font-display text-[clamp(2.7rem,12vw,7.4rem)] font-semibold leading-none text-white text-glow">
-                {percent}%
-              </p>
-              <div className="mx-auto mt-7 h-px w-full overflow-hidden bg-white/10">
-                <motion.div className="h-full bg-cyan shadow-[0_0_18px_rgba(61,215,255,0.85)]" style={{ width: `${progress}%` }} />
-              </div>
-              <div className="mt-5 grid gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-white/36">
-                {scanLines.map((line) => (
-                  <motion.span
-                    key={line}
-                    animate={{ opacity: ready ? 0.18 : [0.18, 0.64, 0.18] }}
-                    transition={{ duration: 0.7, repeat: ready ? 0 : Infinity, delay: line * 0.1 }}
-                  >
-                    {line === 0 && "loading assets"}
-                    {line === 1 && "warming webgl scene"}
-                    {line === 2 && "syncing interface"}
-                    {line === 3 && "preparing audio"}
-                    {line === 4 && "ready for launch"}
-                  </motion.span>
-                ))}
-              </div>
 
-              <AnimatePresence>
-                {ready && (
+              <AnimatePresence mode="wait">
+                {stage === "idle" && (
                   <motion.button
+                    key="start"
                     type="button"
-                    onClick={openSite}
-                    className="group mt-9 inline-flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.22em] text-white transition hover:text-cyan"
-                    initial={{ opacity: 0, y: 14, filter: "blur(8px)" }}
+                    onClick={startLoading}
+                    className="group mt-8 inline-flex items-center gap-4 font-display text-[clamp(3.4rem,13vw,8rem)] font-semibold leading-none text-white text-glow transition hover:text-cyan"
+                    initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    exit={{ opacity: 0 }}
-                    whileHover={{ x: 5 }}
-                    whileTap={{ scale: 0.98 }}
+                    exit={{ opacity: 0, y: -18, filter: "blur(10px)" }}
+                    whileHover={{ scale: 1.015 }}
+                    whileTap={{ scale: 0.985 }}
                   >
-                    Открыть сайт
-                    <span className="inline-block transition group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
+                    Запускаем?
+                    <span className="font-mono text-[0.2em] tracking-[0.2em] transition group-hover:translate-x-2">↗</span>
                   </motion.button>
+                )}
+
+                {stage !== "idle" && (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0, y: 18, filter: "blur(10px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, y: -18, filter: "blur(10px)" }}
+                  >
+                    <p className="mt-7 font-display text-[clamp(3.4rem,14vw,8.4rem)] font-semibold leading-none text-white text-glow">
+                      {percent}%
+                    </p>
+                    <div className="mx-auto mt-7 h-px w-full overflow-hidden bg-white/10">
+                      <motion.div className="h-full bg-cyan shadow-[0_0_18px_rgba(61,215,255,0.85)]" style={{ width: `${progress}%` }} />
+                    </div>
+                    <div className="mt-5 grid gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-white/36">
+                      {scanLines.map((line, index) => (
+                        <motion.span
+                          key={line}
+                          animate={{ opacity: stage === "ready" ? 0.2 : [0.18, 0.68, 0.18] }}
+                          transition={{ duration: 0.7, repeat: stage === "ready" ? 0 : Infinity, delay: index * 0.1 }}
+                        >
+                          {line}
+                        </motion.span>
+                      ))}
+                    </div>
+
+                    <AnimatePresence>
+                      {stage === "ready" && (
+                        <motion.button
+                          type="button"
+                          onClick={openSite}
+                          className="group mt-10 inline-flex items-center gap-4 font-display text-[clamp(2.8rem,10vw,6.2rem)] font-semibold leading-none text-white transition hover:text-cyan"
+                          initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+                          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                          exit={{ opacity: 0 }}
+                          whileHover={{ scale: 1.015 }}
+                          whileTap={{ scale: 0.985 }}
+                        >
+                          Открыть сайт
+                          <span className="font-mono text-[0.22em] transition group-hover:translate-x-2 group-hover:-translate-y-2">↗</span>
+                        </motion.button>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>
