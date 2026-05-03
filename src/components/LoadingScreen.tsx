@@ -1,5 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
+import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
+import { playInterfaceBurst } from "../utils/mojsEffects";
 
 type Stage = "idle" | "loading" | "ready";
 
@@ -51,14 +53,20 @@ export function LoadingScreen() {
     return () => window.cancelAnimationFrame(frame);
   }, [stage]);
 
-  const startLoading = () => {
+  const playBurst = (event: MouseEvent<HTMLElement>) => {
+    playInterfaceBurst({ x: event.clientX, y: event.clientY });
+  };
+
+  const startLoading = (event: MouseEvent<HTMLButtonElement>) => {
+    playBurst(event);
     window.dispatchEvent(new CustomEvent("portfolio-audio-play"));
     setProgress(0);
     setStage("loading");
   };
 
-  const openSite = () => {
+  const openSite = (event: MouseEvent<HTMLButtonElement>) => {
     if (stage !== "ready") return;
+    playBurst(event);
     setVisible(false);
   };
 
