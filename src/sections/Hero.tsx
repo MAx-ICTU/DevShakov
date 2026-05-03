@@ -87,7 +87,7 @@ export function Hero({ locale }: HeroProps) {
               <ScrambleText text="MAXIM / 1C_DEVELOPER" trigger="mount" />
             </div>
             <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[34%] bg-gradient-to-t from-[#050505] via-[#050505]/72 to-transparent"
+              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[20%] bg-gradient-to-t from-[#050505] via-[#050505]/42 to-transparent"
               aria-hidden="true"
             />
           </div>
