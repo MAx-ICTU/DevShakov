@@ -3,10 +3,18 @@ import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { playInterfaceBurst } from "../utils/mojsEffects";
 
-type Stage = "idle" | "loading" | "ready";
+type Stage = "idle" | "loading" | "launching";
 
-const particles = Array.from({ length: 30 }, (_, index) => index);
-const scanLines = ["booting interface", "warming webgl scene", "syncing routes", "loading audio", "ready for launch"];
+const particles = Array.from({ length: 34 }, (_, index) => index);
+const tunnelParticles = Array.from({ length: 54 }, (_, index) => index);
+const scanLines = [
+  "booting interface",
+  "warming webgl scene",
+  "syncing routes",
+  "loading audio",
+  "assembling hero particles",
+  "ready for launch",
+];
 const glyphs = ["1C", "SQL", "WEB", "API", "BOT", "DATA"];
 const bars = Array.from({ length: 16 }, (_, index) => index);
 
@@ -31,13 +39,13 @@ export function LoadingScreen() {
     if (stage !== "loading") return undefined;
 
     const startedAt = performance.now();
-    const duration = 4400;
+    const duration = 14000;
     let frame = 0;
 
     const tick = (time: number) => {
       const elapsed = time - startedAt;
       const raw = Math.min(1, elapsed / duration);
-      const eased = 1 - (1 - raw) ** 3;
+      const eased = raw < 0.75 ? 1 - (1 - raw) ** 2 : raw;
       const nextProgress = Math.min(100, Math.round(eased * 100));
 
       setProgress(nextProgress);
@@ -45,7 +53,8 @@ export function LoadingScreen() {
       if (raw < 1) {
         frame = window.requestAnimationFrame(tick);
       } else {
-        setStage("ready");
+        setProgress(100);
+        setStage("launching");
       }
     };
 
@@ -53,21 +62,37 @@ export function LoadingScreen() {
     return () => window.cancelAnimationFrame(frame);
   }, [stage]);
 
+  useEffect(() => {
+    if (stage !== "launching") return undefined;
+
+    window.dispatchEvent(new CustomEvent("portfolio-transition-boost", { detail: 1 }));
+
+    const hideTimer = window.setTimeout(() => {
+      setVisible(false);
+    }, 1650);
+
+    const resetTimer = window.setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("portfolio-transition-boost", { detail: 0 }));
+    }, 2600);
+
+    return () => {
+      window.clearTimeout(hideTimer);
+      window.clearTimeout(resetTimer);
+      window.dispatchEvent(new CustomEvent("portfolio-transition-boost", { detail: 0 }));
+    };
+  }, [stage]);
+
   const playBurst = (event: MouseEvent<HTMLElement>) => {
     playInterfaceBurst({ x: event.clientX, y: event.clientY });
   };
 
   const startLoading = (event: MouseEvent<HTMLButtonElement>) => {
+    if (stage !== "idle") return;
+
     playBurst(event);
     window.dispatchEvent(new CustomEvent("portfolio-audio-play"));
     setProgress(0);
     setStage("loading");
-  };
-
-  const openSite = (event: MouseEvent<HTMLButtonElement>) => {
-    if (stage !== "ready") return;
-    playBurst(event);
-    setVisible(false);
   };
 
   return (
@@ -78,22 +103,38 @@ export function LoadingScreen() {
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 1.08,
-            filter: "blur(18px)",
-            transition: { duration: 1.05, ease: [0.22, 1, 0.36, 1] },
+            scale: 1.24,
+            filter: "blur(28px)",
+            transition: { duration: 1.45, ease: [0.76, 0, 0.24, 1] },
           }}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_42%,rgba(61,215,255,0.075),transparent_22rem),radial-gradient(circle_at_18%_70%,rgba(255,255,255,0.035),transparent_18rem)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_42%,rgba(61,215,255,0.06),transparent_22rem),radial-gradient(circle_at_18%_70%,rgba(255,255,255,0.03),transparent_18rem)]" />
 
           <motion.div
-            className="absolute left-1/2 top-1/2 h-[92vmin] w-[92vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan/[0.035]"
-            animate={{ scale: [0.88, 1.04, 0.88], rotate: 360 }}
-            transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
+            className="absolute left-1/2 top-1/2 h-[92vmin] w-[92vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan/[0.03]"
+            animate={
+              stage === "launching"
+                ? { scale: [1, 0.16], rotate: 520, opacity: [0.45, 0] }
+                : { scale: [0.88, 1.04, 0.88], rotate: 360, opacity: 1 }
+            }
+            transition={
+              stage === "launching"
+                ? { duration: 1.55, ease: [0.76, 0, 0.24, 1] }
+                : { duration: 16, repeat: Infinity, ease: "linear" }
+            }
           />
           <motion.div
-            className="absolute left-1/2 top-1/2 h-[58vmin] w-[58vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.035]"
-            animate={{ scale: [1.12, 0.92, 1.12], rotate: -360 }}
-            transition={{ duration: 13, repeat: Infinity, ease: "linear" }}
+            className="absolute left-1/2 top-1/2 h-[58vmin] w-[58vmin] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.03]"
+            animate={
+              stage === "launching"
+                ? { scale: [1.04, 0.12], rotate: -420, opacity: [0.38, 0] }
+                : { scale: [1.12, 0.92, 1.12], rotate: -360, opacity: 1 }
+            }
+            transition={
+              stage === "launching"
+                ? { duration: 1.45, ease: [0.76, 0, 0.24, 1] }
+                : { duration: 13, repeat: Infinity, ease: "linear" }
+            }
           />
 
           {particles.map((item) => (
@@ -105,13 +146,26 @@ export function LoadingScreen() {
                 top: `${7 + ((item * 47) % 84)}%`,
                 borderRadius: item % 3 === 0 ? "0" : "9999px",
               }}
-              animate={{
-                opacity: stage === "idle" ? [0.08, 0.34, 0.08] : [0.12, 0.88, 0.12],
-                y: [0, -24 - (item % 7) * 3, 0],
-                x: [0, (item % 2 === 0 ? 1 : -1) * (8 + (item % 5) * 3), 0],
-                scale: [0.6, 1.18, 0.6],
-              }}
-              transition={{ duration: 2.1 + (item % 6) * 0.28, repeat: Infinity, delay: item * 0.045, ease: "easeInOut" }}
+              animate={
+                stage === "launching"
+                  ? {
+                      opacity: [0.7, 0],
+                      x: [0, (50 - ((item * 29) % 100)) * 8],
+                      y: [0, (50 - ((item * 47) % 100)) * 8],
+                      scale: [1, 0.12],
+                    }
+                  : {
+                      opacity: stage === "idle" ? [0.08, 0.34, 0.08] : [0.12, 0.88, 0.12],
+                      y: [0, -24 - (item % 7) * 3, 0],
+                      x: [0, (item % 2 === 0 ? 1 : -1) * (8 + (item % 5) * 3), 0],
+                      scale: [0.6, 1.18, 0.6],
+                    }
+              }
+              transition={
+                stage === "launching"
+                  ? { duration: 1.4, delay: item * 0.008, ease: [0.76, 0, 0.24, 1] }
+                  : { duration: 2.1 + (item % 6) * 0.28, repeat: Infinity, delay: item * 0.045, ease: "easeInOut" }
+              }
             />
           ))}
 
@@ -123,20 +177,56 @@ export function LoadingScreen() {
                 left: `${12 + ((index * 17) % 72)}%`,
                 top: `${18 + ((index * 23) % 58)}%`,
               }}
-              animate={{ opacity: [0.08, 0.38, 0.08], filter: ["blur(0px)", "blur(1px)", "blur(0px)"] }}
-              transition={{ duration: 2.8 + index * 0.22, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ opacity: stage === "launching" ? 0 : [0.08, 0.38, 0.08], filter: ["blur(0px)", "blur(1px)", "blur(0px)"] }}
+              transition={{ duration: stage === "launching" ? 0.3 : 2.8 + index * 0.22, repeat: stage === "launching" ? 0 : Infinity, ease: "easeInOut" }}
             >
               {glyph}
             </motion.div>
           ))}
+
+          <AnimatePresence>
+            {stage === "launching" && (
+              <motion.div
+                className="pointer-events-none absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <motion.div
+                  className="absolute left-1/2 top-1/2 h-[120vmax] w-[120vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(61,215,255,0.16),rgba(61,215,255,0.045)_18%,transparent_42%)]"
+                  initial={{ scale: 1.35, opacity: 0 }}
+                  animate={{ scale: [1.35, 0.58, 0.2], opacity: [0, 0.78, 0] }}
+                  transition={{ duration: 1.65, ease: [0.76, 0, 0.24, 1] }}
+                />
+                {tunnelParticles.map((item) => {
+                  const angle = (item / tunnelParticles.length) * Math.PI * 2;
+                  const radius = 18 + (item % 9) * 5;
+                  const startX = Math.cos(angle) * radius;
+                  const startY = Math.sin(angle) * radius;
+                  const endX = Math.cos(angle) * (360 + (item % 7) * 42);
+                  const endY = Math.sin(angle) * (260 + (item % 5) * 38);
+
+                  return (
+                    <motion.span
+                      key={item}
+                      className="absolute left-1/2 top-1/2 h-[3px] w-[3px] rounded-full bg-white shadow-[0_0_16px_rgba(255,255,255,0.78)]"
+                      initial={{ x: startX, y: startY, opacity: 0, scale: 0.2 }}
+                      animate={{ x: endX, y: endY, opacity: [0, 0.95, 0], scale: [0.2, 1.3, 0.2] }}
+                      transition={{ duration: 1.48, delay: item * 0.006, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <div className="absolute bottom-[10%] left-1/2 hidden w-[min(52rem,80vw)] -translate-x-1/2 items-end justify-between gap-2 opacity-40 sm:flex">
             {bars.map((bar) => (
               <motion.span
                 key={bar}
                 className="block w-px bg-cyan/30"
-                animate={{ height: [10, 38 + (bar % 5) * 10, 10], opacity: [0.18, 0.62, 0.18] }}
-                transition={{ duration: 1.1 + (bar % 4) * 0.18, repeat: Infinity, delay: bar * 0.05, ease: "easeInOut" }}
+                animate={{ height: [10, 38 + (bar % 5) * 10, 10], opacity: stage === "launching" ? 0 : [0.18, 0.62, 0.18] }}
+                transition={{ duration: 1.1 + (bar % 4) * 0.18, repeat: stage === "launching" ? 0 : Infinity, delay: bar * 0.05, ease: "easeInOut" }}
               />
             ))}
           </div>
@@ -144,8 +234,8 @@ export function LoadingScreen() {
           <div className="absolute left-1/2 top-1/2 w-[min(46rem,86vw)] -translate-x-1/2 -translate-y-1/2">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65 }}
+              animate={{ opacity: stage === "launching" ? 0 : 1, y: stage === "launching" ? -34 : 0, scale: stage === "launching" ? 0.92 : 1 }}
+              transition={{ duration: stage === "launching" ? 0.75 : 0.65, ease: [0.22, 1, 0.36, 1] }}
               className="text-center"
             >
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-cyan/72">
@@ -187,29 +277,23 @@ export function LoadingScreen() {
                       {scanLines.map((line, index) => (
                         <motion.span
                           key={line}
-                          animate={{ opacity: stage === "ready" ? 0.2 : [0.18, 0.68, 0.18] }}
-                          transition={{ duration: 0.7, repeat: stage === "ready" ? 0 : Infinity, delay: index * 0.1 }}
+                          animate={{ opacity: stage === "launching" ? 0.14 : [0.18, 0.68, 0.18] }}
+                          transition={{ duration: 0.7, repeat: stage === "launching" ? 0 : Infinity, delay: index * 0.1 }}
                         >
                           {line}
                         </motion.span>
                       ))}
                     </div>
-
                     <AnimatePresence>
-                      {stage === "ready" && (
-                        <motion.button
-                          type="button"
-                          onClick={openSite}
-                          className="group mt-10 inline-flex items-center gap-4 font-display text-[clamp(2.8rem,10vw,6.2rem)] font-semibold leading-none text-white transition hover:text-cyan"
-                          initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
-                          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      {stage === "launching" && (
+                        <motion.p
+                          className="mt-9 font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-cyan/80"
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0 }}
-                          whileHover={{ scale: 1.015 }}
-                          whileTap={{ scale: 0.985 }}
                         >
-                          Открыть сайт
-                          <span className="font-mono text-[0.22em] transition group-hover:translate-x-2 group-hover:-translate-y-2">↗</span>
-                        </motion.button>
+                          entering workspace
+                        </motion.p>
                       )}
                     </AnimatePresence>
                   </motion.div>
