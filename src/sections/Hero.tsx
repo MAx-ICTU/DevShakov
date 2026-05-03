@@ -71,11 +71,23 @@ export function Hero({ locale }: HeroProps) {
               className="hero-cutout-image h-full w-full object-contain object-bottom contrast-105 saturate-[0.92] brightness-[0.96] drop-shadow-[0_26px_54px_rgba(0,0,0,0.62)]"
               fetchPriority="high"
             />
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[30%] bg-gradient-to-r from-[#050505] via-[#050505]/58 to-transparent"
+              aria-hidden="true"
+            />
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[34%] bg-gradient-to-l from-[#050505] via-[#050505]/62 to-transparent"
+              aria-hidden="true"
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[22%] bg-gradient-to-b from-[#050505] via-[#050505]/48 to-transparent"
+              aria-hidden="true"
+            />
             <div className="absolute bottom-[9%] left-[8%] z-20 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/58 mix-blend-difference sm:text-xs">
               <ScrambleText text="MAXIM / 1C_DEVELOPER" trigger="mount" />
             </div>
             <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/5 bg-gradient-to-t from-[#050505] to-transparent"
+              className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[34%] bg-gradient-to-t from-[#050505] via-[#050505]/72 to-transparent"
               aria-hidden="true"
             />
           </div>
