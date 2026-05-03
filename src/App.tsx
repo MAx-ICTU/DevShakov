@@ -16,6 +16,7 @@ import { useShouldUseHeavyEffects } from "./hooks/useDevicePerformance";
 import { useGsapAmbientMotion } from "./hooks/useGsapAmbientMotion";
 import { useLenis } from "./hooks/useLenis";
 import { useScrollTriggerAnimations } from "./hooks/useScrollTriggerAnimations";
+import { audioTrack } from "./data/site";
 
 const BackgroundScene = lazy(() =>
   import("./components/webgl/WebGLBackground").then((module) => ({
@@ -81,8 +82,14 @@ function PortfolioApp() {
         <main className="relative z-10 min-h-screen" data-depth-scene>
           <AnimatedRoutes locale={locale} />
         </main>
-        <footer className="relative z-10 py-8 text-center text-sm text-slate-500">
+        <footer className="relative z-10 px-5 py-8 text-center text-sm text-slate-500">
           <p>MAx / 1C Developer Portfolio / 2026</p>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-white/34">
+            Music: {audioTrack.title} by{" "}
+            <a href={audioTrack.artistUrl} target="_blank" rel="noreferrer" className="transition hover:text-cyan">
+              {audioTrack.artist}
+            </a>
+          </p>
         </footer>
       </TransitionProvider>
     </div>

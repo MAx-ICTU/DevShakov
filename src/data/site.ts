@@ -13,6 +13,9 @@ export const contactLinks = {
 
 export const audioTrack = {
   src: "audio/portfolio-track.mp3",
+  title: "PUNK'D",
+  artist: "Out of Flux",
+  artistUrl: "https://artlist.io/artist/1213/out-of-flux",
   playLabel: { ru: "Включить музыку", en: "Play music" },
   pauseLabel: { ru: "Выключить музыку", en: "Pause music" },
   missingLabel: { ru: "Добавьте файл public/audio/portfolio-track.mp3", en: "Add public/audio/portfolio-track.mp3" },
