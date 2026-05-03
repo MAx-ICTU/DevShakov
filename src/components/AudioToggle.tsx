@@ -28,6 +28,8 @@ export function AudioToggle({ locale }: AudioToggleProps) {
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("error", handleError);
 
+    audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+
     return () => {
       audio.pause();
       audio.removeEventListener("ended", handleEnded);
@@ -56,7 +58,7 @@ export function AudioToggle({ locale }: AudioToggleProps) {
 
   return (
     <div className="relative inline-flex items-center">
-      <audio ref={audioRef} src={source} preload="none" loop />
+      <audio ref={audioRef} src={source} preload="auto" autoPlay loop />
       <button
         type="button"
         onClick={toggle}
