@@ -40,7 +40,7 @@ export function LoadingScreen() {
     if (stage !== "loading") return undefined;
 
     const startedAt = performance.now();
-    const duration = 14000;
+    const duration = 10000;
     let frame = 0;
 
     const tick = (time: number) => {
@@ -143,7 +143,7 @@ export function LoadingScreen() {
                   preload="auto"
                 />
                 <motion.video
-                  className="absolute left-1/2 top-1/2 h-[min(96vh,54rem)] w-[min(100vw,58rem)] -translate-x-1/2 -translate-y-1/2 object-cover object-center opacity-90 brightness-[0.72] contrast-125 saturate-[0.78] [mask-image:radial-gradient(ellipse_at_center,black_24%,black_44%,rgba(0,0,0,0.42)_62%,transparent_76%)]"
+                  className="absolute left-1/2 top-1/2 h-[92vh] w-[92vw] max-w-[62rem] -translate-x-1/2 -translate-y-1/2 object-contain object-center opacity-90 brightness-[0.72] contrast-125 saturate-[0.78] [mask-image:radial-gradient(ellipse_at_center,black_26%,black_48%,rgba(0,0,0,0.42)_66%,transparent_82%)]"
                   src={introVideoSrc}
                   autoPlay
                   muted
