@@ -23,17 +23,20 @@ export function AudioToggle({ locale }: AudioToggleProps) {
       setUnavailable(true);
       setPlaying(false);
     };
+    const playFromEntry = () => {
+      audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    };
 
     audio.volume = 0.28;
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("error", handleError);
-
-    audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    window.addEventListener("portfolio-audio-play", playFromEntry);
 
     return () => {
       audio.pause();
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("error", handleError);
+      window.removeEventListener("portfolio-audio-play", playFromEntry);
     };
   }, []);
 
@@ -58,7 +61,7 @@ export function AudioToggle({ locale }: AudioToggleProps) {
 
   return (
     <div className="relative inline-flex items-center">
-      <audio ref={audioRef} src={source} preload="auto" autoPlay loop />
+      <audio ref={audioRef} src={source} preload="auto" loop />
       <button
         type="button"
         onClick={toggle}
