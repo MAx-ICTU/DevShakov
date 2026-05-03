@@ -10,6 +10,11 @@ type TransitionContextValue = {
 
 const TransitionContext = createContext<TransitionContextValue | null>(null);
 
+function scrollToPageStart() {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, left: 0, behavior: reducedMotion ? "auto" : "smooth" });
+}
+
 export function TransitionProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,6 +31,10 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
       if (lockedRef.current) return;
 
       if (nextTarget === location.pathname) {
+        if (location.hash) {
+          navigate(nextTarget, { replace: true });
+        }
+        scrollToPageStart();
         return;
       }
 

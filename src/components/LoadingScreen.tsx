@@ -39,7 +39,7 @@ export function LoadingScreen() {
     if (stage !== "loading") return undefined;
 
     const startedAt = performance.now();
-    const duration = 10000;
+    const duration = 14000;
     let frame = 0;
 
     const tick = (time: number) => {
@@ -68,6 +68,7 @@ export function LoadingScreen() {
     window.dispatchEvent(new CustomEvent("portfolio-transition-boost", { detail: 1 }));
 
     const hideTimer = window.setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       setVisible(false);
     }, 1650);
 
