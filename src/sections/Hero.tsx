@@ -115,7 +115,7 @@ export function Hero({ locale }: HeroProps) {
                 <span className="block">
                   <SplitTextReveal text="1C & Web" delay={0.2} />
                 </span>
-                <span className="block max-w-[9.8ch] sm:max-w-[10.6ch]">
+                <span className="block whitespace-nowrap text-[0.58em] sm:text-[0.64em] lg:text-[0.7em]">
                   <SplitTextReveal text={locale === "ru" ? "Автоматизация" : "Automation"} delay={0.27} />
                 </span>
               </h1>
