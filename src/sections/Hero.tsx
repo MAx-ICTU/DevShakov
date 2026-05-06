@@ -40,11 +40,11 @@ export function Hero({ locale }: HeroProps) {
     }
 
     const context = gsap.context(() => {
-      const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const timeline = gsap.timeline({ defaults: { ease: "power3.out" }, delay: 0.28 });
       timeline
-        .fromTo("[data-hero-media]", { opacity: 0, x: -42 }, { opacity: 1, x: 0, duration: 0.82 })
-        .fromTo("[data-hero-kicker]", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.42 }, "-=0.45")
-        .fromTo("[data-hero-copy]", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.58 }, "-=0.18")
+        .fromTo("[data-hero-media]", { opacity: 0, x: -42, filter: "blur(12px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 1.05 })
+        .fromTo("[data-hero-kicker]", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.52 }, "-=0.55")
+        .fromTo("[data-hero-copy]", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.72 }, "-=0.2")
         .fromTo("[data-hero-link]", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.38, stagger: 0.07 }, "-=0.22");
     }, root);
 

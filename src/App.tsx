@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Header } from "./components/Header";
 import { CursorAura } from "./components/CursorAura";
+import { IntroCurtain } from "./components/IntroCurtain";
 import { TransitionProvider } from "./components/transitions/TransitionProvider";
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
@@ -64,6 +65,7 @@ function PortfolioApp() {
     <div className="min-h-screen bg-ink text-white">
       <TransitionProvider>
         <Leva hidden={!import.meta.env.DEV} collapsed />
+        <IntroCurtain />
         {shouldUseHeavyEffects ? (
           <Suspense fallback={<div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_36%,rgba(61,215,255,0.07),transparent_28rem),#050505]" aria-hidden="true" />}>
             <BackgroundScene />
