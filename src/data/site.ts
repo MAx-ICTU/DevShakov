@@ -1,4 +1,4 @@
-﻿import type { Locale, NavItem } from "../types";
+import type { Locale, NavItem } from "../types";
 
 export const locales: Locale[] = ["ru", "en"];
 
@@ -11,29 +11,28 @@ export const contactLinks = {
   github: githubUrl,
 };
 
-
 export const navItems: NavItem[] = [
-  { id: "about", label: { ru: "РћР±Рѕ РјРЅРµ", en: "About" } },
-  { id: "skills", label: { ru: "РќР°РІС‹РєРё", en: "Skills" } },
-  { id: "projects", label: { ru: "РџСЂРѕРµРєС‚С‹", en: "Projects" } },
+  { id: "about", label: { ru: "Обо мне", en: "About" } },
+  { id: "skills", label: { ru: "Навыки", en: "Skills" } },
+  { id: "projects", label: { ru: "Проекты", en: "Projects" } },
   { id: "roadmap", label: { ru: "Roadmap", en: "Roadmap" } },
-  { id: "contact", label: { ru: "РљРѕРЅС‚Р°РєС‚С‹", en: "Contact" } },
+  { id: "contact", label: { ru: "Контакты", en: "Contact" } },
 ];
 
 export const ui = {
   logo: "MAx / 1C",
-  contact: { ru: "РЎРІСЏР·Р°С‚СЊСЃСЏ", en: "Contact" },
-  menu: { ru: "РњРµРЅСЋ", en: "Menu" },
-  close: { ru: "Р—Р°РєСЂС‹С‚СЊ", en: "Close" },
-  viewProjects: { ru: "РџРѕСЃРјРѕС‚СЂРµС‚СЊ РїСЂРѕРµРєС‚С‹", en: "View projects" },
+  contact: { ru: "Связаться", en: "Contact" },
+  menu: { ru: "Меню", en: "Menu" },
+  close: { ru: "Закрыть", en: "Close" },
+  viewProjects: { ru: "Посмотреть проекты", en: "View projects" },
   github: { ru: "GitHub", en: "GitHub" },
-  details: { ru: "РџРѕРґСЂРѕР±РЅРµРµ", en: "Details" },
-  downloadResume: { ru: "РЎРєР°С‡Р°С‚СЊ СЂРµР·СЋРјРµ PDF", en: "Download resume PDF" },
-  sendEmail: { ru: "РќР°РїРёСЃР°С‚СЊ РЅР° email", en: "Send email" },
+  details: { ru: "Подробнее", en: "Details" },
+  downloadResume: { ru: "Скачать резюме PDF", en: "Download resume PDF" },
+  sendEmail: { ru: "Написать на email", en: "Send email" },
   openTelegram: { ru: "Telegram", en: "Telegram" },
-  projectStack: { ru: "РЎС‚РµРє", en: "Stack" },
-  projectLearned: { ru: "Р§С‚Рѕ РїРѕРєР°Р·С‹РІР°РµС‚", en: "What it shows" },
-  formName: { ru: "РРјСЏ", en: "Name" },
-  formMessage: { ru: "РЎРѕРѕР±С‰РµРЅРёРµ", en: "Message" },
-  formSubmit: { ru: "РћС‚РєСЂС‹С‚СЊ РїРёСЃСЊРјРѕ", en: "Open email" },
+  projectStack: { ru: "Стек", en: "Stack" },
+  projectLearned: { ru: "Что показывает", en: "What it shows" },
+  formName: { ru: "Имя", en: "Name" },
+  formMessage: { ru: "Сообщение", en: "Message" },
+  formSubmit: { ru: "Открыть письмо", en: "Open email" },
 };

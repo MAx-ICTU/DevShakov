@@ -110,14 +110,14 @@ export function Projects({ locale }: ProjectsProps) {
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-cyan">Projects</p>
             <SplitTextReveal
               as="h2"
-              text={locale === "ru" ? "Практические проекты для портфолио и первых собеседований" : "Practical works for portfolio and first interviews"}
+              text={locale === "ru" ? "Проекты, которые показывают подход к задачам" : "Projects that show how I approach tasks"}
               className="safe-heading font-display text-[clamp(2.4rem,11vw,4rem)] font-semibold leading-none text-white sm:text-6xl lg:text-7xl"
             />
           </div>
           <p className="max-w-sm text-sm leading-6 text-slate-400">
             {locale === "ru"
-              ? "Карточки оформлены как заготовки кейсов: бизнес-смысл, стек и чему проект должен научить."
-              : "Cards are shaped as case-study drafts: business meaning, stack and what each project is meant to prove."}
+              ? "Каждая карточка собрана как мини-кейс: задача, стек, логика решения и то, что проект демонстрирует."
+              : "Each card is shaped as a mini case: task, stack, solution logic and what the project demonstrates."}
           </p>
         </div>
 

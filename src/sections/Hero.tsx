@@ -13,18 +13,18 @@ type HeroProps = {
 };
 
 const heroLead = {
-  ru: "Начинающий 1C-разработчик с digital-бэкграундом: разбираюсь в логике бизнеса и учусь превращать ее в понятные рабочие решения.",
-  en: "Junior 1C developer in progress with a digital background: I learn business logic and turn it into clear working solutions.",
+  ru: "Собираю проекты на стыке 1C, учета, веба и автоматизации: от структуры данных и документов до понятного интерфейса и презентации результата.",
+  en: "I build projects across 1C, accounting logic, web and automation: from data structure and documents to clear interfaces and project presentation.",
 };
 
 const heroSubtitle = {
-  ru: "Изучаю 1C:Предприятие 8.3 на практических кейсах: заказы, склад, справочники, документы, отчеты и базовая SQL-логика. Цель — выйти на стажировку или junior-позицию к июню 2026 года.",
-  en: "I study 1C:Enterprise 8.3 through practical cases: orders, stock, catalogs, documents, reports and basic SQL logic. The goal is an internship or junior role by June 2026.",
+  ru: "В фокусе: учебная 1C-конфигурация для заказов и склада, SQL-логика, digital-опыт, Telegram-сценарии, сайты и интерфейсы для задач малого бизнеса.",
+  en: "The focus: a 1C configuration for orders and stock, SQL logic, digital experience, Telegram scenarios, websites and interfaces for small-business tasks.",
 };
 
 const heroFocus = {
-  ru: "Фокус: учет, склад, заказы, отчеты и автоматизация, которую понимают не только разработчики.",
-  en: "Focus: accounting flows, stock, orders, reports and automation that non-developers can understand.",
+  ru: "Цель портфолио — показать ход мысли: как бизнес-задача превращается в структуру, логику, экран, отчет и понятный результат.",
+  en: "The portfolio shows the thinking process: how a business task becomes structure, logic, screen, report and a clear result.",
 };
 
 export function Hero({ locale }: HeroProps) {
@@ -84,7 +84,7 @@ export function Hero({ locale }: HeroProps) {
               aria-hidden="true"
             />
             <div className="absolute bottom-[9%] left-[8%] z-20 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-white/58 mix-blend-difference sm:text-xs">
-              <ScrambleText text="MAXIM / 1C_DEVELOPER" trigger="mount" />
+              <ScrambleText text="MAXIM / 1C_AUTOMATION" trigger="mount" />
             </div>
             <div
               className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[20%] bg-gradient-to-t from-[#050505] via-[#050505]/42 to-transparent"
@@ -100,7 +100,7 @@ export function Hero({ locale }: HeroProps) {
               data-transition-out
               className="mb-8 flex max-w-5xl items-center justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.22em] text-white/38"
             >
-              <span>[ {locale === "ru" ? "портфолио обновляется" : "portfolio initializing"} ]</span>
+              <span>[ {locale === "ru" ? "портфолио работ" : "selected works"} ]</span>
               <span>© 2026</span>
             </div>
 
@@ -113,10 +113,10 @@ export function Hero({ locale }: HeroProps) {
                   01 /
                 </span>
                 <span className="block">
-                  <SplitTextReveal text="Junior" delay={0.2} />
+                  <SplitTextReveal text="1C & Web" delay={0.2} />
                 </span>
                 <span className="block sm:whitespace-nowrap">
-                  <SplitTextReveal text="1C Developer" delay={0.27} />
+                  <SplitTextReveal text={locale === "ru" ? "Автоматизация" : "Automation"} delay={0.27} />
                 </span>
               </h1>
             </TextParticleTrail>
