@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Header } from "./components/Header";
 import { CursorAura } from "./components/CursorAura";
-import { LoadingScreen } from "./components/LoadingScreen";
 import { TransitionProvider } from "./components/transitions/TransitionProvider";
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
@@ -16,7 +15,6 @@ import { useShouldUseHeavyEffects } from "./hooks/useDevicePerformance";
 import { useGsapAmbientMotion } from "./hooks/useGsapAmbientMotion";
 import { useLenis } from "./hooks/useLenis";
 import { useScrollTriggerAnimations } from "./hooks/useScrollTriggerAnimations";
-import { audioTrack } from "./data/site";
 
 const BackgroundScene = lazy(() =>
   import("./components/webgl/WebGLBackground").then((module) => ({
@@ -66,7 +64,6 @@ function PortfolioApp() {
     <div className="min-h-screen bg-ink text-white">
       <TransitionProvider>
         <Leva hidden={!import.meta.env.DEV} collapsed />
-        <LoadingScreen />
         {shouldUseHeavyEffects ? (
           <Suspense fallback={<div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_36%,rgba(61,215,255,0.07),transparent_28rem),#050505]" aria-hidden="true" />}>
             <BackgroundScene />
@@ -84,12 +81,6 @@ function PortfolioApp() {
         </main>
         <footer className="relative z-10 px-5 py-8 text-center text-sm text-slate-500">
           <p>MAx / 1C Developer Portfolio / 2026</p>
-          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-white/34">
-            Music: {audioTrack.title} by{" "}
-            <a href={audioTrack.artistUrl} target="_blank" rel="noreferrer" className="transition hover:text-cyan">
-              {audioTrack.artist}
-            </a>
-          </p>
         </footer>
       </TransitionProvider>
     </div>
