@@ -14,10 +14,17 @@ export type SkillGroup = {
 };
 
 export type Project = {
+  slug: string;
   title: LocalizedString;
+  shortTitle?: LocalizedString;
   description: LocalizedString;
+  summary: LocalizedString;
   stack: string[];
   highlights: LocalizedString[];
+  challenge: LocalizedString;
+  solution: LocalizedString;
+  result: LocalizedString;
+  nextSteps: LocalizedString[];
   githubUrl?: string;
   detailsUrl?: string;
 };

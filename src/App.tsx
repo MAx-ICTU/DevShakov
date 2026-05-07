@@ -10,6 +10,7 @@ import { TransitionProvider } from "./components/transitions/TransitionProvider"
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
+import { ProjectDetailPage } from "./pages/ProjectDetailPage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { useLocale } from "./hooks/useLocale";
 import { useShouldUseHeavyEffects } from "./hooks/useDevicePerformance";
@@ -47,6 +48,7 @@ function AnimatedRoutes({ locale }: AnimatedRoutesProps) {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<HomePage locale={locale} />} />
         <Route path="/projects" element={<ProjectsPage locale={locale} />} />
+        <Route path="/projects/:slug" element={<ProjectDetailPage locale={locale} />} />
         <Route path="/about" element={<AboutPage locale={locale} />} />
         <Route path="/contact" element={<ContactPage locale={locale} />} />
       </Routes>

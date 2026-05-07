@@ -4,10 +4,10 @@ export const skillGroups: SkillGroup[] = [
   {
     title: { ru: "1C & Business Logic", en: "1C & Business Logic" },
     description: {
-      ru: "База, на которой я собираю учебные сценарии учета, заказов и склада.",
-      en: "The foundation I use to build learning scenarios for accounting, orders and stock.",
+      ru: "База, на которой я собираю сценарии учета, заказов и склада.",
+      en: "The foundation I use to build scenarios for accounting, orders and stock.",
     },
-    skills: ["1С:Предприятие 8.3", "Справочники", "Документы", "Отчеты", "Бизнес-процессы", "Учетная логика"],
+    skills: ["1C:Предприятие 8.3", "Справочники", "Документы", "Отчеты", "Бизнес-процессы", "Учетная логика"],
   },
   {
     title: { ru: "Web", en: "Web" },
@@ -31,7 +31,7 @@ export const skillGroups: SkillGroup[] = [
       ru: "Инструменты, которые помогают вести проект аккуратно и показывать прогресс.",
       en: "Tools that help keep projects organized and make progress visible.",
     },
-    skills: ["Git", "GitHub", "VS Code", "Linux basics", "Telegram Bot API"],
+    skills: ["Git", "GitHub", "VS Code", "Linux basics", "GitHub Pages"],
   },
   {
     title: { ru: "Digital background", en: "Digital background" },

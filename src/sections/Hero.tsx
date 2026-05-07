@@ -18,8 +18,8 @@ const heroLead = {
 };
 
 const heroSubtitle = {
-  ru: "В фокусе: учебная 1C-конфигурация для заказов и склада, SQL-логика, digital-опыт, Telegram-сценарии, сайты и интерфейсы для задач малого бизнеса.",
-  en: "The focus: a 1C configuration for orders and stock, SQL logic, digital experience, Telegram scenarios, websites and interfaces for small-business tasks.",
+  ru: "В фокусе: учебная 1C-конфигурация для заказов и склада, SQL-логика, digital-опыт, сайты и интерфейсы для задач малого бизнеса.",
+  en: "The focus: a 1C configuration for orders and stock, SQL logic, digital experience, websites and interfaces for small-business tasks.",
 };
 
 const heroFocus = {

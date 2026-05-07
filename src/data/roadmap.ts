@@ -21,10 +21,10 @@ export const roadmapItems: RoadmapItem[] = [
   },
   {
     date: { ru: "Весна 2026", en: "Spring 2026" },
-    title: { ru: "Web и Telegram-сценарии", en: "Web and Telegram scenarios" },
+    title: { ru: "Web-кейсы и визуальная подача", en: "Web cases and visual presentation" },
     description: {
-      ru: "Оформляю digital-кейсы: сайты, интерфейсы, Telegram-бот и Mini App как примеры продуктового мышления и автоматизации.",
-      en: "Presenting digital cases: websites, interfaces, Telegram bot and Mini App as examples of product thinking and automation.",
+      ru: "Оформляю сайт-портфолио, страницы проектов и digital-кейсы так, чтобы было понятно, какую задачу решает каждая работа.",
+      en: "Presenting the portfolio website, project pages and digital cases so each work clearly explains the task it solves.",
     },
     status: "next",
   },

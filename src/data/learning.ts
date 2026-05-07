@@ -30,10 +30,10 @@ export const learningItems: LearningItem[] = [
     },
   },
   {
-    title: { ru: "Telegram Bot API", en: "Telegram Bot API" },
+    title: { ru: "React и структура сайта", en: "React and site structure" },
     description: {
-      ru: "Сценарии автоматизации через бота: коммуникация, выдача данных, простая логика личного кабинета.",
-      en: "Automation scenarios through a bot: communication, data delivery and lightweight account logic.",
+      ru: "Компоненты, роутинг, данные проекта, анимации и подготовка статического сайта к публикации.",
+      en: "Components, routing, project data, animations and preparing a static website for publishing.",
     },
   },
   {

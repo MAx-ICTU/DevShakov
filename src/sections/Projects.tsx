@@ -1,9 +1,10 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
-import type { MouseEvent } from "react";
+import type { KeyboardEvent, MouseEvent } from "react";
 import { AnimatedLink } from "../components/AnimatedLink";
 import { Container } from "../components/Container";
 import { SplitTextReveal } from "../components/animations/SplitTextReveal";
+import { useTransitionController } from "../components/transitions/TransitionProvider";
 import { projects } from "../data/projects";
 import { ui } from "../data/site";
 import type { Locale, Project } from "../types";
@@ -19,6 +20,7 @@ type WorkCardProps = {
 };
 
 function WorkCard({ project, index, locale }: WorkCardProps) {
+  const { startRouteTransition } = useTransitionController();
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
   const smoothX = useSpring(pointerX, { stiffness: 120, damping: 18, mass: 0.4 });
@@ -27,6 +29,7 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
   const backgroundY = useTransform(smoothY, [-0.5, 0.5], [-12, 12]);
   const rotateX = useTransform(smoothY, [-0.5, 0.5], [4, -4]);
   const rotateY = useTransform(smoothX, [-0.5, 0.5], [-5, 5]);
+  const detailsUrl = project.detailsUrl ?? `/projects/${project.slug}`;
 
   const handlePointerMove = (event: MouseEvent<HTMLElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -39,20 +42,33 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
     pointerY.set(0);
   };
 
+  const openProject = () => {
+    startRouteTransition(detailsUrl);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openProject();
+    }
+  };
+
   return (
     <motion.article
       data-project-card
-      className="project-card group relative min-h-[34rem] overflow-hidden bg-white/[0.035] p-6"
+      className="project-card group relative min-h-[34rem] cursor-pointer overflow-hidden bg-white/[0.035] p-6 outline-none transition focus-visible:ring-2 focus-visible:ring-cyan/70"
       style={{ rotateX, rotateY }}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
+      onClick={openProject}
+      onKeyDown={handleKeyDown}
+      role="link"
+      tabIndex={0}
+      aria-label={`${locale === "ru" ? "Открыть проект" : "Open project"}: ${project.title[locale]}`}
       whileHover={{ y: -10, scale: 1.012 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
     >
-      <motion.div
-        className="pointer-events-none absolute inset-0 opacity-70"
-        style={{ x: backgroundX, y: backgroundY }}
-      >
+      <motion.div className="pointer-events-none absolute inset-0 opacity-70" style={{ x: backgroundX, y: backgroundY }}>
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-cyan/12 blur-3xl transition duration-500 group-hover:bg-cyan/18" />
         <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-white/7 blur-3xl" />
         <div className="absolute inset-x-0 top-0 h-36 bg-[radial-gradient(circle_at_40%_20%,rgba(61,215,255,0.16),transparent_18rem)]" />
@@ -61,11 +77,7 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
       <div className="relative flex h-full flex-col">
         <div className="mb-10 flex items-start justify-between">
           <span className="font-display text-5xl font-semibold text-white/18">0{index + 1}</span>
-          <motion.span
-            className="grid h-10 w-10 place-items-center bg-white/[0.055] text-cyan"
-            whileHover={{ x: 5, y: -5 }}
-            aria-hidden="true"
-          >
+          <motion.span className="grid h-10 w-10 place-items-center bg-white/[0.055] text-cyan" whileHover={{ x: 5, y: -5 }} aria-hidden="true">
             <ArrowUpRight size={20} strokeWidth={1.8} />
           </motion.span>
         </div>
@@ -90,8 +102,12 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
           ))}
         </ul>
 
-        <div className="mt-auto pt-10">
-          <AnimatedLink to={project.githubUrl ?? "#"} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white">
+        <div className="mt-auto grid w-fit gap-3 pt-10" onClick={(event) => event.stopPropagation()}>
+          <AnimatedLink to={detailsUrl} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white">
+            <ArrowUpRight size={15} strokeWidth={1.8} />
+            {locale === "ru" ? "Подробнее" : "Details"}
+          </AnimatedLink>
+          <AnimatedLink to={project.githubUrl ?? "#"} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/70">
             <ExternalLink size={15} strokeWidth={1.8} />
             {ui.github[locale]}
           </AnimatedLink>
@@ -123,7 +139,7 @@ export function Projects({ locale }: ProjectsProps) {
 
         <div className="grid gap-5 lg:grid-cols-3">
           {projects.map((project, index) => (
-            <WorkCard key={project.title.en} project={project} index={index} locale={locale} />
+            <WorkCard key={project.slug} project={project} index={index} locale={locale} />
           ))}
         </div>
       </Container>
