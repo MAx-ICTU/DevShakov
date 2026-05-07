@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { useParams } from "react-router-dom";
-import { AnimatedLink } from "../components/AnimatedLink";
+import { AnimatedLink, PlainRouteLink } from "../components/AnimatedLink";
 import { PageTransition } from "../components/animations/PageTransition";
 import { SplitTextReveal } from "../components/animations/SplitTextReveal";
 import { TextParticleTrail } from "../components/particles/TextParticleTrail";
@@ -23,21 +23,31 @@ const easing = [0.22, 1, 0.36, 1] as const;
 
 function ProjectNavCard({ project, label, locale, align = "left" }: ProjectNavCardProps) {
   const isRight = align === "right";
+  const title = project.shortTitle?.[locale] ?? project.title[locale];
 
   return (
-    <AnimatedLink
+    <PlainRouteLink
       to={project.detailsUrl ?? `/projects/${project.slug}`}
-      className={`group flex min-h-28 items-center justify-between gap-5 bg-white/[0.03] p-5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-white/72 transition hover:bg-white/[0.06] hover:text-cyan ${
+      className={`group relative flex min-h-36 w-full items-end justify-between gap-6 overflow-hidden bg-[#050808]/90 px-6 py-6 font-mono uppercase text-white/72 backdrop-blur-md transition duration-300 hover:bg-cyan/10 hover:text-white sm:px-8 ${
         isRight ? "sm:text-right" : ""
       }`}
     >
-      {!isRight && <ArrowLeft size={16} strokeWidth={1.8} />}
-      <span className="grid min-w-0 gap-2">
-        <span className="text-[10px] tracking-[0.28em] text-white/36">{label}</span>
-        <span className="safe-heading text-white/82">{project.shortTitle?.[locale] ?? project.title[locale]}</span>
+      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/10 transition group-hover:bg-cyan/60" />
+      <span className="grid min-w-0 gap-3">
+        <span className="text-[10px] font-bold tracking-[0.28em] text-cyan/80">{label}</span>
+        <span className="safe-heading max-w-[18rem] text-sm font-bold leading-6 tracking-[0.18em] text-white/86 sm:text-base">
+          {title}
+        </span>
       </span>
-      {isRight && <ArrowRight size={16} strokeWidth={1.8} />}
-    </AnimatedLink>
+      <span
+        className={`grid h-10 w-10 shrink-0 place-items-center bg-white/[0.04] text-cyan transition duration-300 group-hover:bg-cyan group-hover:text-black ${
+          isRight ? "sm:order-first" : ""
+        }`}
+        aria-hidden="true"
+      >
+        {isRight ? <ArrowRight size={17} strokeWidth={1.9} /> : <ArrowLeft size={17} strokeWidth={1.9} />}
+      </span>
+    </PlainRouteLink>
   );
 }
 
@@ -170,21 +180,25 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
             </ul>
           </motion.section>
 
-          <nav className="mt-16 grid gap-4 border-t border-white/10 pt-8 sm:grid-cols-2">
-            {previous && (
+          <nav className="relative z-20 mt-20 grid overflow-hidden border-y border-white/10 bg-black/35 sm:grid-cols-2">
+            {previous ? (
               <ProjectNavCard
                 project={previous}
                 label={locale === "ru" ? "Предыдущий проект" : "Previous project"}
                 locale={locale}
               />
+            ) : (
+              <span />
             )}
-            {next && (
+            {next ? (
               <ProjectNavCard
                 project={next}
                 label={locale === "ru" ? "Следующий проект" : "Next project"}
                 locale={locale}
                 align="right"
               />
+            ) : (
+              <span />
             )}
           </nav>
         </div>
