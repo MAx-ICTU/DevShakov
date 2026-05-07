@@ -6,13 +6,40 @@ import { PageTransition } from "../components/animations/PageTransition";
 import { SplitTextReveal } from "../components/animations/SplitTextReveal";
 import { TextParticleTrail } from "../components/particles/TextParticleTrail";
 import { getAdjacentProjects, getProjectBySlug } from "../data/projects";
-import type { Locale } from "../types";
+import type { Locale, Project } from "../types";
 
 type ProjectDetailPageProps = {
   locale: Locale;
 };
 
+type ProjectNavCardProps = {
+  project: Project;
+  label: string;
+  locale: Locale;
+  align?: "left" | "right";
+};
+
 const easing = [0.22, 1, 0.36, 1] as const;
+
+function ProjectNavCard({ project, label, locale, align = "left" }: ProjectNavCardProps) {
+  const isRight = align === "right";
+
+  return (
+    <AnimatedLink
+      to={project.detailsUrl ?? `/projects/${project.slug}`}
+      className={`group flex min-h-28 items-center justify-between gap-5 bg-white/[0.03] p-5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-white/72 transition hover:bg-white/[0.06] hover:text-cyan ${
+        isRight ? "sm:text-right" : ""
+      }`}
+    >
+      {!isRight && <ArrowLeft size={16} strokeWidth={1.8} />}
+      <span className="grid min-w-0 gap-2">
+        <span className="text-[10px] tracking-[0.28em] text-white/36">{label}</span>
+        <span className="safe-heading text-white/82">{project.shortTitle?.[locale] ?? project.title[locale]}</span>
+      </span>
+      {isRight && <ArrowRight size={16} strokeWidth={1.8} />}
+    </AnimatedLink>
+  );
+}
 
 export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
   const { slug } = useParams();
@@ -28,9 +55,14 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
             404
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-white/68">
-            {locale === "ru" ? "Такой проект не найден. Вернитесь к списку работ." : "This project was not found. Go back to the works list."}
+            {locale === "ru"
+              ? "Такой проект не найден. Вернитесь к списку работ."
+              : "This project was not found. Go back to the works list."}
           </p>
-          <AnimatedLink to="/projects" className="mt-10 inline-flex font-mono text-xs font-bold uppercase tracking-[0.16em] text-white">
+          <AnimatedLink
+            to="/projects"
+            className="mt-10 inline-flex font-mono text-xs font-bold uppercase tracking-[0.16em] text-white"
+          >
             <ArrowLeft size={15} />
             {locale === "ru" ? "Все проекты" : "All projects"}
           </AnimatedLink>
@@ -57,18 +89,18 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
             <span>[ {project.shortTitle?.[locale] ?? project.title[locale]} ]</span>
           </div>
 
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.96fr)_minmax(20rem,0.48fr)] lg:items-start">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(18rem,0.44fr)] lg:items-start">
             <header className="min-w-0">
               <p className="mb-7 font-mono text-xs font-bold uppercase tracking-[0.28em] text-cyan">
                 [ project case ]
               </p>
-              <TextParticleTrail as="div" intensity={1.05} className="block max-w-full">
-                <h1 className="safe-heading max-w-5xl font-display text-[clamp(2.8rem,11vw,7.2rem)] font-semibold leading-[0.9] text-white text-glow">
+              <TextParticleTrail as="div" intensity={0.85} className="block max-w-full">
+                <h1 className="safe-heading max-w-4xl font-display text-[clamp(2.25rem,8.2vw,4.9rem)] font-semibold leading-[0.96] text-white text-glow sm:text-[clamp(3rem,6.4vw,6.2rem)]">
                   <SplitTextReveal text={project.title[locale]} />
                 </h1>
               </TextParticleTrail>
               <motion.p
-                className="mt-8 max-w-3xl text-lg font-semibold leading-8 text-white/78"
+                className="mt-8 max-w-3xl text-base font-semibold leading-8 text-white/76 sm:text-lg"
                 initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ duration: 0.72, delay: 0.18, ease: easing }}
@@ -93,7 +125,10 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
                   ))}
                 </div>
               </div>
-              <AnimatedLink to={project.githubUrl ?? "#"} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white">
+              <AnimatedLink
+                to={project.githubUrl ?? "#"}
+                className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white"
+              >
                 <ExternalLink size={15} strokeWidth={1.8} />
                 GitHub
               </AnimatedLink>
@@ -137,16 +172,19 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
 
           <nav className="mt-16 grid gap-4 border-t border-white/10 pt-8 sm:grid-cols-2">
             {previous && (
-              <AnimatedLink to={previous.detailsUrl ?? `/projects/${previous.slug}`} className="group bg-white/[0.03] p-5 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/72 hover:text-cyan">
-                <ArrowLeft size={15} strokeWidth={1.8} />
-                {locale === "ru" ? "Предыдущий" : "Previous"} / {previous.shortTitle?.[locale] ?? previous.title[locale]}
-              </AnimatedLink>
+              <ProjectNavCard
+                project={previous}
+                label={locale === "ru" ? "Предыдущий проект" : "Previous project"}
+                locale={locale}
+              />
             )}
             {next && (
-              <AnimatedLink to={next.detailsUrl ?? `/projects/${next.slug}`} className="group justify-self-stretch bg-white/[0.03] p-5 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/72 hover:text-cyan sm:text-right">
-                {locale === "ru" ? "Следующий" : "Next"} / {next.shortTitle?.[locale] ?? next.title[locale]}
-                <ArrowRight size={15} strokeWidth={1.8} />
-              </AnimatedLink>
+              <ProjectNavCard
+                project={next}
+                label={locale === "ru" ? "Следующий проект" : "Next project"}
+                locale={locale}
+                align="right"
+              />
             )}
           </nav>
         </div>
