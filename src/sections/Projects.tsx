@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import type { KeyboardEvent, MouseEvent } from "react";
-import { AnimatedLink } from "../components/AnimatedLink";
+import { PlainRouteLink } from "../components/AnimatedLink";
 import { Container } from "../components/Container";
 import { SplitTextReveal } from "../components/animations/SplitTextReveal";
 import { useTransitionController } from "../components/transitions/TransitionProvider";
@@ -110,23 +110,38 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
           ))}
         </ul>
 
-        <div className="mt-auto grid w-fit gap-3 pt-10" onClick={(event) => event.stopPropagation()}>
-          <AnimatedLink to={detailsUrl} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white">
-            <ArrowUpRight size={15} strokeWidth={1.8} />
+        <div className="mt-auto flex w-full items-end justify-between gap-4 pt-10" onClick={(event) => event.stopPropagation()}>
+          <div className="min-w-0">
+            {project.projectUrl && (
+              <a
+                href={project.projectUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/70 transition hover:text-cyan"
+              >
+                <ExternalLink size={15} strokeWidth={1.8} />
+                {locale === "ru" ? "Сайт" : "Website"}
+              </a>
+            )}
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/70 transition hover:text-cyan"
+              >
+                <ExternalLink size={15} strokeWidth={1.8} />
+                {ui.github[locale]}
+              </a>
+            )}
+          </div>
+          <PlainRouteLink
+            to={detailsUrl}
+            className="group/details inline-flex items-center gap-2 bg-white/[0.04] px-3 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-cyan hover:text-black"
+          >
             {locale === "ru" ? "Подробнее" : "Details"}
-          </AnimatedLink>
-          {project.projectUrl && (
-            <AnimatedLink to={project.projectUrl} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/70">
-              <ExternalLink size={15} strokeWidth={1.8} />
-              {locale === "ru" ? "Сайт" : "Website"}
-            </AnimatedLink>
-          )}
-          {project.githubUrl && (
-            <AnimatedLink to={project.githubUrl} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/70">
-              <ExternalLink size={15} strokeWidth={1.8} />
-              {ui.github[locale]}
-            </AnimatedLink>
-          )}
+            <ArrowUpRight size={15} strokeWidth={1.8} className="transition group-hover/details:translate-x-0.5 group-hover/details:-translate-y-0.5" />
+          </PlainRouteLink>
         </div>
       </div>
     </motion.article>
@@ -134,6 +149,8 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
 }
 
 export function Projects({ locale }: ProjectsProps) {
+  const carouselProjects = [...projects, ...projects];
+
   return (
     <section id="projects" data-scroll-section className="py-28">
       <Container>
@@ -153,10 +170,14 @@ export function Projects({ locale }: ProjectsProps) {
           </p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-3">
-          {projects.map((project, index) => (
-            <WorkCard key={project.slug} project={project} index={index} locale={locale} />
-          ))}
+        <div className="-mx-5 overflow-hidden px-5 sm:-mx-8 sm:px-8 lg:-mx-14 lg:px-14">
+          <div className="project-carousel-track flex w-max gap-5 py-2 hover:[animation-play-state:paused]">
+            {carouselProjects.map((project, index) => (
+              <div key={`${project.slug}-${index}`} className="w-[min(82vw,25rem)] shrink-0">
+                <WorkCard project={project} index={index % projects.length} locale={locale} />
+              </div>
+            ))}
+          </div>
         </div>
       </Container>
     </section>

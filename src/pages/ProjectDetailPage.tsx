@@ -65,9 +65,7 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
             404
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-white/68">
-            {locale === "ru"
-              ? "Такой проект не найден. Вернитесь к списку работ."
-              : "This project was not found. Go back to the works list."}
+            {locale === "ru" ? "Такой проект не найден. Вернитесь к списку работ." : "This project was not found. Go back to the works list."}
           </p>
           <AnimatedLink
             to="/projects"
@@ -99,13 +97,13 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
             <span>[ {project.shortTitle?.[locale] ?? project.title[locale]} ]</span>
           </div>
 
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(18rem,0.44fr)] lg:items-start">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(18rem,0.42fr)] lg:items-start">
             <header className="min-w-0">
               <p className="mb-7 font-mono text-xs font-bold uppercase tracking-[0.28em] text-cyan">
                 [ project case ]
               </p>
-              <TextParticleTrail as="div" intensity={0.85} className="block max-w-full">
-                <h1 className="safe-heading max-w-4xl font-display text-[clamp(2.25rem,8.2vw,4.9rem)] font-semibold leading-[0.96] text-white text-glow sm:text-[clamp(3rem,6.4vw,6.2rem)]">
+              <TextParticleTrail as="div" intensity={0.72} className="block max-w-full">
+                <h1 className="safe-heading max-w-5xl font-display text-[clamp(2rem,6.3vw,4.45rem)] font-semibold leading-[1.02] text-white text-glow sm:text-[clamp(2.5rem,5.4vw,5.2rem)]">
                   <SplitTextReveal text={project.title[locale]} />
                 </h1>
               </TextParticleTrail>
@@ -160,10 +158,10 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
 
           {project.gallery && project.gallery.length > 0 && (
             <motion.section
-              className="mt-16 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]"
+              className="mt-16 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]"
               initial={{ opacity: 0, y: 28, filter: "blur(10px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, amount: 0.25 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.62, ease: easing }}
             >
               {project.gallery.map((item, index) => (
@@ -177,7 +175,7 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
                     src={item.src}
                     alt={item.alt[locale]}
                     loading="lazy"
-                    className="h-full max-h-[34rem] w-full object-cover opacity-88 grayscale transition duration-500 group-hover:scale-[1.015] group-hover:opacity-100 group-hover:grayscale-0"
+                    className="h-auto w-full object-contain opacity-90 grayscale transition duration-500 group-hover:opacity-100 group-hover:grayscale-0"
                   />
                   <figcaption className="px-2 pb-1 pt-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/42">
                     {item.alt[locale]}

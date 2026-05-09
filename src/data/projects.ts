@@ -1,6 +1,8 @@
 import { githubUrl } from "./site";
 import type { Project } from "../types";
 
+const assetPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
+
 export const projects: Project[] = [
   {
     slug: "orders-stock",
@@ -43,15 +45,15 @@ export const projects: Project[] = [
   },
   {
     slug: "navidu-agency-website",
-    title: { ru: "NAVIDU: дизайн и доработка сайта маркетингового агентства", en: "NAVIDU: Marketing Agency Website Design and Updates" },
-    shortTitle: { ru: "NAVIDU / сайт агентства", en: "NAVIDU agency website" },
+    title: { ru: "Маркетинговое агентство НаВиду: сайт и страница отзывов", en: "NaVidu Marketing Agency: Website and Testimonials Page" },
+    shortTitle: { ru: "НаВиду / сайт агентства", en: "NaVidu agency website" },
     description: {
       ru: "Кейс из рабочего digital-опыта: дизайн главной страницы и страницы отзывов для сайта маркетингового агентства, работа с WordPress, контентные правки и анализ конкурентов.",
       en: "A real digital-work case: homepage and testimonials page design for a marketing agency website, WordPress implementation, content updates and competitor research.",
     },
     summary: {
-      ru: "Я участвовал в развитии сайта маркетингового агентства NAVIDU: собирал референсы, анализировал конкурентов, проектировал визуальную подачу главной страницы, делал страницу отзывов и вносил правки на сайте через WordPress.",
-      en: "I contributed to the NAVIDU marketing agency website: researched references and competitors, designed the homepage direction, created the testimonials page and made WordPress content updates.",
+      ru: "Я участвовал в развитии сайта маркетингового агентства НаВиду: собирал референсы, анализировал конкурентов, проектировал визуальную подачу главной страницы, делал страницу отзывов и вносил правки на сайте через WordPress.",
+      en: "I contributed to the NaVidu marketing agency website: researched references and competitors, designed the homepage direction, created the testimonials page and made WordPress content updates.",
     },
     stack: ["WordPress", "Web design", "HTML/CSS", "Competitor analysis", "Content updates", "UX"],
     highlights: [
@@ -65,12 +67,12 @@ export const projects: Project[] = [
       en: "The task was to make the agency website clearer and more convincing for clients: services, visual style, trust and real testimonials without a generic corporate feel.",
     },
     solution: {
-      ru: "Я работал с визуальной структурой главной страницы, собирал и сравнивал референсы, смотрел сайты конкурентов, подготавливал решения для подачи агентства и отдельно занимался страницей отзывов: дизайном, версткой/кодом и интеграцией в WordPress.",
+      ru: "Я работал с визуальной структурой главной страницы, собирал и сравнивал референсы, смотрел сайты конкурентов, подготавливал решения для подачи агентства и отдельно занимался страницей отзывов: дизайном, кодом и интеграцией в WordPress.",
       en: "I worked on the homepage visual structure, collected and compared references, reviewed competitor websites, prepared presentation ideas for the agency and handled the testimonials page: design, code and WordPress integration.",
     },
     result: {
-      ru: "Получился реальный коммерческий кейс, где дизайн связан не только с внешним видом, но и с задачами бизнеса: доверие, понятные услуги, социальное доказательство и возможность быстро обновлять контент на сайте.",
-      en: "The result is a real commercial case where design connects to business goals: trust, clear services, social proof and the ability to update website content quickly.",
+      ru: "Получился реальный коммерческий кейс, где дизайн связан не только с внешним видом, но и с задачами бизнеса: доверие, понятные услуги, социальное доказательство и возможность быстро обновлять контент.",
+      en: "The result is a real commercial case where design connects to business goals: trust, clear services, social proof and the ability to update content quickly.",
     },
     nextSteps: [
       { ru: "добавить больше скриншотов отдельных блоков и мобильной версии", en: "add more screenshots of individual blocks and mobile layouts" },
@@ -79,19 +81,19 @@ export const projects: Project[] = [
     ],
     projectUrl: "https://marketingwedo.ru/",
     detailsUrl: "/projects/navidu-agency-website",
-    previewImage: "/projects/navidu/main.jpg",
+    previewImage: assetPath("projects/navidu/main.jpg"),
     gallery: [
       {
-        src: "/projects/navidu/main.jpg",
-        alt: { ru: "Главный экран сайта NAVIDU", en: "NAVIDU homepage hero screen" },
+        src: assetPath("projects/navidu/main.jpg"),
+        alt: { ru: "Главный экран сайта НаВиду", en: "NaVidu homepage hero screen" },
       },
       {
-        src: "/projects/navidu/home.jpg",
+        src: assetPath("projects/navidu/home.jpg"),
         alt: { ru: "Дизайн главной страницы маркетингового агентства", en: "Marketing agency homepage design" },
       },
       {
-        src: "/projects/navidu/reviews.jpg",
-        alt: { ru: "Страница отзывов клиентов NAVIDU", en: "NAVIDU client testimonials page" },
+        src: assetPath("projects/navidu/reviews.jpg"),
+        alt: { ru: "Страница отзывов клиентов НаВиду", en: "NaVidu client testimonials page" },
       },
     ],
   },
@@ -162,8 +164,8 @@ export const projects: Project[] = [
       en: "Digital experience helps shape pages and materials around the task: who the user is, what they need and what action they should take.",
     },
     result: {
-      ru: "Этот опыт усиливает 1C-направление: проще понимать, какие процессы у бизнеса болят и где нужна понятная автоматизация.",
-      en: "This experience strengthens the 1C direction: it is easier to understand painful business processes and where clear automation is needed.",
+      ru: "Этот опыт усиливает направление автоматизации: проще понимать, какие процессы у бизнеса болят и где нужна понятная система.",
+      en: "This experience strengthens the automation direction: it is easier to understand painful business processes and where clear systems are needed.",
     },
     nextSteps: [
       { ru: "собрать примеры макетов и страниц", en: "collect examples of layouts and pages" },
