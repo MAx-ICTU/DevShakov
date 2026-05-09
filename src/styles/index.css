@@ -184,7 +184,6 @@ textarea {
 }
 
 .project-carousel-scroll {
-  scroll-snap-type: x mandatory;
   scroll-padding-inline: 1.25rem;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
@@ -195,10 +194,6 @@ textarea {
 
 .project-carousel-scroll::-webkit-scrollbar {
   display: none;
-}
-
-.project-carousel-scroll.is-dragging {
-  scroll-snap-type: none;
 }
 
 .glitch-portrait {
