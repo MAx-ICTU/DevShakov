@@ -26,10 +26,10 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
   const pointerY = useMotionValue(0);
   const smoothX = useSpring(pointerX, { stiffness: 120, damping: 18, mass: 0.4 });
   const smoothY = useSpring(pointerY, { stiffness: 120, damping: 18, mass: 0.4 });
-  const backgroundX = useTransform(smoothX, [-0.5, 0.5], [-18, 18]);
-  const backgroundY = useTransform(smoothY, [-0.5, 0.5], [-12, 12]);
-  const rotateX = useTransform(smoothY, [-0.5, 0.5], [4, -4]);
-  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-5, 5]);
+  const backgroundX = useTransform(smoothX, [-0.5, 0.5], [-12, 12]);
+  const backgroundY = useTransform(smoothY, [-0.5, 0.5], [-8, 8]);
+  const rotateX = useTransform(smoothY, [-0.5, 0.5], [3, -3]);
+  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-4, 4]);
   const detailsUrl = project.detailsUrl ?? `/projects/${project.slug}`;
 
   const handlePointerMove = (event: MouseEvent<HTMLElement>) => {
@@ -57,7 +57,7 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
   return (
     <motion.article
       data-project-card
-      className="project-card group relative min-h-[35rem] cursor-pointer overflow-hidden bg-white/[0.035] p-6 outline-none transition focus-visible:ring-2 focus-visible:ring-cyan/70"
+      className="project-card group relative min-h-[29rem] cursor-pointer overflow-hidden bg-white/[0.035] p-5 outline-none transition focus-visible:ring-2 focus-visible:ring-cyan/70"
       style={{ rotateX, rotateY }}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
@@ -66,61 +66,52 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
       role="link"
       tabIndex={0}
       aria-label={`${locale === "ru" ? "Открыть проект" : "Open project"}: ${project.title[locale]}`}
-      whileHover={{ y: -10, scale: 1.012 }}
+      whileHover={{ y: -8, scale: 1.01 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
     >
       <motion.div className="pointer-events-none absolute inset-0 opacity-70" style={{ x: backgroundX, y: backgroundY }}>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050808]/94 via-[#050808]/76 to-[#050808]/94" />
-        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-cyan/12 blur-3xl transition duration-500 group-hover:bg-cyan/18" />
-        <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-white/7 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050808]/92 via-[#050808]/76 to-[#050808]/94" />
+        <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-cyan/12 blur-3xl transition duration-500 group-hover:bg-cyan/18" />
         <div className="absolute inset-x-0 top-0 h-36 bg-[radial-gradient(circle_at_40%_20%,rgba(61,215,255,0.16),transparent_18rem)]" />
       </motion.div>
 
+      {project.previewImage && (
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[11.5rem] overflow-hidden">
+          <img
+            src={project.previewImage}
+            alt=""
+            loading="lazy"
+            draggable={false}
+            className="h-full w-full object-cover opacity-60 grayscale transition duration-500 group-hover:scale-[1.035] group-hover:opacity-88 group-hover:grayscale-0"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050808]/18 via-[#050808]/42 to-[#050808]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050808]/62 via-transparent to-[#050808]/54" />
+          <div className="absolute inset-x-0 bottom-0 h-px bg-cyan/35" />
+        </div>
+      )}
+
       <div className="relative flex h-full flex-col">
-        <div className="mb-8 flex items-start justify-between">
-          <span className="font-display text-5xl font-semibold text-white/18">0{index + 1}</span>
-          <motion.span className="grid h-10 w-10 place-items-center bg-white/[0.055] text-cyan" whileHover={{ x: 5, y: -5 }} aria-hidden="true">
+        <div className="mb-24 flex items-start justify-between">
+          <span className="font-display text-5xl font-semibold text-white/82 drop-shadow-[0_0_20px_rgba(0,0,0,0.55)]">
+            0{index + 1}
+          </span>
+          <motion.span className="grid h-10 w-10 place-items-center bg-black/35 text-cyan backdrop-blur" whileHover={{ x: 5, y: -5 }} aria-hidden="true">
             <ArrowUpRight size={20} strokeWidth={1.8} />
           </motion.span>
         </div>
 
-        {project.previewImage && (
-          <div className="mb-7 overflow-hidden bg-black/50">
-            <div className="relative h-36">
-              <img
-                src={project.previewImage}
-                alt=""
-                loading="lazy"
-                draggable={false}
-                className="h-full w-full object-cover opacity-82 grayscale transition duration-500 group-hover:scale-[1.035] group-hover:opacity-100 group-hover:grayscale-0"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050808]/88 via-[#050808]/12 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 h-px bg-cyan/35" />
-            </div>
-          </div>
-        )}
+        <h3 className="safe-heading font-display text-[1.68rem] font-semibold leading-tight text-white">{project.title[locale]}</h3>
+        <p className="mt-4 text-sm leading-6 text-slate-300">{project.description[locale]}</p>
 
-        <h3 className="safe-heading font-display text-3xl font-semibold leading-tight text-white">{project.title[locale]}</h3>
-        <p className="mt-5 text-sm leading-6 text-slate-300">{project.description[locale]}</p>
-
-        <div className="mt-7 flex flex-wrap gap-2">
-          {project.stack.map((item) => (
+        <div className="mt-6 flex flex-wrap gap-2">
+          {project.stack.slice(0, 5).map((item) => (
             <span key={item} className="bg-white/[0.055] px-3 py-1.5 text-xs text-slate-300">
               {item}
             </span>
           ))}
         </div>
 
-        <ul className="mt-8 grid gap-3 text-sm text-slate-300">
-          {project.highlights.slice(0, 3).map((highlight) => (
-            <li key={highlight.en} className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" />
-              <span>{highlight[locale]}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-auto flex w-full items-end justify-between gap-4 pt-10" onClick={(event) => event.stopPropagation()}>
+        <div className="mt-auto flex w-full items-end justify-between gap-4 pt-8" onClick={(event) => event.stopPropagation()}>
           <div className="min-w-0">
             {project.projectUrl && (
               <a
@@ -239,7 +230,7 @@ export function Projects({ locale }: ProjectsProps) {
     const tick = () => {
       const node = carouselRef.current;
       if (node && !isPausedRef.current && !isDraggingRef.current) {
-        node.scrollLeft += 0.58;
+        node.scrollLeft += 0.52;
         normalizeScroll();
       }
       frame = window.requestAnimationFrame(tick);
@@ -267,13 +258,11 @@ export function Projects({ locale }: ProjectsProps) {
               : "Each card is shaped as a mini case: task, stack, solution logic and what the project demonstrates."}
           </p>
         </div>
-      </Container>
 
-      <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden">
-        <div className="project-carousel-shell relative">
+        <div className="project-carousel-shell relative overflow-hidden">
           <div
             ref={carouselRef}
-            className="project-carousel-scroll flex cursor-grab gap-5 overflow-x-auto px-[max(1.25rem,calc((100vw-80rem)/2))] py-3 active:cursor-grabbing"
+            className="project-carousel-scroll flex cursor-grab gap-5 overflow-x-auto py-3 active:cursor-grabbing"
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={stopDragging}
@@ -291,15 +280,15 @@ export function Projects({ locale }: ProjectsProps) {
             }}
           >
             {carouselProjects.map((project, index) => (
-              <div key={`${project.slug}-${index}`} data-carousel-card className="w-[min(82vw,25rem)] shrink-0 snap-start">
+              <div key={`${project.slug}-${index}`} data-carousel-card className="w-[min(78vw,22.5rem)] shrink-0 snap-start">
                 <WorkCard project={project} index={index % projects.length} locale={locale} />
               </div>
             ))}
           </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#050505] via-[#050505]/86 to-transparent sm:w-56 lg:w-72" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#050505] via-[#050505]/86 to-transparent sm:w-56 lg:w-72" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#050505] via-[#050505]/86 to-transparent sm:w-40" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#050505] via-[#050505]/86 to-transparent sm:w-40" />
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
