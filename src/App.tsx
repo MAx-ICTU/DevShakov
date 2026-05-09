@@ -70,12 +70,12 @@ function PortfolioApp() {
         <Leva hidden={!import.meta.env.DEV} collapsed />
         <IntroCurtain />
         {shouldUseHeavyEffects ? (
-          <Suspense fallback={<div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_36%,rgba(61,215,255,0.07),transparent_28rem),#050505]" aria-hidden="true" />}>
+          <Suspense fallback={<div className="cosmic-fallback pointer-events-none fixed inset-0 z-0" aria-hidden="true" />}>
             <BackgroundScene />
           </Suspense>
         ) : (
           <div
-            className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_34%,rgba(61,215,255,0.055),transparent_20rem),radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.018),transparent_14rem),#050505]"
+            className="cosmic-fallback pointer-events-none fixed inset-0 z-0"
             aria-hidden="true"
           />
         )}

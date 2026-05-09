@@ -244,7 +244,7 @@ function CameraRig() {
 }
 
 export function BackgroundScene() {
-  const [webglSupported, setWebglSupported] = useState(false);
+  const [webglSupported, setWebglSupported] = useState(() => canUseWebGL());
   const controls = useCreativeControls();
   const transitionBoost = useTransitionBoostState();
 
@@ -253,13 +253,13 @@ export function BackgroundScene() {
   }, []);
 
   if (!webglSupported) {
-    return <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_62%_36%,rgba(61,215,255,0.08),transparent_28rem),#050505]" aria-hidden="true" />;
+    return <div className="cosmic-fallback pointer-events-none fixed inset-0 z-0" aria-hidden="true" />;
   }
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 opacity-75" aria-hidden="true">
       <Canvas camera={{ position: [0, 0, 7], fov: 48 }} dpr={[1, 1.35]} gl={{ antialias: false, powerPreference: "high-performance" }}>
-        <color attach="background" args={["#050505"]} />
+        <color attach="background" args={["#020305"]} />
         <CameraRig />
         <ParticleCloud backgroundSpeed={controls.backgroundSpeed} cursorInfluence={controls.cursorInfluence} />
         <OrbitSystem backgroundSpeed={controls.backgroundSpeed} cursorInfluence={controls.cursorInfluence} />

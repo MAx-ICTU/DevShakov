@@ -20,10 +20,17 @@ body {
   margin: 0;
   min-width: 320px;
   background:
-    radial-gradient(circle at 18% 14%, rgba(61, 215, 255, 0.035), transparent 24rem),
-    radial-gradient(circle at 78% 24%, rgba(255, 255, 255, 0.018), transparent 28rem),
-    #050505;
+    radial-gradient(circle at 18% 14%, rgba(61, 215, 255, 0.014), transparent 25rem),
+    radial-gradient(circle at 78% 24%, rgba(255, 255, 255, 0.01), transparent 30rem),
+    #020305;
   background-attachment: fixed;
+}
+
+.cosmic-fallback {
+  background:
+    radial-gradient(circle at 62% 34%, rgba(41, 132, 178, 0.024), transparent 26rem),
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.01), transparent 16rem),
+    #020305;
 }
 
 #root {
