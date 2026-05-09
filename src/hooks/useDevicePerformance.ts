@@ -23,7 +23,7 @@ export function shouldUseHeavyEffectsNow() {
 }
 
 export function useShouldUseHeavyEffects() {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(() => shouldUseHeavyEffectsNow());
 
   useEffect(() => {
     const update = () => setEnabled(shouldUseHeavyEffectsNow());
