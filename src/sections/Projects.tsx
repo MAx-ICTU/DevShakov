@@ -293,8 +293,8 @@ export function Projects({ locale }: ProjectsProps) {
               </div>
             ))}
           </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-[#050505] via-[#050505]/88 to-transparent sm:w-44" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-28 bg-gradient-to-l from-[#050505] via-[#050505]/88 to-transparent sm:w-44" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-[#050505]/72 via-[#050505]/24 to-transparent sm:w-16" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#050505]/72 via-[#050505]/24 to-transparent sm:w-16" />
         </div>
       </Container>
     </section>
