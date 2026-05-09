@@ -72,11 +72,10 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
         timeline.to(
           scene,
           {
-            opacity: 0.42,
-            scale: 1.14,
-            filter: "blur(10px)",
+            opacity: 0.72,
+            scale: 1.035,
             transformOrigin: "50% 42%",
-            duration: 0.9,
+            duration: 0.72,
           },
           0,
         );
@@ -87,9 +86,8 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
           copyTargets,
           {
             opacity: 0,
-            y: -18,
+            y: -14,
             scale: 0.985,
-            filter: "blur(8px)",
             duration: 0.52,
             stagger: 0.025,
           },
@@ -102,8 +100,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
           mediaTargets,
           {
             opacity: 0.2,
-            scale: 1.045,
-            filter: "blur(10px)",
+            scale: 1.035,
             duration: 0.72,
           },
           0.02,
