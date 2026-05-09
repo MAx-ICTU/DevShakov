@@ -187,10 +187,18 @@ textarea {
   scroll-snap-type: x mandatory;
   scroll-padding-inline: 1.25rem;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
 }
 
 .project-carousel-scroll::-webkit-scrollbar {
   display: none;
+}
+
+.project-carousel-scroll.is-dragging {
+  scroll-snap-type: none;
 }
 
 .glitch-portrait {

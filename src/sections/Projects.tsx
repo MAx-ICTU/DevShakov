@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { useEffect, useRef } from "react";
-import type { KeyboardEvent, MouseEvent } from "react";
+import type { KeyboardEvent, MouseEvent, PointerEvent } from "react";
 import { PlainRouteLink } from "../components/AnimatedLink";
 import { Container } from "../components/Container";
 import { SplitTextReveal } from "../components/animations/SplitTextReveal";
@@ -154,38 +154,92 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
 export function Projects({ locale }: ProjectsProps) {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const isPausedRef = useRef(false);
+  const isDraggingRef = useRef(false);
+  const didDragRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartScrollRef = useRef(0);
+  const loopWidthRef = useRef(0);
+  const carouselProjects = [...projects, ...projects, ...projects];
 
-  const scrollProjects = (direction: 1 | -1) => {
+  const normalizeScroll = () => {
+    const node = carouselRef.current;
+    const loopWidth = loopWidthRef.current;
+    if (!node || !loopWidth) return;
+
+    if (node.scrollLeft >= loopWidth * 2) {
+      node.scrollLeft -= loopWidth;
+    } else if (node.scrollLeft <= 0) {
+      node.scrollLeft += loopWidth;
+    }
+  };
+
+  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     const node = carouselRef.current;
     if (!node) return;
 
-    const card = node.querySelector<HTMLElement>("[data-carousel-card]");
-    const step = card ? card.offsetWidth + 20 : node.clientWidth * 0.72;
-
-    if (direction > 0 && node.scrollLeft + node.clientWidth >= node.scrollWidth - step * 0.45) {
-      node.scrollTo({ left: 0, behavior: "smooth" });
-      return;
-    }
-
-    if (direction < 0 && node.scrollLeft <= step * 0.25) {
-      node.scrollTo({ left: node.scrollWidth, behavior: "smooth" });
-      return;
-    }
-
-    node.scrollBy({ left: step * direction, behavior: "smooth" });
+    isPausedRef.current = true;
+    isDraggingRef.current = true;
+    didDragRef.current = false;
+    dragStartXRef.current = event.clientX;
+    dragStartScrollRef.current = node.scrollLeft;
+    node.setPointerCapture(event.pointerId);
+    node.classList.add("is-dragging");
   };
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const node = carouselRef.current;
+    if (!node || !isDraggingRef.current) return;
+
+    const delta = event.clientX - dragStartXRef.current;
+    if (Math.abs(delta) > 6) {
+      didDragRef.current = true;
+    }
+    node.scrollLeft = dragStartScrollRef.current - delta;
+    normalizeScroll();
+  };
+
+  const stopDragging = (event: PointerEvent<HTMLDivElement>) => {
+    const node = carouselRef.current;
+    if (!node) return;
+
+    isDraggingRef.current = false;
+    isPausedRef.current = false;
+    node.classList.remove("is-dragging");
+    if (node.hasPointerCapture(event.pointerId)) {
+      node.releasePointerCapture(event.pointerId);
+    }
+
+    window.setTimeout(() => {
+      didDragRef.current = false;
+    }, 80);
+  };
+
+  useEffect(() => {
+    const node = carouselRef.current;
+    const firstCard = node?.querySelector<HTMLElement>("[data-carousel-card]");
+    if (!node || !firstCard) return;
+
+    const gap = 20;
+    loopWidthRef.current = (firstCard.offsetWidth + gap) * projects.length;
+    node.scrollLeft = loopWidthRef.current;
+  }, []);
 
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
-    const timer = window.setInterval(() => {
-      if (!isPausedRef.current) {
-        scrollProjects(1);
+    let frame = 0;
+    const tick = () => {
+      const node = carouselRef.current;
+      if (node && !isPausedRef.current && !isDraggingRef.current) {
+        node.scrollLeft += 0.42;
+        normalizeScroll();
       }
-    }, 4200);
+      frame = window.requestAnimationFrame(tick);
+    };
 
-    return () => window.clearInterval(timer);
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   return (
@@ -206,49 +260,44 @@ export function Projects({ locale }: ProjectsProps) {
               : "Each card is shaped as a mini case: task, stack, solution logic and what the project demonstrates."}
           </p>
         </div>
-
-        <div className="mb-6 flex justify-end gap-3">
-          <button
-            type="button"
-            onClick={() => scrollProjects(-1)}
-            className="grid h-11 w-11 place-items-center bg-white/[0.045] text-white/72 transition hover:bg-cyan hover:text-black"
-            aria-label={locale === "ru" ? "Предыдущие проекты" : "Previous projects"}
-          >
-            <ArrowLeft size={18} strokeWidth={1.8} />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollProjects(1)}
-            className="grid h-11 w-11 place-items-center bg-white/[0.045] text-white/72 transition hover:bg-cyan hover:text-black"
-            aria-label={locale === "ru" ? "Следующие проекты" : "Next projects"}
-          >
-            <ArrowRight size={18} strokeWidth={1.8} />
-          </button>
-        </div>
-
-        <div className="-mx-5 px-5 sm:-mx-8 sm:px-8 lg:-mx-14 lg:px-14">
-          <div className="project-carousel-shell relative">
-            <div
-              ref={carouselRef}
-              className="project-carousel-scroll flex gap-5 overflow-x-auto py-2"
-              onPointerEnter={() => {
-                isPausedRef.current = true;
-              }}
-              onPointerLeave={() => {
-                isPausedRef.current = false;
-              }}
-            >
-              {projects.map((project, index) => (
-                <div key={project.slug} data-carousel-card className="w-[min(82vw,25rem)] shrink-0 snap-start">
-                  <WorkCard project={project} index={index} locale={locale} />
-                </div>
-              ))}
-            </div>
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#050505] to-transparent sm:w-24" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#050505] to-transparent sm:w-24" />
-          </div>
-        </div>
       </Container>
+
+      <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden">
+        <div className="project-carousel-shell relative">
+          <div
+            ref={carouselRef}
+            className="project-carousel-scroll flex cursor-grab gap-5 overflow-x-auto px-[max(1.25rem,calc((100vw-80rem)/2))] py-3 active:cursor-grabbing"
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={stopDragging}
+            onPointerCancel={stopDragging}
+            onPointerEnter={() => {
+              isPausedRef.current = true;
+            }}
+            onPointerLeave={(event) => {
+              if (isDraggingRef.current) {
+                stopDragging(event);
+                return;
+              }
+              isPausedRef.current = false;
+            }}
+            onClickCapture={(event) => {
+              if (didDragRef.current) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+            }}
+          >
+            {carouselProjects.map((project, index) => (
+              <div key={`${project.slug}-${index}`} data-carousel-card className="w-[min(82vw,25rem)] shrink-0 snap-start">
+                <WorkCard project={project} index={index % projects.length} locale={locale} />
+              </div>
+            ))}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent sm:w-36" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#050505] via-[#050505]/80 to-transparent sm:w-36" />
+        </div>
+      </div>
     </section>
   );
 }
