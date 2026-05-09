@@ -135,15 +135,57 @@ export function ProjectDetailPage({ locale }: ProjectDetailPageProps) {
                   ))}
                 </div>
               </div>
-              <AnimatedLink
-                to={project.githubUrl ?? "#"}
-                className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white"
-              >
-                <ExternalLink size={15} strokeWidth={1.8} />
-                GitHub
-              </AnimatedLink>
+              <div className="grid gap-3">
+                {project.projectUrl && (
+                  <AnimatedLink
+                    to={project.projectUrl}
+                    className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white"
+                  >
+                    <ExternalLink size={15} strokeWidth={1.8} />
+                    {locale === "ru" ? "Сайт проекта" : "Live website"}
+                  </AnimatedLink>
+                )}
+                {project.githubUrl && (
+                  <AnimatedLink
+                    to={project.githubUrl}
+                    className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/72"
+                  >
+                    <ExternalLink size={15} strokeWidth={1.8} />
+                    GitHub
+                  </AnimatedLink>
+                )}
+              </div>
             </motion.aside>
           </div>
+
+          {project.gallery && project.gallery.length > 0 && (
+            <motion.section
+              className="mt-16 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]"
+              initial={{ opacity: 0, y: 28, filter: "blur(10px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.62, ease: easing }}
+            >
+              {project.gallery.map((item, index) => (
+                <figure
+                  key={item.src}
+                  className={`group overflow-hidden bg-white/[0.035] p-3 ${
+                    index === 0 ? "lg:row-span-2" : ""
+                  }`}
+                >
+                  <img
+                    src={item.src}
+                    alt={item.alt[locale]}
+                    loading="lazy"
+                    className="h-full max-h-[34rem] w-full object-cover opacity-88 grayscale transition duration-500 group-hover:scale-[1.015] group-hover:opacity-100 group-hover:grayscale-0"
+                  />
+                  <figcaption className="px-2 pb-1 pt-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/42">
+                    {item.alt[locale]}
+                  </figcaption>
+                </figure>
+              ))}
+            </motion.section>
+          )}
 
           <div className="mt-16 grid gap-5 lg:grid-cols-3">
             {infoBlocks.map((block, index) => (

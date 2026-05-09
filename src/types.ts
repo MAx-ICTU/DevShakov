@@ -26,7 +26,13 @@ export type Project = {
   result: LocalizedString;
   nextSteps: LocalizedString[];
   githubUrl?: string;
+  projectUrl?: string;
   detailsUrl?: string;
+  previewImage?: string;
+  gallery?: {
+    src: string;
+    alt: LocalizedString;
+  }[];
 };
 
 export type RoadmapItem = {

@@ -42,6 +42,60 @@ export const projects: Project[] = [
     detailsUrl: "/projects/orders-stock",
   },
   {
+    slug: "navidu-agency-website",
+    title: { ru: "NAVIDU: дизайн и доработка сайта маркетингового агентства", en: "NAVIDU: Marketing Agency Website Design and Updates" },
+    shortTitle: { ru: "NAVIDU / сайт агентства", en: "NAVIDU agency website" },
+    description: {
+      ru: "Кейс из рабочего digital-опыта: дизайн главной страницы и страницы отзывов для сайта маркетингового агентства, работа с WordPress, контентные правки и анализ конкурентов.",
+      en: "A real digital-work case: homepage and testimonials page design for a marketing agency website, WordPress implementation, content updates and competitor research.",
+    },
+    summary: {
+      ru: "Я участвовал в развитии сайта маркетингового агентства NAVIDU: собирал референсы, анализировал конкурентов, проектировал визуальную подачу главной страницы, делал страницу отзывов и вносил правки на сайте через WordPress.",
+      en: "I contributed to the NAVIDU marketing agency website: researched references and competitors, designed the homepage direction, created the testimonials page and made WordPress content updates.",
+    },
+    stack: ["WordPress", "Web design", "HTML/CSS", "Competitor analysis", "Content updates", "UX"],
+    highlights: [
+      { ru: "дизайн главной страницы сайта маркетингового агентства", en: "homepage design for a marketing agency website" },
+      { ru: "дизайн и реализация страницы отзывов на WordPress", en: "design and WordPress implementation of the testimonials page" },
+      { ru: "поиск референсов и анализ конкурентов перед визуальными решениями", en: "reference research and competitor analysis before visual decisions" },
+      { ru: "небольшие правки цен, текстов и блоков на действующем сайте", en: "small price, copy and section updates on a live website" },
+    ],
+    challenge: {
+      ru: "Нужно было помочь сайту агентства выглядеть понятнее и убедительнее для клиентов: показать услуги, стиль, доверие и реальные отзывы без ощущения шаблонного корпоративного сайта.",
+      en: "The task was to make the agency website clearer and more convincing for clients: services, visual style, trust and real testimonials without a generic corporate feel.",
+    },
+    solution: {
+      ru: "Я работал с визуальной структурой главной страницы, собирал и сравнивал референсы, смотрел сайты конкурентов, подготавливал решения для подачи агентства и отдельно занимался страницей отзывов: дизайном, версткой/кодом и интеграцией в WordPress.",
+      en: "I worked on the homepage visual structure, collected and compared references, reviewed competitor websites, prepared presentation ideas for the agency and handled the testimonials page: design, code and WordPress integration.",
+    },
+    result: {
+      ru: "Получился реальный коммерческий кейс, где дизайн связан не только с внешним видом, но и с задачами бизнеса: доверие, понятные услуги, социальное доказательство и возможность быстро обновлять контент на сайте.",
+      en: "The result is a real commercial case where design connects to business goals: trust, clear services, social proof and the ability to update website content quickly.",
+    },
+    nextSteps: [
+      { ru: "добавить больше скриншотов отдельных блоков и мобильной версии", en: "add more screenshots of individual blocks and mobile layouts" },
+      { ru: "описать, какие решения были приняты после анализа конкурентов", en: "describe which decisions came from competitor analysis" },
+      { ru: "добавить короткое видео-превью после отдельной оптимизации mp4", en: "add a short video preview after separate mp4 optimization" },
+    ],
+    projectUrl: "https://marketingwedo.ru/",
+    detailsUrl: "/projects/navidu-agency-website",
+    previewImage: "/projects/navidu/main.jpg",
+    gallery: [
+      {
+        src: "/projects/navidu/main.jpg",
+        alt: { ru: "Главный экран сайта NAVIDU", en: "NAVIDU homepage hero screen" },
+      },
+      {
+        src: "/projects/navidu/home.jpg",
+        alt: { ru: "Дизайн главной страницы маркетингового агентства", en: "Marketing agency homepage design" },
+      },
+      {
+        src: "/projects/navidu/reviews.jpg",
+        alt: { ru: "Страница отзывов клиентов NAVIDU", en: "NAVIDU client testimonials page" },
+      },
+    ],
+  },
+  {
     slug: "portfolio-website",
     title: { ru: "Личный сайт-портфолио с интерактивным интерфейсом", en: "Personal Portfolio Website with Interactive UI" },
     shortTitle: { ru: "Сайт-портфолио", en: "Portfolio website" },

@@ -69,6 +69,14 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
       transition={{ duration: 0.28, ease: "easeOut" }}
     >
       <motion.div className="pointer-events-none absolute inset-0 opacity-70" style={{ x: backgroundX, y: backgroundY }}>
+        {project.previewImage && (
+          <img
+            src={project.previewImage}
+            alt=""
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-screen grayscale transition duration-500 group-hover:scale-105 group-hover:opacity-30"
+          />
+        )}
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-cyan/12 blur-3xl transition duration-500 group-hover:bg-cyan/18" />
         <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-white/7 blur-3xl" />
         <div className="absolute inset-x-0 top-0 h-36 bg-[radial-gradient(circle_at_40%_20%,rgba(61,215,255,0.16),transparent_18rem)]" />
@@ -107,10 +115,18 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
             <ArrowUpRight size={15} strokeWidth={1.8} />
             {locale === "ru" ? "Подробнее" : "Details"}
           </AnimatedLink>
-          <AnimatedLink to={project.githubUrl ?? "#"} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/70">
-            <ExternalLink size={15} strokeWidth={1.8} />
-            {ui.github[locale]}
-          </AnimatedLink>
+          {project.projectUrl && (
+            <AnimatedLink to={project.projectUrl} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/70">
+              <ExternalLink size={15} strokeWidth={1.8} />
+              {locale === "ru" ? "Сайт" : "Website"}
+            </AnimatedLink>
+          )}
+          {project.githubUrl && (
+            <AnimatedLink to={project.githubUrl} className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-white/70">
+              <ExternalLink size={15} strokeWidth={1.8} />
+              {ui.github[locale]}
+            </AnimatedLink>
+          )}
         </div>
       </div>
     </motion.article>
