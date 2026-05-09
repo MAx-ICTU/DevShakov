@@ -23,7 +23,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
   const lockedRef = useRef(false);
 
   const resetScene = useCallback(() => {
-    gsap.set("[data-depth-scene],[data-transition-out],[data-transition-media]", { clearProps: "all" });
+    gsap.set("[data-transition-out],[data-transition-media]", { clearProps: "all" });
   }, []);
 
   const startRouteTransition = useCallback(
@@ -48,7 +48,6 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
         return;
       }
 
-      const scene = document.querySelector<HTMLElement>("[data-depth-scene]");
       const copyTargets = gsap.utils.toArray<HTMLElement>("[data-transition-out]");
       const mediaTargets = gsap.utils.toArray<HTMLElement>("[data-transition-media]");
 
@@ -67,19 +66,6 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
           }, 520);
         },
       });
-
-      if (scene) {
-        timeline.to(
-          scene,
-          {
-            opacity: 0.72,
-            scale: 1.035,
-            transformOrigin: "50% 42%",
-            duration: 0.72,
-          },
-          0,
-        );
-      }
 
       if (copyTargets.length) {
         timeline.to(
