@@ -57,7 +57,7 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
   return (
     <motion.article
       data-project-card
-      className="project-card group relative min-h-[34rem] cursor-pointer overflow-hidden bg-white/[0.035] p-6 outline-none transition focus-visible:ring-2 focus-visible:ring-cyan/70"
+      className="project-card group relative min-h-[35rem] cursor-pointer overflow-hidden bg-white/[0.035] p-6 outline-none transition focus-visible:ring-2 focus-visible:ring-cyan/70"
       style={{ rotateX, rotateY }}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
@@ -70,28 +70,35 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
       transition={{ duration: 0.28, ease: "easeOut" }}
     >
       <motion.div className="pointer-events-none absolute inset-0 opacity-70" style={{ x: backgroundX, y: backgroundY }}>
-        {project.previewImage && (
-          <img
-            src={project.previewImage}
-            alt=""
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.09] grayscale transition duration-500 group-hover:scale-105 group-hover:opacity-[0.16]"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050808]/82 via-[#050808]/70 to-[#050808]/92" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,8,8,0.92)_0%,rgba(5,8,8,0.72)_42%,rgba(5,8,8,0.9)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050808]/94 via-[#050808]/76 to-[#050808]/94" />
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-cyan/12 blur-3xl transition duration-500 group-hover:bg-cyan/18" />
         <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-white/7 blur-3xl" />
         <div className="absolute inset-x-0 top-0 h-36 bg-[radial-gradient(circle_at_40%_20%,rgba(61,215,255,0.16),transparent_18rem)]" />
       </motion.div>
 
       <div className="relative flex h-full flex-col">
-        <div className="mb-10 flex items-start justify-between">
+        <div className="mb-8 flex items-start justify-between">
           <span className="font-display text-5xl font-semibold text-white/18">0{index + 1}</span>
           <motion.span className="grid h-10 w-10 place-items-center bg-white/[0.055] text-cyan" whileHover={{ x: 5, y: -5 }} aria-hidden="true">
             <ArrowUpRight size={20} strokeWidth={1.8} />
           </motion.span>
         </div>
+
+        {project.previewImage && (
+          <div className="mb-7 overflow-hidden bg-black/50">
+            <div className="relative h-36">
+              <img
+                src={project.previewImage}
+                alt=""
+                loading="lazy"
+                draggable={false}
+                className="h-full w-full object-cover opacity-82 grayscale transition duration-500 group-hover:scale-[1.035] group-hover:opacity-100 group-hover:grayscale-0"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050808]/88 via-[#050808]/12 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-px bg-cyan/35" />
+            </div>
+          </div>
+        )}
 
         <h3 className="safe-heading font-display text-3xl font-semibold leading-tight text-white">{project.title[locale]}</h3>
         <p className="mt-5 text-sm leading-6 text-slate-300">{project.description[locale]}</p>
@@ -232,7 +239,7 @@ export function Projects({ locale }: ProjectsProps) {
     const tick = () => {
       const node = carouselRef.current;
       if (node && !isPausedRef.current && !isDraggingRef.current) {
-        node.scrollLeft += 0.42;
+        node.scrollLeft += 0.58;
         normalizeScroll();
       }
       frame = window.requestAnimationFrame(tick);
@@ -271,15 +278,10 @@ export function Projects({ locale }: ProjectsProps) {
             onPointerMove={handlePointerMove}
             onPointerUp={stopDragging}
             onPointerCancel={stopDragging}
-            onPointerEnter={() => {
-              isPausedRef.current = true;
-            }}
             onPointerLeave={(event) => {
               if (isDraggingRef.current) {
                 stopDragging(event);
-                return;
               }
-              isPausedRef.current = false;
             }}
             onClickCapture={(event) => {
               if (didDragRef.current) {
@@ -294,8 +296,8 @@ export function Projects({ locale }: ProjectsProps) {
               </div>
             ))}
           </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent sm:w-36" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#050505] via-[#050505]/80 to-transparent sm:w-36" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#050505] via-[#050505]/86 to-transparent sm:w-56 lg:w-72" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#050505] via-[#050505]/86 to-transparent sm:w-56 lg:w-72" />
         </div>
       </div>
     </section>
