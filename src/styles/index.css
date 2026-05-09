@@ -196,6 +196,132 @@ textarea {
   display: none;
 }
 
+.ambient-backdrop {
+  opacity: 0.88;
+}
+
+.ambient-backdrop__glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(72px);
+}
+
+.ambient-backdrop__glow--main {
+  left: 48%;
+  top: 18%;
+  height: 28rem;
+  width: 28rem;
+  background: radial-gradient(circle, rgba(61, 215, 255, 0.08), rgba(83, 255, 178, 0.03) 42%, transparent 70%);
+}
+
+.ambient-backdrop__glow--side {
+  left: 8%;
+  bottom: 8%;
+  height: 24rem;
+  width: 24rem;
+  background: radial-gradient(circle, rgba(61, 215, 255, 0.055), transparent 68%);
+}
+
+.ambient-backdrop__stars {
+  position: absolute;
+  inset: 0;
+  opacity: 0.38;
+  background-image:
+    radial-gradient(circle, rgba(61, 215, 255, 0.62) 0 1px, transparent 1.4px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.42) 0 1px, transparent 1.5px);
+  background-position:
+    0 0,
+    72px 36px;
+  background-size:
+    184px 184px,
+    268px 268px;
+  animation: ambientStars 34s linear infinite;
+}
+
+.ambient-orbit {
+  position: absolute;
+  width: 19rem;
+  height: 19rem;
+  opacity: 0.32;
+  transform-style: preserve-3d;
+  animation: ambientFloat 14s ease-in-out infinite alternate;
+}
+
+.ambient-orbit--left {
+  left: 6%;
+  bottom: 22%;
+}
+
+.ambient-orbit--right {
+  right: 13%;
+  top: 22%;
+  width: 17rem;
+  height: 17rem;
+  opacity: 0.28;
+  animation-delay: -4s;
+}
+
+.ambient-orbit span,
+.ambient-orbit i {
+  position: absolute;
+  inset: 12%;
+  border-radius: 9999px;
+  border: 1px solid rgba(61, 215, 255, 0.42);
+}
+
+.ambient-orbit span:nth-child(1) {
+  transform: rotateX(68deg) rotateZ(-12deg);
+}
+
+.ambient-orbit span:nth-child(2) {
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: rotateX(72deg) rotateY(54deg) rotateZ(22deg);
+}
+
+.ambient-orbit i {
+  inset: 46% auto auto 48%;
+  height: 0.55rem;
+  width: 0.55rem;
+  border: 0;
+  background: #6de8ff;
+  box-shadow: 0 0 24px rgba(61, 215, 255, 0.82);
+  animation: ambientNode 5.6s linear infinite;
+}
+
+@keyframes ambientStars {
+  from {
+    background-position:
+      0 0,
+      72px 36px;
+  }
+
+  to {
+    background-position:
+      184px 184px,
+      340px 304px;
+  }
+}
+
+@keyframes ambientFloat {
+  from {
+    transform: translate3d(0, 0, 0) rotateZ(-3deg);
+  }
+
+  to {
+    transform: translate3d(1.8rem, -1rem, 0) rotateZ(8deg);
+  }
+}
+
+@keyframes ambientNode {
+  from {
+    transform: rotate(0deg) translateX(7.2rem) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(7.2rem) rotate(-360deg);
+  }
+}
+
 .glitch-portrait {
   filter: none;
   isolation: isolate;
@@ -364,5 +490,11 @@ textarea {
   .project-carousel-track {
     animation: none !important;
     transform: none !important;
+  }
+
+  .ambient-backdrop__stars,
+  .ambient-orbit,
+  .ambient-orbit i {
+    animation: none !important;
   }
 }

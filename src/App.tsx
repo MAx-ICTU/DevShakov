@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Header } from "./components/Header";
+import { AmbientBackdrop } from "./components/AmbientBackdrop";
 import { CursorAura } from "./components/CursorAura";
 import { IntroCurtain } from "./components/IntroCurtain";
 import { TransitionProvider } from "./components/transitions/TransitionProvider";
@@ -78,6 +79,7 @@ function PortfolioApp() {
             aria-hidden="true"
           />
         )}
+        <AmbientBackdrop />
         <CursorAura />
         <Header locale={locale} setLocale={setLocale} />
         <main className="relative z-10 min-h-screen" data-depth-scene>
