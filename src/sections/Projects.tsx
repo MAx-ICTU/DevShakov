@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink } from "lucide-react";
+import { useEffect, useRef } from "react";
 import type { KeyboardEvent, MouseEvent } from "react";
 import { PlainRouteLink } from "../components/AnimatedLink";
 import { Container } from "../components/Container";
@@ -74,9 +75,11 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
             src={project.previewImage}
             alt=""
             loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-screen grayscale transition duration-500 group-hover:scale-105 group-hover:opacity-30"
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.09] grayscale transition duration-500 group-hover:scale-105 group-hover:opacity-[0.16]"
           />
         )}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050808]/82 via-[#050808]/70 to-[#050808]/92" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,8,8,0.92)_0%,rgba(5,8,8,0.72)_42%,rgba(5,8,8,0.9)_100%)]" />
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-cyan/12 blur-3xl transition duration-500 group-hover:bg-cyan/18" />
         <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-white/7 blur-3xl" />
         <div className="absolute inset-x-0 top-0 h-36 bg-[radial-gradient(circle_at_40%_20%,rgba(61,215,255,0.16),transparent_18rem)]" />
@@ -149,7 +152,41 @@ function WorkCard({ project, index, locale }: WorkCardProps) {
 }
 
 export function Projects({ locale }: ProjectsProps) {
-  const carouselProjects = [...projects, ...projects];
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const isPausedRef = useRef(false);
+
+  const scrollProjects = (direction: 1 | -1) => {
+    const node = carouselRef.current;
+    if (!node) return;
+
+    const card = node.querySelector<HTMLElement>("[data-carousel-card]");
+    const step = card ? card.offsetWidth + 20 : node.clientWidth * 0.72;
+
+    if (direction > 0 && node.scrollLeft + node.clientWidth >= node.scrollWidth - step * 0.45) {
+      node.scrollTo({ left: 0, behavior: "smooth" });
+      return;
+    }
+
+    if (direction < 0 && node.scrollLeft <= step * 0.25) {
+      node.scrollTo({ left: node.scrollWidth, behavior: "smooth" });
+      return;
+    }
+
+    node.scrollBy({ left: step * direction, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    const timer = window.setInterval(() => {
+      if (!isPausedRef.current) {
+        scrollProjects(1);
+      }
+    }, 4200);
+
+    return () => window.clearInterval(timer);
+  }, []);
 
   return (
     <section id="projects" data-scroll-section className="py-28">
@@ -170,13 +207,45 @@ export function Projects({ locale }: ProjectsProps) {
           </p>
         </div>
 
-        <div className="-mx-5 overflow-hidden px-5 sm:-mx-8 sm:px-8 lg:-mx-14 lg:px-14">
-          <div className="project-carousel-track flex w-max gap-5 py-2 hover:[animation-play-state:paused]">
-            {carouselProjects.map((project, index) => (
-              <div key={`${project.slug}-${index}`} className="w-[min(82vw,25rem)] shrink-0">
-                <WorkCard project={project} index={index % projects.length} locale={locale} />
-              </div>
-            ))}
+        <div className="mb-6 flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={() => scrollProjects(-1)}
+            className="grid h-11 w-11 place-items-center bg-white/[0.045] text-white/72 transition hover:bg-cyan hover:text-black"
+            aria-label={locale === "ru" ? "Предыдущие проекты" : "Previous projects"}
+          >
+            <ArrowLeft size={18} strokeWidth={1.8} />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollProjects(1)}
+            className="grid h-11 w-11 place-items-center bg-white/[0.045] text-white/72 transition hover:bg-cyan hover:text-black"
+            aria-label={locale === "ru" ? "Следующие проекты" : "Next projects"}
+          >
+            <ArrowRight size={18} strokeWidth={1.8} />
+          </button>
+        </div>
+
+        <div className="-mx-5 px-5 sm:-mx-8 sm:px-8 lg:-mx-14 lg:px-14">
+          <div className="project-carousel-shell relative">
+            <div
+              ref={carouselRef}
+              className="project-carousel-scroll flex gap-5 overflow-x-auto py-2"
+              onPointerEnter={() => {
+                isPausedRef.current = true;
+              }}
+              onPointerLeave={() => {
+                isPausedRef.current = false;
+              }}
+            >
+              {projects.map((project, index) => (
+                <div key={project.slug} data-carousel-card className="w-[min(82vw,25rem)] shrink-0 snap-start">
+                  <WorkCard project={project} index={index} locale={locale} />
+                </div>
+              ))}
+            </div>
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#050505] to-transparent sm:w-24" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#050505] to-transparent sm:w-24" />
           </div>
         </div>
       </Container>

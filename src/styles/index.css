@@ -179,6 +179,20 @@ textarea {
   transform-style: preserve-3d;
 }
 
+.project-carousel-shell {
+  isolation: isolate;
+}
+
+.project-carousel-scroll {
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1.25rem;
+  scrollbar-width: none;
+}
+
+.project-carousel-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 .glitch-portrait {
   filter: none;
   isolation: isolate;
